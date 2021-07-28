@@ -1,0 +1,354 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 26752,
+      "max": [
+        2668.082763671875,
+        1298.97705078125,
+        2668.232177734375
+      ],
+      "min": [
+        -2668.1181640625,
+        4.2558159828186035,
+        -2668.224609375
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 321024,
+      "componentType": 5126,
+      "count": 26752,
+      "max": [
+        0.985267698764801,
+        0.9999995827674866,
+        0.9858440160751343
+      ],
+      "min": [
+        -0.9884188771247864,
+        -0.9991587400436401,
+        -0.9960538744926453
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 26752,
+      "max": [
+        0.9999992251396179,
+        0.9948956966400146,
+        0.9631633162498474,
+        1.0
+      ],
+      "min": [
+        -0.9051223993301392,
+        -0.9967358708381653,
+        -0.995696485042572,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 26752,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.3358524952877815e-08,
+        -1.3364092055212495e-08
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 214016,
+      "componentType": 5126,
+      "count": 26752,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.3358524952877815e-08,
+        -1.3364092055212495e-08
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 132210,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Rodrigo Gelmi (https://sketchfab.com/rodrigogelmi)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/mars-4ca5574c59e8413d85994d8308d5af64",
+      "title": "Mars"
+    },
+    "generator": "Sketchfab-11.49.7",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 528840,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 428032,
+      "byteOffset": 528840,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 642048,
+      "byteOffset": 956872,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 428032,
+      "byteOffset": 1598920,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 2026952,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/mars_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/mars_normal.jpeg"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "mars",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.9137360232019408
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "mars_mars_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        0.8631481528282166,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.916573905865119e-16,
+        -0.8631481528282166,
+        0.0,
+        0.0,
+        0.8631481528282166,
+        1.916573905865119e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "085cb1a1fab24089b89384e8e7ac8d1f.fbx"
+    },
+    {
+      "children": [
+        3,
+        5,
+        7
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "mars"
+    },
+    {
+      "mesh": 0,
+      "name": "mars_mars_0"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        -0.7093245076552566,
+        -0.2812905432445854,
+        -0.6463237370859853,
+        0.0,
+        -0.18375257859234642,
+        0.9590113496458252,
+        -0.21571328450319488,
+        0.0,
+        0.6805099063939417,
+        -0.034247066029935394,
+        -0.7319381160781626,
+        0.0,
+        2920.93359375,
+        1693.8477783203125,
+        2792.994873046875,
+        1.0
+      ],
+      "name": "Camera"
+    },
+    {
+      "name": "Object_6"
+    },
+    {
+      "children": [
+        8
+      ],
+      "matrix": [
+        -0.9902741501954602,
+        -0.13912935311646235,
+        0.00036132541243322214,
+        0.0,
+        -0.06459384848140128,
+        0.45745317617732706,
+        -0.8868845620167469,
+        0.0,
+        0.1232263859448159,
+        -0.8782821953715503,
+        -0.46199095564773685,
+        0.0,
+        -1212.0509033203125,
+        9208.099609375,
+        -16641.419921875,
+        1.0
+      ],
+      "name": "Directional Light"
+    },
+    {
+      "children": [
+        9
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Object_8"
+    },
+    {
+      "name": "Object_9"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    }
+  ]
+}

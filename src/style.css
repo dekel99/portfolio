@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&family=Open+Sans&display=swap');
+
 *
 {
     margin: 0;
@@ -8,13 +11,57 @@ html,
 body
 {
     height: 100vh;
-    font-family: 'Poppins';
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    /* background-image: url("/static/textures/8k_stars_milky_way.jpg"); */
 }
 
 .webgl
 {
-    position: fixed;
     top: 0;
     left: 0;
     outline: none;
+}
+
+.heading-container{
+    position: absolute;
+    padding: 20px;
+    border-radius: 5px;
+    background: rgba(48, 48, 48, 0.205);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    top: 30vh;
+    right: 20vw;
+}
+
+.heading-name{
+    font-family: 'Exo 2', sans-serif;
+    color: white;
+    margin: 15px;
+}
+
+.heading-text{
+    color: white;
+
+}
+
+.view-btn{
+    color: white;
+    height: 50px;
+    width: 50%;
+    /* border: none; */
+    margin-top: 10px;
+    border-radius: 5px;
+    background: rgba(48, 48, 48, 0.205);
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    font-size: 1em;
+    font-weight: 600;
+}
+
+@media (max-width: 800px) {
+    .heading-container{
+        display: none;
+    }
 }

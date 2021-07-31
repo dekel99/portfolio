@@ -35,6 +35,15 @@ body
     right: 20vw;
 }
 
+@keyframes fade-out {
+    from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+}
+
 .heading-name{
     font-family: 'Exo 2', sans-serif;
     color: white;
@@ -50,7 +59,6 @@ body
     color: white;
     height: 50px;
     width: 50%;
-    /* border: none; */
     margin-top: 10px;
     border-radius: 5px;
     background: rgba(48, 48, 48, 0.205);
@@ -59,6 +67,47 @@ body
     font-size: 1em;
     font-weight: 600;
 }
+
+.backBtn{
+    position: absolute;
+    bottom: 70px;
+    right: 70px;
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    background: rgba(48, 48, 48, 0.418);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.26);
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    display: none;
+    animation: fade-in 0.4s ease;
+    animation-fill-mode: both;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+}
+
+.backBtn:hover{
+    background: rgba(48, 48, 48, 0.521);
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+}
+
+.iconBtn {
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
 
 @media (max-width: 800px) {
     .heading-container{

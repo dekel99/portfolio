@@ -22,7 +22,7 @@ const mouse = new Vector2();
 document.addEventListener("mousemove", onDocumentMouseMove)
 $(".view-btn").click(() => {
     moonStart = true
-    createjs.Tween.get(cameraTween.position).to({ z: 12, y: 1 }, 8000, createjs.Ease.getPowInOut(3)).wait(500);
+    createjs.Tween.get(cameraTween.position).to({ z: 11.5, y: 1 }, 8000, createjs.Ease.getPowInOut(3)).wait(500);
     $('.heading-container').css('animation', 'fade-out 0.5s ease').css("animation-fill-mode","both");
 })
 $(".backBtn").click(() => {
@@ -88,9 +88,9 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     }
     
     if(moonStart){
-        t=0.12 * clockResetMoon(elapsedTime,firstTriggerMoon) 
-        moon.position.x = 11.9*Math.cos(t) -0.7
-        moon.position.z = 11.9*Math.sin(t) -0.5
+        t=0.18 * clockResetMoon(elapsedTime,firstTriggerMoon) 
+        moon.position.x = 11.4*Math.cos(t) -0.7
+        moon.position.z = 11.4*Math.sin(t) -0.5
         firstTriggerMoon = false
     }
     

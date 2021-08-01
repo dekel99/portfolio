@@ -37,7 +37,6 @@ const textureLoader = new TextureLoader(loadingManager)
 const textureFlare0 = textureLoader.load( "/textures/lens-flare0.png" );
 const textureFlare1 = textureLoader.load( "/textures/lens-flare1.png" );
 const earthTexture = textureLoader.load("/textures/8k_earth_nightmap.jpg")
-const sunTexture = textureLoader.load("/textures/8k_sun.jpg")
 const moonTexture = textureLoader.load("/textures/8k_moon.jpg")
 const backgroundTexture = textureLoader.load("/textures/8k_stars_milky_way.jpg")
 const marsBackgroundTexture = textureLoader.load("/textures/mars-sky.jpg")
@@ -104,7 +103,6 @@ const blackSphereGeometry = new THREE.SphereBufferGeometry(3,30,30)
 
 //----------------------------- Materials ----------------------------------
 const earthMaterial = new THREE.MeshStandardMaterial({map: earthTexture})
-const sunMaterial = new THREE.MeshBasicMaterial({map: sunTexture})
 const sun2Material = new THREE.MeshStandardMaterial()
 const moonMaterial = new THREE.MeshStandardMaterial({map: moonTexture})
 const blackSphereMaterial = new THREE.MeshBasicMaterial()
@@ -152,7 +150,6 @@ moonMaterialFolder.addColor(moonMaterialColor, "color")
     })
 //-------------------------------- Mesh -------------------------------------
 const earth = new THREE.Mesh(geometry,earthMaterial)
-const sun = new THREE.Mesh(sunGeometry,sunMaterial)
 const sun2 = new THREE.Mesh(sun2Geometry,sun2Material)
 const moon = new THREE.Mesh(moonGeometry,moonMaterial)
 const blackSphere = new THREE.Mesh(blackSphereGeometry,blackSphereMaterial)
@@ -188,7 +185,7 @@ const pointLightHelper = new THREE.PointLightHelper(pointlight1, 1.5)
 // scene.add(pointLightHelper)
 
 //**** Light 2 ****
-const pointlight2 = new THREE.PointLight(0xffffff, 1)
+const pointlight2 = new THREE.PointLight(0xffffff, 1.5)
 pointlight2.position.x = 1.47
 pointlight2.position.y = 1
 pointlight2.position.z = 2.2
@@ -325,7 +322,6 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 //---------------------------------position----------------------------------
 earth.position.set(-0.7,-0.5,0)
-sun.position.set(5,0,-20)
 sun2.position.set(3,2,-20)
 moon.position.set(4,1,2)
 blackSphere.position.set(8.2,-9.2,25)

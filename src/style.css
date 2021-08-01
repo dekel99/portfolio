@@ -111,6 +111,6 @@ body
 
 @media (max-width: 800px) {
     .heading-container{
-        display: none;
+        /* display: none; */
     }
 }

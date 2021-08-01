@@ -101,10 +101,47 @@ body
 
 .iconBtn {
     position: absolute;
-    top: 0px;
+    top: 0;
     bottom: 0;
     right: 0;
     left: 0;
+    margin: auto;
+}
+
+.loading-bar-container{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: black;
+    z-index: 100;
+}
+
+.loading-bar{
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 3px;
+    background-color: white;
+    z-index: 101;
+}
+
+.loading-heading{
+    position: absolute;
+    top: 53%;
+    right: 0;
+    left: 0;
+    z-index: 101;
+    color: white;
+}
+
+.earth-lottie{
+    position: absolute;
+    top: 40%;
+    right: 0;
+    left: 0;
+    z-index: 101;
     margin: auto;
 }
 

@@ -24,6 +24,9 @@ $(".view-btn").click(() => {
     moonStart = true
     createjs.Tween.get(cameraTween.position).to({ z: 11.5, y: 1 }, 8000, createjs.Ease.getPowInOut(3)).wait(500);
     $('.heading-container').css('animation', 'fade-out 0.5s ease').css("animation-fill-mode","both");
+    setTimeout(() => {
+        $( ".heading-container" ).remove();
+    }, 500);
 })
 $(".backBtn").click(() => {
     createjs.Tween.get(cameraTween.position).to({ x: 5.3, y: -8, z: 26 }, 3000, createjs.Ease.getPowInOut(3));
@@ -122,10 +125,10 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
     // }
 
-    // if(targetX && moonStart===false){
-    //     camera.position.x = -0.6 + (targetX/13)
-    //     camera.position.y = 0.15 + (targetY/13)
-    // }
+    if(targetX && moonStart===false){
+        camera.position.x = -0.6 + (targetX/13)
+        camera.position.y = 0.15 + (targetY/13)
+    }
 
 
     // Update Orbital Controls

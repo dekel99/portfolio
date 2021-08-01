@@ -15,6 +15,7 @@ var flag
 var flag2
 var flagMixer
 var flag2Mixer
+var barProgress = 0
 
 createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -25,10 +26,18 @@ const scene = new THREE.Scene()
 const loadingManager = new THREE.LoadingManager(
     () => {
         console.log("finish")
+        $('.loading-bar-container').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
+        setTimeout(() => {
+            $( ".loading-bar-container" ).remove();
+        }, 2000);
     },
 
-    () => {
+    (itemUrl, itemsLoaded, itemsTotal) => {
         console.log("progress")
+
+        barProgress = itemsLoaded / itemsTotal * 100
+        $('.loading-bar').css('width', `${barProgress}%`);
+
     }
 )
 const GLTFloader = new GLTFLoader(loadingManager);
@@ -76,7 +85,6 @@ GLTFloader.load("/textures/flag2/scene.gltf", function(gltf){
     flag2.position.set(12,-10.8,20)
     flag2.rotation.y = 0.3
     scene.add( flag2 )
-    console.log(flag2)
     flag2Mixer = new THREE.AnimationMixer( gltf.scene );
     var action = flag2Mixer.clipAction( gltf.animations[0] );
 	action.play();
@@ -298,10 +306,6 @@ const cameraFolder = gui.addFolder("Camera")
 cameraFolder.add(camera.position,"x").min(-50).max(50).step(0.01)
 cameraFolder.add(camera.position,"y").min(-50).max(50).step(0.01)
 cameraFolder.add(camera.position,"z").min(-50).max(50).step(0.01)
-// cameraFolder.add(camera.lookAt,"x").min(-50).max(50).step(0.01)
-// cameraFolder.add(camera.lookAt,"y").min(-50).max(50).step(0.01)
-// cameraFolder.add(camera.lookAt,"z").min(-50).max(50).step(0.01)
-
 
 // Controls
 const controls = new OrbitControls(camera, canvas)

@@ -6,7 +6,7 @@ import { TextureLoader } from "three/src/loaders/TextureLoader.js"
 import { Lensflare, LensflareElement } from './lensflare.js'
 import { animate } from './animate';
 import './style.css'
-import { RectAreaLight } from 'three';
+// import { RectAreaLight } from 'three';
 
 var sun3
 var astronaut

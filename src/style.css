@@ -93,6 +93,79 @@ body
       }
 }
 
+.picer-project-window{
+    position: absolute;
+    bottom: 100px;
+    width: 320px;
+    height: 450px;
+    right: 300px;
+    background: rgba(26, 25, 25, 0.705);
+    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    display: none;
+    animation: scale-up 0.7s ease;
+    animation-fill-mode: both;
+}
+
+.sapochat-project-window{
+        position: absolute;
+        bottom: 100px;
+        width: 320px;
+        height: 450px;
+        right: 300px;
+        background: rgba(26, 25, 25, 0.705);
+        box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 3.5px );
+        display: none;
+        animation: scale-up 0.7s ease;
+        animation-fill-mode: both;
+    }
+
+@keyframes scale-up {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes scale-down {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.app-preview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 250px;
+    height: 200px;
+    margin: auto;
+    margin-top: 14px;
+}
+
+.picer-photo{
+    flex-shrink: 100%;
+    min-width: 100%;
+    min-height: 100%
+}
+
+.app-description--text{
+    text-align: left;
+    color: white;
+    margin-left: 11%;
+    margin-top: 10px;
+    font-family: 'Open Sans', sans-serif;
+}
+
 .backBtn:hover{
     background: rgba(48, 48, 48, 0.521);
     transition: all .4s ease;

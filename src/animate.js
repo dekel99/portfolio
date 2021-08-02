@@ -20,6 +20,7 @@ const raycaster = new Raycaster()
 const mouse = new Vector2();
 
 document.addEventListener("mousemove", onDocumentMouseMove)
+
 $(".view-btn").click(() => {
     moonStart = true
     createjs.Tween.get(cameraTween.position).to({ z: 11.5, y: 1 }, 8000, createjs.Ease.getPowInOut(3)).wait(500);
@@ -28,7 +29,16 @@ $(".view-btn").click(() => {
 $(".backBtn").click(() => {
     createjs.Tween.get(cameraTween.position).to({ x: 5.3, y: -8, z: 26 }, 3000, createjs.Ease.getPowInOut(3));
     $('.backBtn').css('display', 'none')
+    $('.picer-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.picer-project-window').css('display', 'none')
+    }, 500);
+    $('.sapochat-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.sapochat-project-window').css('display', 'none')
+    }, 500);
 })
+    
 
 $("body").click((e) => {
     mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
@@ -41,12 +51,22 @@ $("body").click((e) => {
     if (found[0].object.name==="Flag_Flag_Mat_0"){
         createjs.Tween.get(cameraTween.position).to({ x: 7.6, y: -9.2, z: 25 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
         $('.backBtn').css('display', 'unset')
+        $('.picer-project-window').css('display', 'none')
+        setTimeout(function(){
+            $('.picer-project-window').css('display', 'unset').css('animation', 'scale-up 0.7s ease')
+        }, 2100);
 
     } else if (found[0].object.name==="Flag_Flag_Mat_1"){
         createjs.Tween.get(cameraTween.position).to({ x: 10.8, y: -9.5, z: 20.7 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
         $('.backBtn').css('display', 'unset');
+        $('.picer-project-window').css('animation', 'scale-down 0.7s ease')
+        setTimeout(function(){
+            $('.picer-project-window').css('display', 'none')
+        }, 500);
+        setTimeout(function(){
+            $('.sapochat-project-window').css('display', 'unset').css('animation', 'scale-up 0.7s ease')
+        }, 2300);
     }
-
 })
 
 function onDocumentMouseMove(e){

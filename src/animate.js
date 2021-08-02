@@ -40,22 +40,32 @@ $("body").click((e) => {
     raycaster.setFromCamera( mouse, cameraTween );
 	const found = raycaster.intersectObjects( sceneTween.children, true );
 
-
-    if (found[0].object.name==="Flag_Flag_Mat_0"){
-        createjs.Tween.get(cameraTween.position).to({ x: 7.6, y: -9.2, z: 25 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
-        $('.backBtn').css('display', 'unset')
-
-    } else if (found[0].object.name==="Flag_Flag_Mat_1"){
-        createjs.Tween.get(cameraTween.position).to({ x: 10.8, y: -9.5, z: 20.7 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
-        $('.backBtn').css('display', 'unset');
+    if (found[0]){
+        if (found[0].object.name==="Flag_Flag_Mat_0"){
+            createjs.Tween.get(cameraTween.position).to({ x: 7.6, y: -9.2, z: 25 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
+            $('.backBtn').css('display', 'unset')
+        } else if (found[0].object.name==="Flag_Flag_Mat_1"){
+            createjs.Tween.get(cameraTween.position).to({ x: 10.8, y: -9.5, z: 20.7 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
+            $('.backBtn').css('display', 'unset');
+        }
     }
 
 })
 
+function disposeEarthScene(scene,earth,astronaut,moon){
+    const disposedItems = [earth,moon]
+
+    for (let i = 0; i<disposedItems.length; i++){
+        scene.remove(disposedItems[i])
+        disposedItems[i].geometry.dispose()
+        disposedItems[i].material.dispose()
+    }
+    scene.remove(astronaut)
+}
+
 function onDocumentMouseMove(e){
     mouseX = e.clientX
     mouseY = e.clientY
-
 }
 
 function clockResetMoon(elapsedTime, firstTriggerMoon){
@@ -98,15 +108,13 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     }
     
     if (moon.position.x < -0.45 && changePositionTrigger){
-        // setTimeout(() => {
-            controls.target = new Vector3(18,-13,20);
-            camera.position.set(5.3,-8,26)
-            camera.lookAt(new Vector3(18,-13,20))
-
-            scene.background = marsBackgroundTexture
-            pointlight1.intensity = 1
-            pointlight3.intensity = 1.5    
-        // }, 900);
+        controls.target = new Vector3(18,-13,20);
+        camera.position.set(5.3,-8,26)
+        camera.lookAt(new Vector3(18,-13,20))
+        scene.background = marsBackgroundTexture
+        pointlight1.intensity = 1
+        pointlight3.intensity = 1.5
+        disposeEarthScene(scene,earth,astronaut,moon)    
         changePositionTrigger = false
     }
 
@@ -115,15 +123,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         astronaut.rotation.y = 0.2 * elapsedTime
         astronaut.rotation.z = 0.1 * elapsedTime
     } 
-
-    // if (animateCamera){
-    //     // camera.lookAt(new THREE.Vector3(2,5,3))
-    //     if(camera.position.z<5){
-    //         camera.position.z += 0.006
-    //         camera.position.y += 0.001
-    //     }
-
-    // }
 
     if(targetX && moonStart===false){
         camera.position.x = -0.6 + (targetX/13)

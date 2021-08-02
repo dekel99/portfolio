@@ -5,8 +5,12 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TextureLoader } from "three/src/loaders/TextureLoader.js"
 import { Lensflare, LensflareElement } from './lensflare.js'
 import { animate } from './animate';
+import Stats from 'stats.js';
 import './style.css'
-import { RectAreaLight } from 'three';
+
+var stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
 
 var sun3
 var astronaut
@@ -25,7 +29,6 @@ const scene = new THREE.Scene()
 // Loading
 const loadingManager = new THREE.LoadingManager(
     () => {
-        console.log("finish")
         $('.loading-bar-container').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
         setTimeout(() => {
             $( ".loading-bar-container" ).remove();
@@ -33,11 +36,8 @@ const loadingManager = new THREE.LoadingManager(
     },
 
     (itemUrl, itemsLoaded, itemsTotal) => {
-        console.log("progress")
-
         barProgress = itemsLoaded / itemsTotal * 100
         $('.loading-bar').css('width', `${barProgress}%`);
-
     }
 )
 const GLTFloader = new GLTFLoader(loadingManager);
@@ -103,25 +103,17 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Objects
 const geometry = new THREE.SphereBufferGeometry(1,60,60)
-const sunGeometry = new THREE.SphereBufferGeometry(5,60,60)
-const sun2Geometry = new THREE.SphereBufferGeometry(3,60,60)
 const moonGeometry = new THREE.SphereBufferGeometry(0.5,60,60)
 const blackSphereGeometry = new THREE.SphereBufferGeometry(3,30,30)
 
 
 //----------------------------- Materials ----------------------------------
 const earthMaterial = new THREE.MeshStandardMaterial({map: earthTexture})
-const sun2Material = new THREE.MeshStandardMaterial()
 const moonMaterial = new THREE.MeshStandardMaterial({map: moonTexture})
 const blackSphereMaterial = new THREE.MeshBasicMaterial()
 
 // black sphere material config
 blackSphereMaterial.color = new THREE.Color(0x0)
-
-// sun 2 material config
-sun2Material.metalness = 0.8
-sun2Material.roughness = 0.3
-sun2Material.color = new THREE.Color(0x202020)
 
 // moon material config 
 moonMaterial.color = new THREE.Color(0x282828)
@@ -137,16 +129,6 @@ earthMaterialFolder.addColor(materialColor, "color")
         earthMaterial.color.set(materialColor.color)
     })
 
-// sun 2 gui
-const sunMaterialFolder = gui.addFolder("Sun materiel")
-sunMaterialFolder.add(sun2Material, "metalness").min(-2).max(2).step(0.01)
-sunMaterialFolder.add(sun2Material, "roughness")
-
-const sunMaterialColor = { color: 0xff0000}
-sunMaterialFolder.addColor(sunMaterialColor, "color")
-    .onChange(() => {
-        sun2Material.color.set(sunMaterialColor.color)
-    })
 
 // moon gui
 const moonMaterialFolder = gui.addFolder("Moon materiel")
@@ -158,13 +140,10 @@ moonMaterialFolder.addColor(moonMaterialColor, "color")
     })
 //-------------------------------- Mesh -------------------------------------
 const earth = new THREE.Mesh(geometry,earthMaterial)
-const sun2 = new THREE.Mesh(sun2Geometry,sun2Material)
 const moon = new THREE.Mesh(moonGeometry,moonMaterial)
 const blackSphere = new THREE.Mesh(blackSphereGeometry,blackSphereMaterial)
 
 scene.add(earth)
-// scene.add(sun)
-// scene.add(sun2)
 scene.add(moon)
 scene.add(blackSphere)
 scene.background = backgroundTexture
@@ -246,7 +225,7 @@ scene.add( marsLight );
 
 // light helper
 const marsLightHelper = new THREE.PointLightHelper(marsLight)
-scene.add( marsLightHelper );
+// scene.add( marsLightHelper );
 
 // gui
 const light4Folder = gui.addFolder("Mars Light")
@@ -254,9 +233,6 @@ light4Folder.add(marsLight.position,"x").min(-10).max(50).step(0.01)
 light4Folder.add(marsLight.position,"y").min(-10).max(50).step(0.01)
 light4Folder.add(marsLight.position,"z").min(-10).max(50).step(0.01)
 light4Folder.add(marsLight,"intensity").min(0).max(50).step(0.01)
-// light4Folder.add(marsLight, "lookAt").min(-10).max(50).step(0.01)
-// light4Folder.add(marsLight.lookAt,"y").min(-10).max(50).step(0.01)
-// light4Folder.add(marsLight.lookAt,"z").min(-10).max(50).step(0.01)
 
 
 //Lensflare
@@ -326,7 +302,6 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 //---------------------------------position----------------------------------
 earth.position.set(-0.7,-0.5,0)
-sun2.position.set(3,2,-20)
 moon.position.set(4,1,2)
 blackSphere.position.set(8.2,-9.2,25)
  
@@ -338,6 +313,8 @@ const clock = new THREE.Clock()
 
 const tick = () =>
 {
+    stats.begin();
+
     animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture)
 
     // Play flag animation
@@ -345,6 +322,7 @@ const tick = () =>
     if ( flagMixer ) flagMixer.update( delta )
     if ( flag2Mixer ) flag2Mixer.update( delta )
 
+    stats.end()
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }

@@ -118,7 +118,7 @@ p{
     margin: auto;
 }
 
-.loading-bar-container{
+.loading-bar-cover{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -128,29 +128,43 @@ p{
     z-index: 100;
 }
 
-.loading-bar{
+.loading-bar-container{
     position: absolute;
-    top: 50%;
+    height: 300px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+.lottie-container{
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+}
+
+.loading-bar{
+    position: relative;
     width: 0;
     height: 3px;
     background-color: white;
     z-index: 101;
+    margin-bottom: 15px;
 }
 
 .loading-heading{
-    position: absolute;
-    top: 53%;
-    right: 0;
-    left: 0;
+    position: relative;
     z-index: 101;
     color: white;
 }
 
 .earth-lottie{
-    position: absolute;
-    top: 40%;
+    position: relative;
+    /* top: 40%;
     right: 0;
-    left: 0;
+    left: 0; */
     z-index: 101;
     margin: auto;
 }
@@ -263,12 +277,40 @@ a:visited {
     .heading-container{
         right: 0;
         left: 0;
-        top: 120px;
+        top: 100px;
         width: 70vw;
         margin: auto;
         font-size: 10px;
     }
     .view-btn{
         font-size: 16px;
+    }
+    .backBtn{
+        width: 70px;
+        height: 70px;
+        right: 20px;
+        bottom: 20px;
+    }
+    .iconBtn {
+        width: 30px;
+        height: 30px;
+    }
+    .picer-project-window{
+        margin: auto;
+        width: 80vw;
+        height: 670px;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+    }
+    .sapochat-project-window{
+        margin: auto;
+        width: 80vw;
+        height: 700px;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
     }
 }

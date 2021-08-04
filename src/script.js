@@ -34,9 +34,9 @@ const scene = new THREE.Scene()
 // Loading
 const loadingManager = new THREE.LoadingManager(
     () => {
-        $('.loading-bar-container').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
+        $('.loading-bar-cover').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
         setTimeout(() => {
-            $( ".loading-bar-container" ).remove();
+            $( ".loading-bar-cover" ).remove();
         }, 2000);
     },
 

@@ -6,6 +6,7 @@ import { TextureLoader } from "three/src/loaders/TextureLoader.js"
 import { Lensflare, LensflareElement } from './lensflare.js'
 import { animate } from './animate';
 import Stats from 'stats.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import './style.css'
 
 var stats = new Stats();
@@ -17,9 +18,13 @@ var astronaut
 var mars
 var flag
 var flag2
+var flag3
+var newFlag
 var flagMixer
 var flag2Mixer
+var newFlagMixer
 var barProgress = 0
+var jsLogo
 
 createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -42,6 +47,9 @@ const loadingManager = new THREE.LoadingManager(
 )
 const GLTFloader = new GLTFLoader(loadingManager);
 const textureLoader = new TextureLoader(loadingManager)
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath( 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/' );
+GLTFloader.setDRACOLoader( dracoLoader );
 
 const textureFlare0 = textureLoader.load( "/textures/lens-flare0.png" );
 const textureFlare1 = textureLoader.load( "/textures/lens-flare1.png" );
@@ -69,11 +77,18 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
 })
 GLTFloader.load("/textures/flag/scene.gltf", function(gltf){
     flag = gltf.scene
+    // flag3 = gltf.scene.clone();
+    // console.log(flag3)
+
     flag.scale.set(0.03, 0.03, 0.03)
     flag.position.set(8.7,-10.5,24.5)
     flag.rotation.y = 0.3
-    flag.userData = "flag1"
     scene.add( flag )
+
+    // flag3.scale.set(0.03, 0.03, 0.03)
+    // flag3.position.set(8.7,-9.5,23.5)
+    // flag3.rotation.y = 0.3
+    // scene.add( flag3 )
 
     flagMixer = new THREE.AnimationMixer( gltf.scene );
     var action = flagMixer.clipAction( gltf.animations[0] );
@@ -85,11 +100,31 @@ GLTFloader.load("/textures/flag2/scene.gltf", function(gltf){
     flag2.position.set(12,-10.8,20)
     flag2.rotation.y = 0.3
     scene.add( flag2 )
+
     flag2Mixer = new THREE.AnimationMixer( gltf.scene );
     var action = flag2Mixer.clipAction( gltf.animations[0] );
 	action.play();
 })
+GLTFloader.load("/textures/tech-used/JS_logo.glb", function(gltf){
+    jsLogo = gltf.scene
+    jsLogo.scale.set(0.1, 0.1, 0.1)
+    jsLogo.position.set(8.7,-9.6,24.6)
+    jsLogo.rotation.z = (1)
+    jsLogo.rotation.x = (1.55)
+    scene.add( jsLogo )
+})
+// GLTFloader.load("/textures/new-flag/sapochat-flag.gltf", function(gltf){
+//     newFlag = gltf.scene
+//     newFlag.scale.set(12,-10.8,22)
+//     newFlag.position.set(1,1,1)
+//     newFlag.rotation.y = 0.3
+//     scene.add( newFlag )
 
+//     console.log(gltf.animations[0])
+//     newFlagMixer = new THREE.AnimationMixer( gltf.scene );
+//     var action = newFlagMixer.clipAction( gltf.animations[0] );
+// 	action.play();
+// })
 
 // import items from './loader';
 // scene.add( sun3 )
@@ -100,6 +135,8 @@ const gui = new dat.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
+
+
 
 // Objects
 const geometry = new THREE.SphereBufferGeometry(1,60,60)
@@ -272,9 +309,7 @@ window.addEventListener('resize', () =>
 //-------------------------------- Camera --------------------------------
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = -0.5
-camera.position.y = 0.2
-camera.position.z = 2
+camera.position.set(-0.5, 0.2, 2)
 scene.add(camera)
 
 // gui 
@@ -299,11 +334,21 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 
-
 //---------------------------------position----------------------------------
 earth.position.set(-0.7,-0.5,0)
 moon.position.set(4,1,2)
 blackSphere.position.set(8.2,-9.2,25)
+if(window.innerWidth<800){
+    camera.position.set(-0.7, 0.13, 3)
+    camera.lookAt(0,0.5,0)
+}
+
+// controls.target = new THREE.Vector3(18,-13,20);
+// camera.position.set(5.3,-8,26)
+// camera.lookAt(new THREE.Vector3(18,-13,20))
+// scene.background = marsBackgroundTexture
+// pointlight1.intensity = 1
+// pointlight3.intensity = 1.5
  
 //--------------------------------END CAMERA---------------------------------
 // event listener
@@ -315,12 +360,13 @@ const tick = () =>
 {
     stats.begin();
 
-    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture)
+    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,jsLogo)
 
     // Play flag animation
-    var delta = clock.getDelta() + 0.0070;
+    var delta = clock.getDelta() * 17;
     if ( flagMixer ) flagMixer.update( delta )
     if ( flag2Mixer ) flag2Mixer.update( delta )
+    // if ( newFlagMixer ) newFlagMixer.update ( delta )
 
     stats.end()
     // Call tick again on the next frame

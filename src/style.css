@@ -75,7 +75,6 @@ a:hover {
 
 .heading-text{
     color: white;
-
 }
 
 .view-btn{
@@ -110,7 +109,7 @@ a:hover {
     -ms-transition: all 0.4s ease-in-out;
     -o-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
-    z-index: 102;
+    z-index: 105;
     display: none;
 }
 
@@ -205,6 +204,7 @@ a:hover {
     animation-fill-mode: both;
     top: 0;
     bottom: 0;
+    z-index: 104;
 }
 
 .sapochat-project-window{
@@ -223,6 +223,8 @@ a:hover {
     animation-fill-mode: both;
     top: 0;
     bottom: 0;
+    z-index: 104;
+
     }
 
 @keyframes scale-up {
@@ -295,14 +297,21 @@ a:hover {
 
 .about-us{
     position: relative;
-    left: 10px;
     color: white;
     display: inline-block;
     cursor: pointer;
 }
 
 .contact-us{
-    right: 10px;
+    right: 20px;
+    cursor: pointer;
+    position: relative;
+    color: white;
+    display: inline-block;
+}
+
+.credits{
+    left: 20px;
     cursor: pointer;
     position: relative;
     color: white;

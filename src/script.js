@@ -65,9 +65,9 @@ GLTFloader.load("/textures/astronaut/scene.gltf", function(gltf){
     scene.add( astronaut )
 })
 GLTFloader.load("/textures/sun/scene.gltf", function(gltf){
-        sun3 = gltf.scene
-        sun3.position.set(3.2,2.05,-20)
-        scene.add( sun3 )
+    sun3 = gltf.scene
+    sun3.position.set(3.2,2.05,-20)
+    scene.add( sun3 )
 })
 GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
     mars = gltf.scene
@@ -111,11 +111,11 @@ GLTFloader.load("/textures/tech-used/JS_logo.glb", function(gltf){
     jsLogo.position.set(8.7,-9.6,24.6)
     jsLogo.rotation.z = (1)
     jsLogo.rotation.x = (1.55)
-    scene.add( jsLogo )
+    // scene.add( jsLogo )
 })
-// GLTFloader.load("/textures/new-flag/sapochat-flag.gltf", function(gltf){
+// GLTFloader.load("/textures/new-flag/sapochat-flag.glb", function(gltf){
 //     newFlag = gltf.scene
-//     newFlag.scale.set(12,-10.8,22)
+//     newFlag.scale.set(0.1,0.1,0.1)
 //     newFlag.position.set(1,1,1)
 //     newFlag.rotation.y = 0.3
 //     scene.add( newFlag )

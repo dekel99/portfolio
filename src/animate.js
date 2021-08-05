@@ -26,7 +26,6 @@ const mouse = new Vector2();
 document.addEventListener("mousemove", onDocumentMouseMove)
 window.addEventListener("deviceorientation", handleOrientation, true);
 
-
 // View our project button event listener
 $(".view-btn").click(() => {
     moonStart = true
@@ -65,7 +64,23 @@ $("body").click((e) => {
     raycaster.setFromCamera( mouse, cameraTween );
 	const found = raycaster.intersectObjects( sceneTween.children, true );
 
+    if (e.target.innerText === "CONTACT US"){
+        $('.contact-us-window').css('top', '50px')
+    } else if(e.target.id==="canvas-id" || e.target.id==="mars-cover-div"){
+        $('.contact-us-window').css('top', '-200px')
+    }
+
+    if (e.target.innerText === "ABOUT US"){
+        $('.loading-bar-cover').css('opacity', '1')
+    }
+
+    if (e.target.id==="close-contact-win"){
+        $('.contact-us-window').css('top', '-200px')
+    }
+
     if (found[0] && !waiting){
+        $('.instructions-window').css('opacity', '0')
+
         if (found[0].object.name==="Flag_Flag_Mat_0"){
             waiting = true
             createjs.Tween.get(cameraTween.position).to({ x: 7.6, y: -9.3, z: 25 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
@@ -184,6 +199,9 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         scene.background = marsBackgroundTexture
         pointlight1.intensity = 1
         pointlight3.intensity = 1.5
+        setTimeout(() => {
+            $('.instructions-window').css('opacity', '1')
+        }, 2000);
         disposeEarthScene(scene,earth,astronaut,moon)    
         changePositionTrigger = false
     }

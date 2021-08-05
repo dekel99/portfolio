@@ -26,6 +26,17 @@ p{
    font-family: "Quantico", "sans-serif";
 }
 
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color:white; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
 .heading-container{
     position: absolute;
     padding: 20px;
@@ -44,6 +55,15 @@ p{
       }
       to {
         opacity: 0;
+      }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
       }
 }
 
@@ -94,15 +114,6 @@ p{
     display: none;
 }
 
-@keyframes fade-in {
-    from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-}
-
 .backBtn:hover{
     background: rgba(48, 48, 48, 0.521);
     transition: all .4s ease;
@@ -125,7 +136,7 @@ p{
     right: 0;
     left: 0;
     background-color: black;
-    z-index: 100;
+    z-index: 105;
 }
 
 .loading-bar-container{
@@ -183,7 +194,7 @@ p{
     border-radius: 5px;
     margin: auto;
     width: 500px;
-    height: 70%;
+    height: 50%;
     left: calc(50vw + 100px);
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
@@ -201,7 +212,7 @@ p{
     border-radius: 5px;
     margin: auto;
     width: 500px;
-    height: 70%;
+    height: 50%;
     left: calc(50vw + 50px);
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
@@ -269,8 +280,105 @@ p{
     font-family: 'Quantico'
 }
 
-a:visited {
+.picer-link a:visited {
     color: rgb(111, 111, 255);
+}
+
+.nav-bar{
+ position: absolute;
+ margin: auto;
+ top: 15px;
+ right: 0;
+ left: 0;
+ z-index: 103;
+}
+
+.about-us{
+    position: relative;
+    left: 10px;
+    color: white;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.contact-us{
+    right: 10px;
+    cursor: pointer;
+    position: relative;
+    color: white;
+    display: inline-block;
+}
+
+.contact-us-window{
+    position: absolute;
+    top: -200px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 300px;
+    height: 165px;
+    border-radius: 5px;
+    background: rgba(26, 25, 25, 0.705);
+    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    z-index: 104;
+}
+
+.close-contact{
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    color: white;
+    cursor: pointer;
+}
+
+.contact-details{
+    position: relative;
+    margin: 30px;
+    color: white;
+}
+
+.instructions-window{
+    position: absolute;
+    top: 50px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 300px;
+    height: 100px;
+    color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 5px;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    opacity: 0;
+}
+
+.instructions-content{
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: auto;
+    margin: 10px;
+}
+
+.lottie-click{
+    position: absolute;
+    top: -25px;
+    right: 0;
+    left: 0;
+    margin: auto;
 }
 
 @media (max-width: 800px) {

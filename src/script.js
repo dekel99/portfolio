@@ -337,18 +337,18 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 //---------------------------------position----------------------------------
 earth.position.set(-0.7,-0.5,0)
 moon.position.set(4,1,2)
-// blackSphere.position.set(8.2,-9.2,25)
+blackSphere.position.set(8.2,-9.2,25)
 if(window.innerWidth<800){
     camera.position.set(-0.7, 0.13, 3)
     camera.lookAt(0,0.5,0)
 }
 
-controls.target = new THREE.Vector3(18,-13,20);
-camera.position.set(5.3,-8,26)
-camera.lookAt(new THREE.Vector3(18,-13,20))
-scene.background = marsBackgroundTexture
-pointlight1.intensity = 1
-pointlight3.intensity = 1.5
+// controls.target = new THREE.Vector3(18,-13,20);
+// camera.position.set(5.3,-8,26)
+// camera.lookAt(new THREE.Vector3(18,-13,20))
+// scene.background = marsBackgroundTexture
+// pointlight1.intensity = 1
+// pointlight3.intensity = 1.5
  
 //--------------------------------END CAMERA---------------------------------
 // event listener

@@ -193,7 +193,7 @@ a:hover {
     border-radius: 5px;
     margin: auto;
     width: 500px;
-    height: 50%;
+    height: 600px;
     left: calc(50vw + 100px);
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
@@ -212,7 +212,7 @@ a:hover {
     border-radius: 5px;
     margin: auto;
     width: 500px;
-    height: 50%;
+    height: 550px;
     left: calc(50vw + 50px);
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
@@ -245,25 +245,26 @@ a:hover {
     }
 }
 
-.app-preview{
+/* .app-img-container{
     display: flex;
     justify-content: center;
     align-items: top;
     overflow: hidden;
     width: 100%;
-    height: 200px;
+    height: 260px;
     margin: auto;
-    margin-top: 14px;
-}
+} */
 
 .picer-photo{
-    flex-shrink: 100%;
-    min-width: 100%;
-    min-height: 100%
+    width: 100%;
+    height: auto;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 .app-description-container{
-    margin: 20px;
+    margin: 30px;
+    margin-top: 0;
 }
 
 .picer-heading{
@@ -279,7 +280,8 @@ a:hover {
 
 .picer-link{
     color: rgb(111, 111, 255);
-    font-family: 'Quantico'
+    font-family: 'Quantico';
+    margin-top: 20px;
 }
 
 .picer-link a:visited {
@@ -415,7 +417,7 @@ a:hover {
     .picer-project-window{
         margin: auto;
         width: 80vw;
-        height: 670px;
+        /* height: 670px; */
         right: 0;
         left: 0;
         top: 0;
@@ -424,7 +426,7 @@ a:hover {
     .sapochat-project-window{
         margin: auto;
         width: 80vw;
-        height: 700px;
+        /* height: 700px; */
         right: 0;
         left: 0;
         top: 0;

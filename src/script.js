@@ -27,17 +27,15 @@ var barProgress = 0
 var jsLogo
 
 createjs.Ticker.timingMode = createjs.Ticker.RAF;
-
 // Scene
 const scene = new THREE.Scene()
 
 // Loading
 const loadingManager = new THREE.LoadingManager(
     () => {
-        $('.loading-bar-cover').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
-        setTimeout(() => {
-            $( ".loading-bar-cover" ).remove();
-        }, 2000);
+        $('.enter-btn').css('opacity', '1')
+        $('.earth-lottie').css('opacity', '0')
+        $('.loading-heading').css('opacity', '0')
     },
 
     (itemUrl, itemsLoaded, itemsTotal) => {
@@ -252,24 +250,24 @@ light3Folder.addColor(light3Color, "color")
     })
 
 // Light 4 (Mars light)
-const marsLight = new THREE.RectAreaLight( 0xffffff, 1, 10, 10);
-marsLight.position.set( 6, 0 ,22 );
-marsLight.intensity = 10
-marsLight.lookAt(20.5,-15,20 )
+// const marsLight = new THREE.RectAreaLight( 0xffffff, 1, 10, 10);
+// marsLight.position.set( 6, 0 ,22 );
+// marsLight.intensity = 10
+// marsLight.lookAt(20.5,-15,20 )
 
-scene.add( marsLight );
-// scene.add( marsLight.target );
+// // scene.add( marsLight );
+// // scene.add( marsLight.target );
 
-// light helper
-const marsLightHelper = new THREE.PointLightHelper(marsLight)
-// scene.add( marsLightHelper );
+// // light helper
+// const marsLightHelper = new THREE.PointLightHelper(marsLight)
+// // scene.add( marsLightHelper );
 
-// gui
-const light4Folder = gui.addFolder("Mars Light")
-light4Folder.add(marsLight.position,"x").min(-10).max(50).step(0.01)
-light4Folder.add(marsLight.position,"y").min(-10).max(50).step(0.01)
-light4Folder.add(marsLight.position,"z").min(-10).max(50).step(0.01)
-light4Folder.add(marsLight,"intensity").min(0).max(50).step(0.01)
+// // gui
+// const light4Folder = gui.addFolder("Mars Light")
+// light4Folder.add(marsLight.position,"x").min(-10).max(50).step(0.01)
+// light4Folder.add(marsLight.position,"y").min(-10).max(50).step(0.01)
+// light4Folder.add(marsLight.position,"z").min(-10).max(50).step(0.01)
+// light4Folder.add(marsLight,"intensity").min(0).max(50).step(0.01)
 
 
 //Lensflare
@@ -328,7 +326,8 @@ controls.enableDamping = true
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true,
-    alpha: true
+    alpha: true,
+    powerPreference: "high-performance"
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -341,7 +340,10 @@ blackSphere.position.set(8.2,-9.2,25)
 if(window.innerWidth<800){
     camera.position.set(-0.7, 0.13, 3)
     camera.lookAt(0,0.5,0)
+} else if (window.innerWidth<1500){
+
 }
+
 
 // controls.target = new THREE.Vector3(18,-13,20);
 // camera.position.set(5.3,-8,26)
@@ -349,7 +351,7 @@ if(window.innerWidth<800){
 // scene.background = marsBackgroundTexture
 // pointlight1.intensity = 1
 // pointlight3.intensity = 1.5
- 
+
 //--------------------------------END CAMERA---------------------------------
 // event listener
 
@@ -363,7 +365,7 @@ const tick = () =>
     animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,jsLogo)
 
     // Play flag animation
-    var delta = clock.getDelta() * 17;
+    var delta = clock.getDelta() * 10;
     if ( flagMixer ) flagMixer.update( delta )
     if ( flag2Mixer ) flag2Mixer.update( delta )
     // if ( newFlagMixer ) newFlagMixer.update ( delta )

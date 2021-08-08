@@ -15,6 +15,10 @@ body
     text-align: center;
 }
 
+/* h3{
+    font-size: 1rem;
+} */
+
 .webgl
 {
     top: 0;
@@ -172,11 +176,67 @@ a:hover {
 
 .earth-lottie{
     position: relative;
-    /* top: 40%;
-    right: 0;
-    left: 0; */
     z-index: 101;
     margin: auto;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.enter-btn{
+    position: relative;
+    opacity: 0;
+    display: inline-block;
+    z-index: 101;
+    margin: auto;
+    color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    padding: 15px;
+    padding-right: 22px;
+    padding-left: 22px;
+    border-radius: 1px;
+    cursor: pointer;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.mute-btn{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 35px;
+    height: 35px;
+    color:white;
+    background: transparent;
+    border-style: none;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.sound-on-icon{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 35px;
+    height: 35px;
+    color: white;
+}
+
+.sound-off-icon{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: none;
+    width: 35px;
+    height: 35px;
+    color: white;
 }
 
 .picer-project-window-container{
@@ -219,12 +279,18 @@ a:hover {
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 3.5px );
     display: none;
+    scale: 0;
     animation: scale-up 0.7s ease;
     animation-fill-mode: both;
+    /* -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out; */
     top: 0;
     bottom: 0;
     z-index: 104;
-
+    
     }
 
 @keyframes scale-up {
@@ -320,14 +386,16 @@ a:hover {
     display: inline-block;
 }
 
-.contact-us-window{
+.navbar-window{
     position: absolute;
-    top: -200px;
+    top: -450px;
     right: 0;
     left: 0;
     margin: auto;
     width: 300px;
-    height: 165px;
+    /* height: 165px; */
+    /* display: inline-block; */
+    /* padding: 20px; */
     border-radius: 5px;
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
@@ -350,6 +418,13 @@ a:hover {
 }
 
 .contact-details{
+    position: relative;
+    /* display: inline-block; */
+    margin: 30px;
+    color: white;
+}
+
+.credits-text{
     position: relative;
     margin: 30px;
     color: white;
@@ -391,7 +466,6 @@ a:hover {
     left: 0;
     margin: auto;
 }
-
 @media (max-width: 800px) {
     .heading-container{
         right: 0;
@@ -431,5 +505,54 @@ a:hover {
         left: 0;
         top: 0;
         bottom: 0;
+    }
+}
+
+/* -----------------Low res desktop----------------- */
+@media (min-width: 800px) and (max-width: 1500px){
+    .heading-container{
+        /* right: 0;
+        left: 0;
+        top: 100px;
+        width: 70vw;
+        margin: auto; */
+        font-size: 8px;
+        padding: 10px;
+        padding-right: 20px;
+        padding-left: 20px;
+
+    }
+    .view-btn{
+        font-size: 12px;
+        height: 36px;
+        margin: 0;
+    }
+    .backBtn{
+        width: 70px;
+        height: 70px;
+        right: 15px;
+        bottom: 15px;
+    }
+    .iconBtn {
+        width: 35px;
+        height: 35px;
+    }
+    .picer-project-window{
+        margin: auto;
+        width: 320px;
+        height: 400px;
+        font-size: 10px;
+    }
+    .picer-heading{
+        margin: 10px;
+    }
+    .bi-box-arrow-up-right{
+        size: 8px;
+    }
+    .sapochat-project-window{
+        margin: auto;
+        width: 320px;
+        height: 360px;
+        font-size: 10px;
     }
 }

@@ -13,10 +13,11 @@
             </div>
             <div class="loading-bar"></div>
             <h3 class="loading-heading">Get ready to take off...</h3>
+            <h3 id="enter-btn-id" class="enter-btn">ENTER</h3>
         </div>
     </div>
 
-    <div class="contact-us-window">
+    <div id="contact-us-window-id" class="navbar-window">
         <svg id="close-contact-win" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x close-contact" viewBox="0 0 16 16">
             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
         </svg>
@@ -34,8 +35,25 @@
                 </svg>
                 <a target="_blank" href="https://api.whatsapp.com/send/?phone=972504705042&text&app_absent=0" style="display: inline-block; margin-left: 8px;">Click to WhatsApp</a>
             </div>
+            <br>
+            <hr style="width: 50px; margin: auto;">
         </div>
-        <hr style="width: 50px; margin: auto;">
+    </div>
+
+    <div id="credits-window-id" class="navbar-window">
+        <svg id="close-credits-win" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x close-contact" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <p class="credits-text">
+            Music: "Slowmotion" from Bensound.com <br>
+            <br>
+            Mars model from Rodirgo Gelmi - sketchfab.com <br>
+            Astronaut model from EvgenyS - sketchfab.com <br>
+            Flag model from ManySince910 - sketchfab.com <br>
+            Sun model from VIS-All-3D - sketchfab.com <br>
+            <br>
+            Earth & moon image from solarsystemscope.com
+        </p>
     </div>
 
     <div class="nav-bar">
@@ -100,26 +118,37 @@
         <div onclick= "window.open('http://sapochat.herokuapp.com','mywindow')" style="cursor: pointer" class="app-preview">
             <img class="picer-photo" src="https://res.cloudinary.com/ddijwyj2m/image/upload/v1628202415/assetes-portfolio/bfcpqncvypgjj94jsvo8.jpg" alt="app-review"/>
         </div>
-        <!-- <div class="app-description-container"> -->
-            <div class="app-description-container">
-                <h3 class="picer-heading">SapoChat</h3>
-                <p class="app-description--text">Web app for group chat with friends.</p>
-                <br>
-                <p class="app-description--text">Register and update your profile picture or enter as a guest and start chating Immediately!</p>
-                <br>
-                <p class="app-description--text">Designed for both mobile and deskptop.</p>
-                <br>
-
-                <a target="_blank" class="picer-link" href="http://sapochat.herokuapp.com/">Visit SapoChat
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-                      </svg>
-                </a>
-                <!-- <p style="font-weight: 600;" class="app-description--text">Technologies used:</p> -->
-            </div>
-        <!-- </div> -->
+        <div class="app-description-container">
+            <h3 class="picer-heading">SapoChat</h3>
+            <p class="app-description--text">Web app for group chat with friends.</p>
+            <br>
+            <p class="app-description--text">Register and update your profile picture or enter as a guest and start chating Immediately!</p>
+            <br>
+            <p class="app-description--text">Designed for both mobile and deskptop.</p>
+            <br>
+            <a target="_blank" class="picer-link" href="http://sapochat.herokuapp.com/">Visit SapoChat
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                  </svg>
+            </a>
+            <!-- <p style="font-weight: 600;" class="app-description--text">Technologies used:</p> -->
+        </div>
     </div>
+
+    <button id="mute-btn-id" class="mute-btn"></button>
+    <svg id="sound-on-icon-id" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-up-fill sound-on-icon" viewBox="0 0 16 16">
+        <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
+        <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
+        <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
+    </svg>
+    <svg id="sound-off-icon-id"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-mute-fill sound-off-icon" viewBox="0 0 16 16">
+        <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zm7.137 2.096a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z"/>
+    </svg>
+        
+    <audio id="moon-pass" src="./sounds/whoosh.mp3"></audio>
+    <audio loop="true" id="main-sound" src="./sounds/‏‏main-screen.mp3"></audio>
+
     <canvas id="canvas-id" class="webgl"></canvas>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>

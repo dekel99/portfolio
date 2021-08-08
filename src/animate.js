@@ -18,6 +18,8 @@ let waiting = false
 let moveJs
 let jsLogoTween
 
+let mainSound = $("#main-sound")[0]
+
 // Raycaster
 const raycaster = new Raycaster()
 const mouse = new Vector2();
@@ -33,6 +35,12 @@ $(".view-btn").click(() => {
     $('.heading-container').css('animation', 'fade-out 0.5s ease').css("animation-fill-mode","both");
     $('.picer-project-window-container').css('display', 'unset')
     $('.backBtn').css('display', 'unset')
+
+    createjs.Tween.get(mainSound).to({ volume: 0.1 }, 8000,createjs.Ease.getPowInOut(3))
+
+    setTimeout(() => {
+        $("#moon-pass")[0].play()
+    }, 6700);
 
     setTimeout(() => {
         $( ".heading-container" ).remove();
@@ -64,59 +72,87 @@ $("body").click((e) => {
     raycaster.setFromCamera( mouse, cameraTween );
 	const found = raycaster.intersectObjects( sceneTween.children, true );
 
+    if(e.target.id === "enter-btn-id"){
+        mainSound.play()
+        $('.loading-bar-cover').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
+        setTimeout(() => {
+            $( ".loading-bar-cover" ).remove();
+        }, 2000);
+    }
+
+    // Handle navbar windows & clicks
     if (e.target.innerText === "CONTACT US"){
-        $('.contact-us-window').css('top', '50px')
-    } else if(e.target.id==="canvas-id" || e.target.id==="mars-cover-div"){
-        $('.contact-us-window').css('top', '-200px')
+        $('#credits-window-id').css('top') === "50px" && $('#credits-window-id').css('top', '-400px')
+        $('#contact-us-window-id').css('top', '50px')
+    } else if(e.target.id==="canvas-id" || e.target.id==="mars-cover-div" || e.target.id==="close-contact-win"){
+        $('#contact-us-window-id').css('top', '-400px')
     }
 
     if (e.target.innerText === "ABOUT US"){
         $('.loading-bar-cover').css('opacity', '1')
     }
 
-    if (e.target.id==="close-contact-win"){
-        $('.contact-us-window').css('top', '-200px')
+    if (e.target.innerText === "CREDITS"){
+        $('#contact-us-window-id').css('top') === "50px" && $('#contact-us-window-id').css('top', '-400px')
+        $('#credits-window-id').css('top', '50px')
+    } else if(e.target.id==="canvas-id" || e.target.id==="mars-cover-div" || e.target.id==="close-credits-win"){
+        $('#credits-window-id').css('top', '-400px')
     }
 
+    // Handle mute click
+    if (e.target.id==="mute-btn-id"){
+        console.log("test")
+        if($('.sound-off-icon').css("display") === "none"){
+            $('.sound-on-icon').css('display', 'none') 
+            $('.sound-off-icon').css('display', 'unset') 
+            mainSound.pause()
+        } else {
+            $('.sound-on-icon').css('display', 'unset') 
+            $('.sound-off-icon').css('display', 'none') 
+            mainSound.play()
+        }
+    }
+     
+    
+    // Handle flag clicks
     if (found[0] && !waiting){
         $('.instructions-window').css('opacity', '0')
-
+        
         if (found[0].object.name==="Flag_Flag_Mat_0"){
             waiting = true
             createjs.Tween.get(cameraTween.position).to({ x: 7.6, y: -9.3, z: 25 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
             $('.backBtn').css('opacity', '1')
-
+            
             // open window project
-            $('.picer-project-window').css('display', 'none')
             setTimeout(function(){
-                $('.picer-project-window').css('display', 'unset').css('animation', 'scale-up 0.7s ease')
+                $('.picer-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
                 waiting = false
             }, 2100);
-
+            
         } else if (found[0].object.name==="Flag_Flag_Mat_1"){
             createjs.Tween.get(cameraTween.position).to({ x: 10.8, y: -9.5, z: 20.7 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
             $('.backBtn').css('opacity', '1')
             waiting = true
-
+            
             // Open window project
-            $('.picer-project-window').css('animation', 'scale-down 0.7s ease')
+            $('.picer-project-window').css('animation', 'scale-down 0.5s ease')
             setTimeout(function(){
                 $('.picer-project-window').css('display', 'none')
             }, 500);
             setTimeout(function(){
-                $('.sapochat-project-window').css('display', 'unset').css('animation', 'scale-up 0.7s ease')
+                $('.sapochat-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
                 waiting = false
             }, 2300);
         }
     }
 })
-
-
-
+        
+        
+        
 // Delete uneeded object after moving to mars scene
 function disposeEarthScene(scene,earth,astronaut,moon){
     const disposedItems = [earth,moon]
-
+    
     for (let i = 0; i<disposedItems.length; i++){
         scene.remove(disposedItems[i])
         disposedItems[i].geometry.dispose()
@@ -124,6 +160,8 @@ function disposeEarthScene(scene,earth,astronaut,moon){
     }
     scene.remove(astronaut)
 }
+
+
 
 // Updates mouse cords
 function onDocumentMouseMove(e){
@@ -180,8 +218,8 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     moon.rotation.y = -0.15 * elapsedTime
     
     if (changePositionTrigger===false){
-        blackSphere.position.x = -3 * clockResetSphere(elapsedTime,firstTriggerSphere) + 8.2
-        blackSphere.position.z = -4 * clockResetSphere(elapsedTime,firstTriggerSphere) + 25
+        blackSphere.position.x = -4 * clockResetSphere(elapsedTime,firstTriggerSphere) + 8.2
+        blackSphere.position.z = -6 * clockResetSphere(elapsedTime,firstTriggerSphere) + 25
         firstTriggerSphere = false
     }
     
@@ -193,16 +231,27 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     }
     
     if (moon.position.x < -0.45 && changePositionTrigger){
+
+        // Change camera position to mars
         controls.target = new Vector3(18,-13,20);
         camera.position.set(5.3,-8,26)
         camera.lookAt(new Vector3(18,-13,20))
         scene.background = marsBackgroundTexture
+
+        // Set mars lights
         pointlight1.intensity = 1
-        pointlight3.intensity = 1.5
+        pointlight3.position.set(-11, 20, 20)
+        pointlight3.intensity = 1.8
+
+        // Click on flag message
         setTimeout(() => {
             $('.instructions-window').css('opacity', '1')
         }, 2000);
-        disposeEarthScene(scene,earth,astronaut,moon)    
+
+        // Delele uneeded items
+        disposeEarthScene(scene,earth,astronaut,moon)
+        
+        // Makes this if run once
         changePositionTrigger = false
     }
 
@@ -216,10 +265,10 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         astronaut.rotation.z = 0.1 * elapsedTime
     } 
 
-    // if(targetX && moonStart===false){
-    //     camera.position.x = -0.6 + (targetX/13)
-    //     camera.position.y = 0.15 + (targetY/13)
-    // }
+    if(targetX && moonStart===false){
+        camera.position.x = -0.6 + (targetX/18)
+        camera.position.y = 0.15 + (targetY/18)
+    }
 
 
     // Update Orbital Controls

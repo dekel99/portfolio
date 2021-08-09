@@ -1,40 +1,6 @@
 {
   "accessors": [
     {
-      "bufferView": 1,
-      "componentType": 5126,
-      "count": 7682,
-      "max": [
-        1,
-        1,
-        1
-      ],
-      "min": [
-        -1,
-        -1,
-        -1
-      ],
-      "type": "VEC3"
-    },
-    {
-      "bufferView": 1,
-      "byteOffset": 92184,
-      "componentType": 5126,
-      "count": 7682,
-      "max": [
-        1,
-        1,
-        1
-      ],
-      "min": [
-        -1,
-        -1,
-        -1
-      ],
-      "type": "VEC3"
-    },
-    {
-      "bufferView": 0,
       "componentType": 5125,
       "count": 46080,
       "max": [
@@ -44,6 +10,36 @@
         0
       ],
       "type": "SCALAR"
+    },
+    {
+      "componentType": 5126,
+      "count": 7682,
+      "max": [
+        1.007843137254902,
+        1.007843137254902,
+        1.007843137254902
+      ],
+      "min": [
+        -1.007843137254902,
+        -1.007843137254902,
+        -1.007843137254902
+      ],
+      "type": "VEC3"
+    },
+    {
+      "componentType": 5126,
+      "count": 7682,
+      "max": [
+        1.0009770395701025,
+        1.0009770395701025,
+        1.0009770395701025
+      ],
+      "min": [
+        -1.0009770395701025,
+        -1.0009770395701025,
+        -1.0009770395701025
+      ],
+      "type": "VEC3"
     }
   ],
   "asset": {
@@ -59,23 +55,14 @@
   "bufferViews": [
     {
       "buffer": 0,
-      "byteLength": 184320,
       "byteOffset": 0,
-      "name": "floatBufferViews",
-      "target": 34963
-    },
-    {
-      "buffer": 0,
-      "byteLength": 184368,
-      "byteOffset": 184320,
-      "byteStride": 12,
-      "name": "floatBufferViews",
-      "target": 34962
+      "byteLength": 11208
     }
   ],
   "buffers": [
     {
-      "byteLength": 368688,
+      "name": "scene",
+      "byteLength": 11208,
       "uri": "scene.bin"
     }
   ],
@@ -92,12 +79,13 @@
         "baseColorFactor": [
           0.44672920812723993,
           0.33425033293765344,
-          0.13005377198136811,
+          0.1300537719813681,
           1
         ],
         "metallicFactor": 0,
         "roughnessFactor": 0.48170731707317077
-      }
+      },
+      "alphaMode": "OPAQUE"
     }
   ],
   "meshes": [
@@ -107,11 +95,20 @@
         {
           "attributes": {
             "NORMAL": 1,
-            "POSITION": 0
+            "POSITION": 2
           },
-          "indices": 2,
+          "indices": 0,
           "material": 0,
-          "mode": 4
+          "mode": 4,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 0,
+              "attributes": {
+                "NORMAL": 0,
+                "POSITION": 1
+              }
+            }
+          }
         }
       ]
     }
@@ -123,10 +120,20 @@
       ],
       "name": "RootNode (gltf orientation matrix)",
       "rotation": [
-        -0.70710678118654746,
-        -0,
-        -0,
-        0.70710678118654757
+        -0.7071067811865475,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
       ]
     },
     {
@@ -160,6 +167,11 @@
         0
       ]
     }
+  ],
+  "extensionsRequired": [
+    "KHR_draco_mesh_compression"
+  ],
+  "extensionsUsed": [
+    "KHR_draco_mesh_compression"
   ]
 }
-

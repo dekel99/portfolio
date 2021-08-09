@@ -18,7 +18,14 @@ let waiting = false
 let moveJs
 let jsLogoTween
 
+// Sound event listeners
 let mainSound = $("#main-sound")[0]
+$(window).focus(function() {
+    $('.sound-off-icon').css("display") === "none" && mainSound.play()
+});
+$(window).blur(function() {
+    mainSound.pause()
+});
 
 // Raycaster
 const raycaster = new Raycaster()
@@ -101,7 +108,6 @@ $("body").click((e) => {
 
     // Handle mute click
     if (e.target.id==="mute-btn-id"){
-        console.log("test")
         if($('.sound-off-icon').css("display") === "none"){
             $('.sound-on-icon').css('display', 'none') 
             $('.sound-off-icon').css('display', 'unset') 
@@ -113,12 +119,11 @@ $("body").click((e) => {
         }
     }
      
-    
     // Handle flag clicks
     if (found[0] && !waiting){
         $('.instructions-window').css('opacity', '0')
         
-        if (found[0].object.name==="Flag_Flag_Mat_0"){
+        if (found[0].object.userData.name==="picer-flag"){
             waiting = true
             createjs.Tween.get(cameraTween.position).to({ x: 7.6, y: -9.3, z: 25 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
             $('.backBtn').css('opacity', '1')
@@ -129,7 +134,7 @@ $("body").click((e) => {
                 waiting = false
             }, 2100);
             
-        } else if (found[0].object.name==="Flag_Flag_Mat_1"){
+        } else if (found[0].object.userData.name==="sapochat-flag"){
             createjs.Tween.get(cameraTween.position).to({ x: 10.8, y: -9.5, z: 20.7 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
             $('.backBtn').css('opacity', '1')
             waiting = true
@@ -146,9 +151,7 @@ $("body").click((e) => {
         }
     }
 })
-        
-        
-        
+               
 // Delete uneeded object after moving to mars scene
 function disposeEarthScene(scene,earth,astronaut,moon){
     const disposedItems = [earth,moon]
@@ -160,8 +163,6 @@ function disposeEarthScene(scene,earth,astronaut,moon){
     }
     scene.remove(astronaut)
 }
-
-
 
 // Updates mouse cords
 function onDocumentMouseMove(e){
@@ -217,6 +218,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     earth.rotation.y = 0.1 * elapsedTime
     moon.rotation.y = -0.15 * elapsedTime
     
+    // Moves the sphere from mars creating transision effect
     if (changePositionTrigger===false){
         blackSphere.position.x = -4 * clockResetSphere(elapsedTime,firstTriggerSphere) + 8.2
         blackSphere.position.z = -6 * clockResetSphere(elapsedTime,firstTriggerSphere) + 25
@@ -224,12 +226,13 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     }
     
     if(moonStart){
-        t=0.18 * clockResetMoon(elapsedTime,firstTriggerMoon) //0.18
+        t=0.18 * clockResetMoon(elapsedTime,firstTriggerMoon)
         moon.position.x = 11.4*Math.cos(t) -0.7
         moon.position.z = 11.4*Math.sin(t) -0.5
         firstTriggerMoon = false
     }
     
+    // Triggers when moon is in front of the camera
     if (moon.position.x < -0.45 && changePositionTrigger){
 
         // Change camera position to mars
@@ -265,10 +268,10 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         astronaut.rotation.z = 0.1 * elapsedTime
     } 
 
-    if(targetX && moonStart===false){
-        camera.position.x = -0.6 + (targetX/18)
-        camera.position.y = 0.15 + (targetY/18)
-    }
+    // if(targetX && moonStart===false){
+    //     camera.position.x = -0.6 + (targetX/18)
+    //     camera.position.y = 0.15 + (targetY/18)
+    // }
 
 
     // Update Orbital Controls

@@ -1,5 +1,9 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui'  
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass }  from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { SMAAPass }  from 'three/examples/jsm/postprocessing/SMAAPass';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TextureLoader } from "three/src/loaders/TextureLoader.js"
@@ -9,6 +13,7 @@ import Stats from 'stats.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import './style.css'
 
+// Show fps config
 var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
@@ -55,7 +60,9 @@ const textureFlare1 = textureLoader.load( "/textures/lens-flare1.png" );
 const earthTexture = textureLoader.load("/textures/8k_earth_nightmap.jpg")
 const moonTexture = textureLoader.load("/textures/8k_moon.jpg")
 const backgroundTexture = textureLoader.load("/textures/8k_stars_milky_way.jpg")
+const backgroundMobileTexture = textureLoader.load("/textures/8k_stars_milky_way-mobile.jpg")
 const marsBackgroundTexture = textureLoader.load("/textures/mars-sky.jpg")
+const marsBackgroundMobileTexture = textureLoader.load("/textures/mars-sky-mobile.jpg")
 const picerImgTexture = textureLoader.load("/textures/picer-flag.jpeg")
 const sapochatImgTexture = textureLoader.load("/textures/sapochat-flag.jpeg")
 
@@ -107,7 +114,7 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
 //     var action = flag2Mixer.clipAction( gltf.animations[0] );
 // 	action.play();
 // })
-GLTFloader.load("/textures/tech-used/JS_logo.glb", function(gltf){
+GLTFloader.load("/textures/3d-logos/mongoDB-logo.glb", function(gltf){
     jsLogo = gltf.scene
     jsLogo.scale.set(0.1, 0.1, 0.1)
     jsLogo.position.set(8.7,-9.6,24.6)
@@ -259,43 +266,18 @@ light3Folder.addColor(light3Color, "color")
         pointlight3.color.set(light3Color.color)
     })
 
-// Light 4 (Mars light)
-// const marsLight = new THREE.RectAreaLight( 0xffffff, 1, 10, 10);
-// marsLight.position.set( 6, 0 ,22 );
-// marsLight.intensity = 10
-// marsLight.lookAt(20.5,-15,20 )
-
-// // scene.add( marsLight );
-// // scene.add( marsLight.target );
-
-// // light helper
-// const marsLightHelper = new THREE.PointLightHelper(marsLight)
-// // scene.add( marsLightHelper );
-
-// // gui
-// const light4Folder = gui.addFolder("Mars Light")
-// light4Folder.add(marsLight.position,"x").min(-10).max(50).step(0.01)
-// light4Folder.add(marsLight.position,"y").min(-10).max(50).step(0.01)
-// light4Folder.add(marsLight.position,"z").min(-10).max(50).step(0.01)
-// light4Folder.add(marsLight,"intensity").min(0).max(50).step(0.01)
-
-
 //Lensflare
-
-
 const lensflare = new Lensflare();
-lensflare.addElement( new LensflareElement( textureFlare0, 700, 0 ) );
+let sunMainFlare = new LensflareElement( textureFlare0, 700, 0 )
+lensflare.addElement( sunMainFlare );
 lensflare.addElement( new LensflareElement( textureFlare1, 60, 0.6 ) );
 lensflare.addElement( new LensflareElement( textureFlare1, 70, 0.7 ) );
 lensflare.addElement( new LensflareElement( textureFlare1, 120, 0.9 ) );
 lensflare.addElement( new LensflareElement( textureFlare1, 70, 1 ) );
 pointlight1.add( lensflare )
 
-//-------------------------------END LIGHTS---------------------------------
+//------------------------------- Window size ---------------------------------
 
-/**
- * Sizes
- */
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
@@ -314,9 +296,14 @@ window.addEventListener('resize', () =>
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+    // Update composer
+    composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    composer.setSize(sizes.width, sizes.height)
 })
 
 //-------------------------------- Camera --------------------------------
+
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.set(-0.5, 0.2, 2)
@@ -332,9 +319,8 @@ cameraFolder.add(camera.position,"z").min(-50).max(50).step(0.01)
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 
-/**
- * Renderer
- */
+// ------------------------------- Renderer ---------------------------------------
+ 
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true,
@@ -343,29 +329,33 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-// -------------------------------user data-------------------------------
+
+// -------------------------------user data-------------------------------------
+
 picerFlag.userData = {name: "picer-flag"}
 sapochatFlag.userData = {name: "sapochat-flag"}
 
 //---------------------------------position----------------------------------
+
 earth.position.set(-0.7,-0.5,0)
 moon.position.set(4,1,4)
 blackSphere.position.set(8.2,-9.2,25)
+
 picerPole.position.set(8.515,-9.98,24.09)
 picerFlag.position.set(8.6,-9.6,24.3)
 picerFlag.rotation.y = -1.2
 
-sapochatPole.position.set(11.915,-10.18,19.59)
-sapochatFlag.position.set(12,-9.8,19.8)
+sapochatPole.position.set(11.865,-10.18,19.69)
+sapochatFlag.position.set(11.95,-9.8,19.9)
 sapochatFlag.rotation.y = -1.2
 
 // JS breakpoints 
 if(window.innerWidth<800){
-    camera.position.set(-0.7, 0.13, 3)
+    camera.position.set(-0.7, 0.18, 2.7)
     camera.lookAt(0,0.5,0)
-} else if (window.innerWidth<1500){
-
-}
+    scene.background = backgroundMobileTexture
+    sunMainFlare.size = 500
+} else if (window.innerWidth<1500){}
 
 // Active only when test on mars
 // controls.target = new THREE.Vector3(18,-13,20);
@@ -377,46 +367,66 @@ if(window.innerWidth<800){
 // pointlight3.position.set(-11, 20, 20)
 // blackSphere.position.set(1,1,1)
 
-//--------------------------------END CAMERA---------------------------------
-// event listener
-const h = 0.4
-const v = 0.5
-const w = 0.2
-const s = 0.9
+//--------------------------------Post processing---------------------------------
 
+// Render target
+let RenderTargerClass = null
 
-const positionAttribute = picerFlag.geometry.getAttribute( 'position' );
-const vertex = new THREE.Vector3();
-// vertex.fromBufferAttribute( positionAttribute, [3] )
-// console.log(positionAttribute)
+console.log(renderer.getPixelRatio())
 
+if (renderer.getPixelRatio() === 1 && renderer.capabilities.isWebGL2){
+    RenderTargerClass = THREE.WebGLMultisampleRenderTarget
+    console.log("useing WebGLMultisampleRenderTarget")
+} else {
+    RenderTargerClass = THREE.WebGLRenderTarget
+    console.log("useing WebGLRenderTarget")
+}
+
+const renderTarget = new RenderTargerClass(
+    800,
+    600,
+    {
+        // minFilter: THREE.LinearFilter,
+        // magFilter: THREE.LinearFilter,
+        // format: THREE.RGBAFormat,
+        // encoding: THREE.sRGBEncoding
+    }
+)
+
+// Composer
+const composer = new EffectComposer(renderer, renderTarget)
+composer.addPass (new RenderPass(scene,camera))
+composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+composer.setSize(sizes.width, sizes.height)
+
+// Passes
+const bloomPass = new UnrealBloomPass({x: sizes.height, y: sizes.width}, 0.2, 0 ,0.5)
+composer.addPass(bloomPass)
+
+if (renderer.getPixelRatio() === 1 && !renderer.capabilities.isWebGL2){
+    const smaaPass = new SMAAPass(sizes.width, sizes.height)
+    composer.addPass(smaaPass)
+    smaaPass.enabled = true
+    console.log("SMAA enabled")
+}
+
+// gui
+const bloomPassFolder = gui.addFolder("Effect")
+bloomPassFolder.add(bloomPass,"strength").min(0).max(4).step(0.01)
+bloomPassFolder.add(bloomPass,"threshold").min(0).max(4).step(0.01)
+bloomPassFolder.add(bloomPass,"radius").min(-4).max(4).step(0.01)
+bloomPassFolder.add(bloomPass.resolution,"x").min(0).max(2000).step(0.01)
+
+// ---------------------------- Frame requests -----------------------------
 const clock = new THREE.Clock()
 
 const tick = () =>
 {
     stats.begin();
 
-    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,jsLogo)
-
-    // Play flag animation
-    // var delta = clock.getDelta() * 10;
-    // if ( flagMixer ) flagMixer.update( delta )
-    // if ( flag2Mixer ) flag2Mixer.update( delta )
-    // if ( newFlagMixer ) newFlagMixer.update ( delta )
-
-    for (let y=0; y<segH+1; y++) {
-        for (let x=0; x<segW+1; x++) {
-            const index = x + y * (segW+1);
-            vertex.fromBufferAttribute( positionAttribute, index )
-            const time = Date.now() * s / 50;
-            vertex.z = Math.sin(h * x + v * y - time) * w * x / 100
-            picerFlag.geometry.attributes.position.setZ(index, vertex.z)
-        }
-    }
-    picerFlag.geometry.attributes.position.needsUpdate = true;
-    picerFlag.geometry.computeVertexNormals();
+    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,picerFlag)
     
-    renderer.render(scene, camera)
+    composer.render(scene, camera)
 
     stats.end()
     // Call tick again on the next frame

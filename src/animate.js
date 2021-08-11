@@ -10,6 +10,7 @@ let changePositionTrigger = true
 let moonStart = false
 let cameraTween
 let sceneTween
+let picerFlagTween
 let triggerTimeMoon
 let firstTriggerMoon = true
 let triggerTimeSphere
@@ -17,6 +18,10 @@ let firstTriggerSphere = true
 let waiting = false
 let moveJs
 let jsLogoTween
+let positionAttribute
+let aboutUsScene = false
+const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
+
 
 // Sound event listeners
 let mainSound = $("#main-sound")[0]
@@ -33,7 +38,7 @@ const mouse = new Vector2();
 
 // Detect mouse move for homepage earth effect
 document.addEventListener("mousemove", onDocumentMouseMove)
-window.addEventListener("deviceorientation", handleOrientation, true);
+// window.addEventListener("deviceorientation", handleOrientation, true);
 
 // View our project button event listener
 $(".view-btn").click(() => {
@@ -96,7 +101,7 @@ $("body").click((e) => {
     }
 
     if (e.target.innerText === "ABOUT US"){
-        $('.loading-bar-cover').css('opacity', '1')
+        aboutUsScene = true
     }
 
     if (e.target.innerText === "CREDITS"){
@@ -179,15 +184,15 @@ function onDocumentMouseMove(e){
     }
 }
 
-function handleOrientation(e){
-    var absolute = e.absolute;
-    var alpha = e.alpha;
-    var beta = e.beta;
-    var gamma = e.gamma;
+// function handleOrientation(e){
+//     var absolute = e.absolute;
+//     var alpha = e.alpha;
+//     var beta = e.beta;
+//     var gamma = e.gamma;
 
-    mouseX = alpha
-    mouseY = beta
-}
+//     mouseX = alpha
+//     mouseY = beta
+// }
 
 // Moon clock ticks only when this runs
 function clockResetMoon(elapsedTime, firstTriggerMoon){
@@ -205,12 +210,24 @@ function clockResetSphere(elapsedTime,firstTriggerSphere){
     return elapsedTime - triggerTimeSphere
 }
 
-export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,jsLogo){
+// Flag movement config
+const h = 0.4
+const v = 0.5
+const w = 0.2
+const s = 0.9
+
+setTimeout(() => {
+    positionAttribute = picerFlagTween.geometry.getAttribute( 'position' );
+}, 100);
+const vertex = new Vector3();
+
+export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,picerFlag){
     targetX = mouseX * .001
     targetY = mouseY * .001
     cameraTween = camera
     sceneTween = scene
     jsLogoTween = jsLogo
+    picerFlagTween = picerFlag
 
     const elapsedTime = clock.getElapsedTime()
 
@@ -232,24 +249,28 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         firstTriggerMoon = false
     }
     
-    // Triggers when moon is in front of the camera
+    // Triggers mars scene when moon is in front of the camera
     if (moon.position.x < -0.45 && changePositionTrigger){
 
         // Change camera position to mars
         controls.target = new Vector3(18,-13,20);
         camera.position.set(5.3,-8,26)
         camera.lookAt(new Vector3(18,-13,20))
-        scene.background = marsBackgroundTexture
-
+        if(window.innerWidth>800){
+            scene.background = marsBackgroundTexture
+        } else {
+            scene.background = marsBackgroundMobileTexture
+        }
         // Set mars lights
         pointlight1.intensity = 1
         pointlight3.position.set(-11, 20, 20)
         pointlight3.intensity = 1.8
+        bloomPass.enabled = false
 
         // Click on flag message
         setTimeout(() => {
             $('.instructions-window').css('opacity', '1')
-        }, 2000);
+        }, 1500);
 
         // Delele uneeded items
         disposeEarthScene(scene,earth,astronaut,moon)
@@ -258,8 +279,13 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         changePositionTrigger = false
     }
 
+    if (aboutUsScene){
+        
+        aboutUsScene = false
+    }
+
     if(jsLogo){
-        jsLogo.rotation.z = 0.4 * elapsedTime
+        jsLogo.rotation.z = 6.4 * elapsedTime
     }
 
     if (astronaut){
@@ -267,6 +293,21 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         astronaut.rotation.y = 0.2 * elapsedTime
         astronaut.rotation.z = 0.1 * elapsedTime
     } 
+
+    // Flags movment
+    if(positionAttribute){
+        for (let y=0; y<segH+1; y++) {
+            for (let x=0; x<segW+1; x++) {
+                const index = x + y * (segW+1);
+                vertex.fromBufferAttribute( positionAttribute, index )
+                const time = Date.now() * s / 50;
+                vertex.z = Math.sin(h * x + v * y - time) * w * x / 100
+                picerFlag.geometry.attributes.position.setZ(index, vertex.z)
+            }
+        }
+        picerFlag.geometry.attributes.position.needsUpdate = true;
+        picerFlag.geometry.computeVertexNormals();
+    }
 
     // if(targetX && moonStart===false){
     //     camera.position.x = -0.6 + (targetX/18)

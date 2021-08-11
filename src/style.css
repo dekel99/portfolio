@@ -280,17 +280,11 @@ a:hover {
     -webkit-backdrop-filter: blur( 3.5px );
     display: none;
     scale: 0;
-    animation: scale-up 0.7s ease;
-    animation-fill-mode: both;
-    /* -webkit-transition: all 0.4s ease-in-out;
-    -moz-transition: all 0.4s ease-in-out;
-    -ms-transition: all 0.4s ease-in-out;
-    -o-transition: all 0.4s ease-in-out;
-    transition: all 0.4s ease-in-out; */
     top: 0;
     bottom: 0;
+    animation: scale-up 0.7s ease;
+    animation-fill-mode: both;
     z-index: 104;
-    
     }
 
 @keyframes scale-up {
@@ -470,13 +464,19 @@ a:hover {
     .heading-container{
         right: 0;
         left: 0;
-        top: 100px;
+        top: 80px;
         width: 70vw;
         margin: auto;
         font-size: 10px;
+        padding-top: 5px;
+        background: rgba(94, 94, 94, 0.164);
+
     }
     .view-btn{
         font-size: 16px;
+        height: 40px;
+        width: 45%;
+        margin-top: 0px;
     }
     .backBtn{
         width: 70px;
@@ -491,7 +491,7 @@ a:hover {
     .picer-project-window{
         margin: auto;
         width: 80vw;
-        /* height: 670px; */
+        height: 34em;
         right: 0;
         left: 0;
         top: 0;
@@ -500,11 +500,14 @@ a:hover {
     .sapochat-project-window{
         margin: auto;
         width: 80vw;
-        /* height: 700px; */
+        height: 31em;
         right: 0;
         left: 0;
         top: 0;
         bottom: 0;
+    }
+    .app-description--text{
+        font-size: 0.9em;
     }
 }
 
@@ -555,4 +558,5 @@ a:hover {
         height: 360px;
         font-size: 10px;
     }
+
 }

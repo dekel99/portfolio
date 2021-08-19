@@ -4,10 +4,12 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass }  from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { SMAAPass }  from 'three/examples/jsm/postprocessing/SMAAPass';
+import { AfterimagePass } from "three/examples/jsm/postprocessing/AfterimagePass"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TextureLoader } from "three/src/loaders/TextureLoader.js"
 import { Lensflare, LensflareElement } from './lensflare.js'
+import { WebGLRenderer } from 'three';
 import { animate } from './animate';
 import Stats from 'stats.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
@@ -81,48 +83,42 @@ GLTFloader.load("/textures/sun/scene.gltf", function(gltf){
 GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
     mars = gltf.scene
     mars.scale.set(0.71, 0.7, 0.7)
-    mars.position.set(20.5,-15,20)
+
+    mars.position.set(1,1,1)
+    setTimeout(() => {
+        mars.position.set(20.5,-15,20)
+    }, 300);
     scene.add( mars )
 })
-// GLTFloader.load("/textures/flag/scene.gltf", function(gltf){
-//     flag = gltf.scene
-//     // flag3 = gltf.scene.clone();
-//     // console.log(flag3)
+// GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
+//     let spaceship = gltf.scene
+//     spaceship.scale.set(0.2,0.2,0.2)
+//     spaceship.rotation.y = 1.57
+//     spaceship.position.set(25,24.92,0.1)
 
-//     flag.scale.set(0.03, 0.03, 0.03)
-//     flag.position.set(8.7,-10.5,24.5)
-//     flag.rotation.y = 0.3
-//     scene.add( flag )
+//     scene.add( spaceship )
 
-//     // flag3.scale.set(0.03, 0.03, 0.03)
-//     // flag3.position.set(8.7,-9.5,23.5)
-//     // flag3.rotation.y = 0.3
-//     // scene.add( flag3 )
+//     const spaceshipFolder = gui.addFolder("spaceship")
+//     spaceshipFolder.add(spaceship.position,"x").min(24).max(26).step(0.01)
+//     spaceshipFolder.add(spaceship.position,"y").min(24).max(26).step(0.01)
+//     spaceshipFolder.add(spaceship.position,"z").min(-1).max(1).step(0.01)
+//     spaceshipFolder.add(spaceship.rotation,"y").min(1).max(2).step(0.01)
+//     spaceshipFolder.add(spaceship.rotation,"z").min(0).max(3).step(0.01)
+//     spaceshipFolder.add(spaceship.rotation,"x").min(0).max(3).step(0.01)
 
-//     flagMixer = new THREE.AnimationMixer( gltf.scene );
-//     var action = flagMixer.clipAction( gltf.animations[0] );
-// 	action.play();
+
 // })
-// GLTFloader.load("/textures/flag2/scene.gltf", function(gltf){
-//     flag2 = gltf.scene
-//     flag2.scale.set(0.03, 0.03, 0.03)
-//     flag2.position.set(12,-10.8,20)
-//     flag2.rotation.y = 0.3
-//     scene.add( flag2 )
-
-//     flag2Mixer = new THREE.AnimationMixer( gltf.scene );
-//     var action = flag2Mixer.clipAction( gltf.animations[0] );
-// 	action.play();
+// GLTFloader.load("/textures/3d-logos/mongoDB-logo.glb", function(gltf){
+//     jsLogo = gltf.scene
+//     jsLogo.scale.set(0.1, 0.1, 0.1)
+//     jsLogo.position.set(8.7,-9.6,24.6)
+//     jsLogo.rotation.z = (1)
+//     jsLogo.rotation.x = (1.55)
+//     // scene.add( jsLogo )
 // })
-GLTFloader.load("/textures/3d-logos/mongoDB-logo.glb", function(gltf){
-    jsLogo = gltf.scene
-    jsLogo.scale.set(0.1, 0.1, 0.1)
-    jsLogo.position.set(8.7,-9.6,24.6)
-    jsLogo.rotation.z = (1)
-    jsLogo.rotation.x = (1.55)
-    // scene.add( jsLogo )
-})
-
+const axesHelper = new THREE.AxesHelper( 25 );
+axesHelper.position.set(25,25,0)
+scene.add( axesHelper );
 // Debug
 const gui = new dat.GUI()
 
@@ -131,7 +127,7 @@ const canvas = document.querySelector('canvas.webgl')
 
 //----------------------------- Geometry -----------------------------------
 const geometry = new THREE.SphereBufferGeometry(1,60,60)
-const moonGeometry = new THREE.SphereBufferGeometry(0.5,60,60)
+const moonGeometry = new THREE.SphereBufferGeometry(0.5,40,40)
 const blackSphereGeometry = new THREE.SphereBufferGeometry(3,30,30)
 const poleGeometry = new THREE.CylinderGeometry(0.008,0.008,1.1,16,1);
 const flagGeometry = new THREE.PlaneGeometry(sizeW,sizeH,segW,segH);
@@ -318,7 +314,7 @@ cameraFolder.add(camera.position,"z").min(-50).max(50).step(0.01)
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
-
+// let controls
 // ------------------------------- Renderer ---------------------------------------
  
 const renderer = new THREE.WebGLRenderer({
@@ -329,6 +325,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+// renderer.initTexture(mars)
 
 // -------------------------------user data-------------------------------------
 
@@ -340,6 +337,10 @@ sapochatFlag.userData = {name: "sapochat-flag"}
 earth.position.set(-0.7,-0.5,0)
 moon.position.set(4,1,4)
 blackSphere.position.set(8.2,-9.2,25)
+// setTimeout(() => {
+//     mars.position.set(1,1,1)
+
+// }, 500);
 
 picerPole.position.set(8.515,-9.98,24.09)
 picerFlag.position.set(8.6,-9.6,24.3)
@@ -367,20 +368,64 @@ if(window.innerWidth<800){
 // pointlight3.position.set(-11, 20, 20)
 // blackSphere.position.set(1,1,1)
 
+//------------------------------- Paricles ---------------------------------
+let starGeo
+let stars
+
+// Geometry
+starGeo = new THREE.BufferGeometry()
+const startsCount = 1000
+
+// Texture
+let starTexture = textureLoader.load("/textures/particle.png")
+
+// Stars material
+let starMaterial = new THREE.PointsMaterial({
+    color: "white",
+    size: 0.01,
+    alphaMap: starTexture,
+    transparent: true,
+    depthWrite: false
+})
+
+// Create array
+const starsPositions = new Float32Array(startsCount * 3)
+
+// Stars position
+for ( let i = 0; i < startsCount; i++ ) {
+    let i3 = i * 3
+    starsPositions[i3] = (Math.random() - 0.5) * 3
+    starsPositions[i3+1] = (Math.random() - 0.5) * 3
+    starsPositions[i3+2] = (Math.random() - 0.5) * 12.4
+}
+
+
+// Push positions
+starGeo.setAttribute( 'position', new THREE.BufferAttribute( starsPositions, 3 ) );
+
+// Particles mesh
+stars = new THREE.Points(starGeo, starMaterial)
+// const aboutUsStars = stars.clone()
+stars.position.set(-0.5, 0.2, 5)
+// aboutUsStars.position.set(20, 15, 0)
+scene.add(stars)
+// scene.add(aboutUsStars)
+
+
+
 //--------------------------------Post processing---------------------------------
 
 // Render target
 let RenderTargerClass = null
 
-console.log(renderer.getPixelRatio())
 
-if (renderer.getPixelRatio() === 1 && renderer.capabilities.isWebGL2){
-    RenderTargerClass = THREE.WebGLMultisampleRenderTarget
-    console.log("useing WebGLMultisampleRenderTarget")
-} else {
+// if (renderer.getPixelRatio() === 1 && renderer.capabilities.isWebGL2){
+//     RenderTargerClass = THREE.WebGLMultisampleRenderTarget
+//     console.log("using WebGLMultisampleRenderTarget")
+// } else {
     RenderTargerClass = THREE.WebGLRenderTarget
-    console.log("useing WebGLRenderTarget")
-}
+    console.log("using WebGLRenderTarget")
+// }
 
 const renderTarget = new RenderTargerClass(
     800,
@@ -403,7 +448,11 @@ composer.setSize(sizes.width, sizes.height)
 const bloomPass = new UnrealBloomPass({x: sizes.height, y: sizes.width}, 0.2, 0 ,0.5)
 composer.addPass(bloomPass)
 
-if (renderer.getPixelRatio() === 1 && !renderer.capabilities.isWebGL2){
+const afterImage = new AfterimagePass(0)
+afterImage.enabled = false
+composer.addPass(afterImage)
+
+if (renderer.getPixelRatio() < 1.5){ // && !renderer.capabilities.isWebGL2){
     const smaaPass = new SMAAPass(sizes.width, sizes.height)
     composer.addPass(smaaPass)
     smaaPass.enabled = true
@@ -424,9 +473,31 @@ const tick = () =>
 {
     stats.begin();
 
-    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,picerFlag)
+    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,composer)
     
-    composer.render(scene, camera)
+    // for ( let i = 0; i < startsCount ; i++ ) {
+    //     const i3 = i * 3
+
+    //     if (!way[i]){
+    //         way[i] = (Math.random() - 0.5) / 10000
+    //     }
+
+    //     starsPositions[i3] += way[i] 
+    //     starsPositions[i3+1] += way[i] 
+    //     starsPositions[i3+2] += way[i] 
+
+    //     stars.geometry.attributes.position.array[i3+2] = starsPositions[i3+2]
+
+    //     // if(starsPositions[i3+2] > 5){
+    //     //     starsPositions[i3+2] = -5
+    //     // }
+    // }
+
+    
+    // stars.geometry.attributes.position.needsUpdate = true;
+
+
+    // composer.render(scene, camera)
 
     stats.end()
     // Call tick again on the next frame

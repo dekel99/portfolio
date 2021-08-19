@@ -21,6 +21,7 @@ body
 
 .webgl
 {
+    position: fixed;
     top: 0;
     left: 0;
     outline: none;
@@ -51,6 +52,7 @@ a:hover {
     -webkit-backdrop-filter: blur( 3.5px );
     top: 30vh;
     right: 20vw;
+    /* z-index: 100; */
 }
 
 @keyframes fade-out {
@@ -349,7 +351,7 @@ a:hover {
 }
 
 .nav-bar{
- position: absolute;
+ position: fixed;
  margin: auto;
  top: 15px;
  right: 0;
@@ -381,7 +383,7 @@ a:hover {
 }
 
 .navbar-window{
-    position: absolute;
+    position: fixed;
     top: -450px;
     right: 0;
     left: 0;
@@ -460,6 +462,62 @@ a:hover {
     left: 0;
     margin: auto;
 }
+
+.about-us-container{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    /* top: 50%;
+    transform: translateY(-50%); */
+}
+
+#main-scroll{  
+    position: absolute;
+    height: 200%;
+    width: 100%;
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    overflow:scroll */
+}
+
+.about-us-text-container{
+    position: absolute;
+    width: 500px;
+    height: 200px;
+    margin: auto;
+    /* right: 0; */
+    left: 50%;
+    top: 50vh;
+    transform: translate(-50%,-50%);
+    /* bottom: 0; */
+}
+
+.about-us-text{
+    position: relative;
+    color: white;
+}
+
+.text-1{
+    opacity: 1;
+    margin-bottom: 500px;
+}
+
+.text-2{
+    opacity: 0;
+    margin-bottom: 500px;
+}
+
+.text-3{
+    opacity: 0;
+    margin-bottom: 500px;
+}
+
+/* Mobile css */
 @media (max-width: 800px) {
     .heading-container{
         right: 0;

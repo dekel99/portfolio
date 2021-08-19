@@ -20,6 +20,15 @@ let moveJs
 let jsLogoTween
 let positionAttribute
 let aboutUsScene = false
+let way = []
+let warpEffect = false
+let starSpeed = 0
+let initialPosition = []
+let initialPositionAboutUs = []
+let acceleration = 0
+let clockReset
+let starClock
+let afterImageTween
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 
 
@@ -101,6 +110,26 @@ $("body").click((e) => {
     }
 
     if (e.target.innerText === "ABOUT US"){
+        $(window).scroll(function(e){
+            let divHieght = $("#about-us-container-id")[0].scrollHeight
+            let winHieght = window.innerHeight
+            let scrollPosition = window.pageYOffset
+        
+            // How much distance client scrolled in %
+            let scrollPassed = Math.round(scrollPosition / (divHieght - winHieght)  * 100)
+
+            // Make stars moves faster with scroll
+            acceleration = scrollPassed/10000
+            afterImageTween.uniforms[ "damp" ].value = scrollPassed/110
+
+
+            $(".text-1").css("opacity",`${-(scrollPassed/20 - 1)}`)
+            $(".text-2").css("opacity",`${scrollPassed/50}`)
+            if(scrollPassed>55){
+                $(".text-2").css("opacity",`${-(scrollPassed/90 - 1)}`)
+            }
+            // $(".text-3").css("opacity",`${scrollPassed/33}`)
+        })
         aboutUsScene = true
     }
 
@@ -156,7 +185,19 @@ $("body").click((e) => {
         }
     }
 })
-               
+
+// Scroll event listener
+// document.onwheel = wheel
+
+// function wheel(e){
+//     if (e.deltaY > 0){
+//         acceleration += 0.001
+//     } else {
+//         acceleration -= 0.001
+//     }
+
+// }         
+
 // Delete uneeded object after moving to mars scene
 function disposeEarthScene(scene,earth,astronaut,moon){
     const disposedItems = [earth,moon]
@@ -168,7 +209,7 @@ function disposeEarthScene(scene,earth,astronaut,moon){
     }
     scene.remove(astronaut)
 }
-
+let test = true
 // Updates mouse cords
 function onDocumentMouseMove(e){
     mouseX = e.clientX
@@ -183,16 +224,6 @@ function onDocumentMouseMove(e){
         createjs.Tween.get(jsLogoTween.position).to({ x: Math.random()*3 + 8.5, y: -9.5, z: Math.random()*3 + 24.6 }, 100, createjs.Ease.getPowInOut(1.2));
     }
 }
-
-// function handleOrientation(e){
-//     var absolute = e.absolute;
-//     var alpha = e.alpha;
-//     var beta = e.beta;
-//     var gamma = e.gamma;
-
-//     mouseX = alpha
-//     mouseY = beta
-// }
 
 // Moon clock ticks only when this runs
 function clockResetMoon(elapsedTime, firstTriggerMoon){
@@ -221,13 +252,14 @@ setTimeout(() => {
 }, 100);
 const vertex = new Vector3();
 
-export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,picerFlag){
+export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,composer){
     targetX = mouseX * .001
     targetY = mouseY * .001
     cameraTween = camera
     sceneTween = scene
     jsLogoTween = jsLogo
     picerFlagTween = picerFlag
+    afterImageTween = afterImage
 
     const elapsedTime = clock.getElapsedTime()
 
@@ -279,21 +311,17 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         changePositionTrigger = false
     }
 
-    if (aboutUsScene){
-        
-        aboutUsScene = false
-    }
-
+    
     if(jsLogo){
         jsLogo.rotation.z = 6.4 * elapsedTime
     }
-
+    
     if (astronaut){
         astronaut.position.x = -0.001 * elapsedTime
         astronaut.rotation.y = 0.2 * elapsedTime
         astronaut.rotation.z = 0.1 * elapsedTime
     } 
-
+    
     // Flags movment
     if(positionAttribute){
         for (let y=0; y<segH+1; y++) {
@@ -308,16 +336,70 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         picerFlag.geometry.attributes.position.needsUpdate = true;
         picerFlag.geometry.computeVertexNormals();
     }
+    
+
+    if (aboutUsScene){
+        camera.position.set(25,25,0)
+        camera.lookAt(new Vector3(25,25,-1))
+        controls.target = new Vector3(25,25,-1)
+        // stars.position.set(25, 25, -1.5)
+        clockReset = elapsedTime
+        // controls.enabled = false
+        bloomPass.strength = 2
+        bloomPass.threshhol = 0.2
+        afterImage.enabled = true
+        $("#about-us-container-id").css("display","unset")
+
+        warpEffect = true
+        aboutUsScene = false
+    }
+
+
+    // Particle animation
+    starSpeed += acceleration
+    starClock = elapsedTime - clockReset
+
+    for ( let i = 0; i < startsCount ; i++ ) {
+        const i3 = i * 3
+
+        if (!way[i3]){
+            way[i3] = (Math.random() - 0.5)
+            way[i3+1] = (Math.random() - 0.5)
+            way[i3+2] = (Math.random() - 0.5)
+            initialPosition[i3] = starsPositions[i3] 
+            initialPosition[i3+1] = starsPositions[i3 +1] 
+            initialPosition[i3+2] = starsPositions[i3 +2] 
+        } else if (warpEffect){
+            if(!initialPositionAboutUs[i3+2]){  
+                initialPositionAboutUs[i3+2] = (Math.random() - 0.5) * 6
+            } else {
+                starsPositions[i3+2] = initialPositionAboutUs[i3+2] + starClock + starSpeed
+
+                if(starsPositions[i3+2] > 3){
+                    initialPositionAboutUs[i3+2] = -3 - starClock - starSpeed
+                }
+            }
+        } else {
+            starsPositions[i3] = initialPosition[i3] + way[i3] * (elapsedTime / 50)
+            starsPositions[i3+1] = initialPosition[i3+1] + way[i3+1] * (elapsedTime / 50)
+            starsPositions[i3+2] = initialPosition[i3+2] + way[i3+2] * (elapsedTime / 50)
+        }
+    }
+
+    stars.geometry.attributes.position.needsUpdate = true;
 
     // if(targetX && moonStart===false){
     //     camera.position.x = -0.6 + (targetX/18)
     //     camera.position.y = 0.15 + (targetY/18)
     // }
+        
+        
+        // Update Orbital Controls
+        // controls.update()
+        
+        // Render
+        // renderer.render(scene, camera)
+        composer.render(scene, camera)
 
-
-    // Update Orbital Controls
-    // controls.update()
-
-    // Render
-    renderer.render(scene, camera)
-}
+    }
+    

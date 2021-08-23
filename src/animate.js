@@ -491,22 +491,22 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
     stars.geometry.attributes.position.needsUpdate = true;
 
-    if(targetX && moonStart===false && !mobileControls){
+    if(targetX && moonStart===false && !gammaRotation){
 
         camera.position.x = (mouse.x/50) - 0.5
         camera.position.y = (mouse.y/50) + 0.2
     }
 
 
-    if(targetX && warpEffect===true){
+    if(targetX && warpEffect===true && !gammaRotation){
         camera.rotation.x = (mouse.y/5)
         camera.rotation.y = -(mouse.x/5) 
     }
 
     // console.log(gammaRotation)
-    if(gammaRotation){
-        camera.position.x = gammaRotation/50
-        camera.position.y = alphaRotation/50
+    if(gammaRotation && moonStart===false){
+        camera.position.x = gammaRotation/10
+        camera.position.y = alphaRotation/10
     }
         
     // Update Orbital Controls

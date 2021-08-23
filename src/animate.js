@@ -276,12 +276,12 @@ $("body").click((e) => {
 
 // }         
 
-// window.addEventListener('deviceorientation', function(e) {
-//     gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
-//     console.log(gammaRotation)
-//     console.log(e.gamma)
-//     console.log("test")
-// }, true);
+window.addEventListener('deviceorientation', function(e) {
+    gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
+    console.log(gammaRotation)
+    console.log(e.gamma)
+    console.log("test")
+});
 
 // Delete uneeded object after moving to mars scene
 function disposeEarthScene(scene,earth,astronaut,moon){

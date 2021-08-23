@@ -13,7 +13,7 @@ import { WebGLRenderer } from 'three';
 import { animate } from './animate';
 import Stats from 'stats.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { DeviceOrientationControls } from '../node_modules/three/examples/jsm/controls/DeviceOrientationControls'
+// import { DeviceOrientationControls } from '../node_modules/three/examples/jsm/controls/DeviceOrientationControls'
 import './style.css'
 
 // Show fps config
@@ -365,7 +365,7 @@ if(window.innerWidth<800){
     camera.lookAt(0,0.5,0)
     scene.background = backgroundMobileTexture
     sunMainFlare.size = 500
-    mobileControls = new DeviceOrientationControls(camera)
+    // mobileControls = new DeviceOrientationControls(camera)
 } else if (window.innerWidth<1500){}
 
 // Active only when test on mars

@@ -280,6 +280,10 @@ $("body").click((e) => {
 window.addEventListener('deviceorientation', function(e) {
     gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
     alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
+
+    // gammaRotation = e.alpha
+    // alphaRotation = e.alpha
+
 });
 
 // Delete uneeded object after moving to mars scene

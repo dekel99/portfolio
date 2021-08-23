@@ -32,6 +32,7 @@ let afterImageTween
 let bloomPassTween
 let pointlight3Tween
 let gammaRotation
+let alphaRotation
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 
 
@@ -278,9 +279,7 @@ $("body").click((e) => {
 
 window.addEventListener('deviceorientation', function(e) {
     gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
-    console.log(gammaRotation)
-    console.log(e.gamma)
-    console.log("test")
+    alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
 });
 
 // Delete uneeded object after moving to mars scene
@@ -506,8 +505,8 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
     // console.log(gammaRotation)
     if(gammaRotation){
-        console.log(gammaRotation)
-        camera.position.y = gammaRotation
+        camera.position.x = gammaRotation/50
+        camera.position.y = alphaRotation/50
     }
         
     // Update Orbital Controls

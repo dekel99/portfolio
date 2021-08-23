@@ -52,7 +52,7 @@ a:hover {
     -webkit-backdrop-filter: blur( 3.5px );
     top: 30vh;
     right: 20vw;
-    /* z-index: 100; */
+    z-index: 100;
 }
 
 @keyframes fade-out {
@@ -210,7 +210,7 @@ a:hover {
 }
 
 .mute-btn{
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     left: 10px;
     width: 35px;
@@ -219,26 +219,30 @@ a:hover {
     background: transparent;
     border-style: none;
     cursor: pointer;
-    z-index: 100;
+    z-index: 101;
 }
 
 .sound-on-icon{
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     left: 10px;
     width: 35px;
     height: 35px;
     color: white;
+    z-index: 100;
+
 }
 
 .sound-off-icon{
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     left: 10px;
     display: none;
     width: 35px;
     height: 35px;
     color: white;
+    z-index: 100;
+
 }
 
 .picer-project-window-container{
@@ -477,7 +481,7 @@ a:hover {
 
 #main-scroll{  
     position: absolute;
-    height: 200%;
+    height: 210%;
     width: 100%;
     /* top: 50%;
     left: 50%;
@@ -515,6 +519,17 @@ a:hover {
 .text-3{
     opacity: 0;
     margin-bottom: 500px;
+}
+
+.white-transision{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: white;
+    display: none;
+    z-index: 105;
 }
 
 /* Mobile css */
@@ -566,6 +581,9 @@ a:hover {
     }
     .app-description--text{
         font-size: 0.9em;
+    }
+    .about-us-text-container{
+        width: 80vw;
     }
 }
 

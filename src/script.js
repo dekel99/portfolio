@@ -13,6 +13,7 @@ import { WebGLRenderer } from 'three';
 import { animate } from './animate';
 import Stats from 'stats.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { DeviceOrientationControls } from '../node_modules/three/examples/jsm/controls/DeviceOrientationControls'
 import './style.css'
 
 // Show fps config
@@ -20,16 +21,12 @@ var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
 
-var sun3
-var astronaut
-var mars
-// var flag
-// var flag2
-// var flag3
-// var flagMixer
-// var flag2Mixer
-var barProgress = 0
-var jsLogo
+let sun3
+let astronaut
+let mars
+let barProgress = 0
+let jsLogo
+let mobileControls
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 
 // Tweenjs improved fps
@@ -67,6 +64,8 @@ const marsBackgroundTexture = textureLoader.load("/textures/mars-sky.jpg")
 const marsBackgroundMobileTexture = textureLoader.load("/textures/mars-sky-mobile.jpg")
 const picerImgTexture = textureLoader.load("/textures/picer-flag.jpeg")
 const sapochatImgTexture = textureLoader.load("/textures/sapochat-flag.jpeg")
+const aboutMeImgTexture = textureLoader.load("/textures/about-me-flag.jpg")
+
 
 
 GLTFloader.load("/textures/astronaut/scene.gltf", function(gltf){
@@ -90,24 +89,24 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
     }, 300);
     scene.add( mars )
 })
-// GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
-//     let spaceship = gltf.scene
-//     spaceship.scale.set(0.2,0.2,0.2)
-//     spaceship.rotation.y = 1.57
-//     spaceship.position.set(25,24.92,0.1)
+GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
+    let spaceship = gltf.scene
+    spaceship.scale.set(0.2,0.2,0.2)
+    spaceship.rotation.y = 1.57
+    spaceship.position.set(25,24.92,0.1)
 
-//     scene.add( spaceship )
+    scene.add( spaceship )
 
-//     const spaceshipFolder = gui.addFolder("spaceship")
-//     spaceshipFolder.add(spaceship.position,"x").min(24).max(26).step(0.01)
-//     spaceshipFolder.add(spaceship.position,"y").min(24).max(26).step(0.01)
-//     spaceshipFolder.add(spaceship.position,"z").min(-1).max(1).step(0.01)
-//     spaceshipFolder.add(spaceship.rotation,"y").min(1).max(2).step(0.01)
-//     spaceshipFolder.add(spaceship.rotation,"z").min(0).max(3).step(0.01)
-//     spaceshipFolder.add(spaceship.rotation,"x").min(0).max(3).step(0.01)
+    const spaceshipFolder = gui.addFolder("spaceship")
+    spaceshipFolder.add(spaceship.position,"x").min(24).max(26).step(0.01)
+    spaceshipFolder.add(spaceship.position,"y").min(24).max(26).step(0.01)
+    spaceshipFolder.add(spaceship.position,"z").min(-1).max(1).step(0.01)
+    spaceshipFolder.add(spaceship.rotation,"y").min(1).max(2).step(0.01)
+    spaceshipFolder.add(spaceship.rotation,"z").min(0).max(3).step(0.01)
+    spaceshipFolder.add(spaceship.rotation,"x").min(0).max(3).step(0.01)
 
 
-// })
+})
 // GLTFloader.load("/textures/3d-logos/mongoDB-logo.glb", function(gltf){
 //     jsLogo = gltf.scene
 //     jsLogo.scale.set(0.1, 0.1, 0.1)
@@ -116,9 +115,7 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
 //     jsLogo.rotation.x = (1.55)
 //     // scene.add( jsLogo )
 // })
-const axesHelper = new THREE.AxesHelper( 25 );
-axesHelper.position.set(25,25,0)
-scene.add( axesHelper );
+
 // Debug
 const gui = new dat.GUI()
 
@@ -140,12 +137,16 @@ const blackSphereMaterial = new THREE.MeshBasicMaterial()
 const poleMaterial = new THREE.MeshPhongMaterial();
 const flagMaterial = new THREE.MeshLambertMaterial({map: picerImgTexture});
 const flag2Material =  new THREE.MeshLambertMaterial({map: sapochatImgTexture});
+const flag3Material =  new THREE.MeshLambertMaterial({map: aboutMeImgTexture});
 
 // picer flag material config
 flagMaterial.color = new THREE.Color(0xC1C1C1)
 
 // sapochat flag material config
 flag2Material.color = new THREE.Color(0xC1C1C1)
+
+// about me flag material config
+flag3Material.color = new THREE.Color(0xC1C1C1)
 
 // picerPole material config
 poleMaterial.color = new THREE.Color(0x282828)
@@ -183,14 +184,18 @@ const moon = new THREE.Mesh(moonGeometry,moonMaterial)
 const blackSphere = new THREE.Mesh(blackSphereGeometry,blackSphereMaterial)
 const picerFlag = new THREE.Mesh(flagGeometry,flagMaterial);
 const sapochatFlag = new THREE.Mesh(flagGeometry,flag2Material);
+const aboutMeFlag = new THREE.Mesh(flagGeometry,flag3Material);
 const picerPole = new THREE.Mesh(poleGeometry,poleMaterial)
 const sapochatPole = picerPole.clone()
+const aboutMePole = picerPole.clone()
 
 
 scene.add(picerFlag)
 scene.add(sapochatFlag)
+scene.add(aboutMeFlag)
 scene.add(picerPole)
 scene.add(sapochatPole)
+scene.add(aboutMePole)
 scene.add(earth)
 scene.add(moon)
 scene.add(blackSphere)
@@ -228,9 +233,9 @@ scene.add(pointlight2)
 
 // gui
 const light2Folder = gui.addFolder("Light 2")
-light2Folder.add(pointlight2.position,"x").min(-6).max(6).step(0.01)
-light2Folder.add(pointlight2.position,"y").min(-6).max(6).step(0.01)
-light2Folder.add(pointlight2.position,"z").min(-6).max(6).step(0.01)
+light2Folder.add(pointlight2.position,"x").min(-80).max(80).step(0.01)
+light2Folder.add(pointlight2.position,"y").min(-80).max(80).step(0.01)
+light2Folder.add(pointlight2.position,"z").min(-80).max(80).step(0.01)
 light2Folder.add(pointlight2,"intensity").min(0).max(10).step(0.01)
 
 const light2Color = { color: 0xffffff}
@@ -251,9 +256,9 @@ scene.add(pointlight3)
 
 // gui
 const light3Folder = gui.addFolder("Light 3")
-light3Folder.add(pointlight3.position,"x").min(-40).max(40).step(0.01)
-light3Folder.add(pointlight3.position,"y").min(-40).max(40).step(0.01)
-light3Folder.add(pointlight3.position,"z").min(-40).max(40).step(0.01)
+light3Folder.add(pointlight3.position,"x").min(-80).max(80).step(0.01)
+light3Folder.add(pointlight3.position,"y").min(-80).max(80).step(0.01)
+light3Folder.add(pointlight3.position,"z").min(-80).max(80).step(0.01)
 light3Folder.add(pointlight3,"intensity").min(0).max(10).step(0.01)
 
 const light3Color = { color: 0xff0000}
@@ -314,6 +319,7 @@ cameraFolder.add(camera.position,"z").min(-50).max(50).step(0.01)
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
+controls.enabled = false
 // let controls
 // ------------------------------- Renderer ---------------------------------------
  
@@ -331,16 +337,13 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 picerFlag.userData = {name: "picer-flag"}
 sapochatFlag.userData = {name: "sapochat-flag"}
+aboutMeFlag.userData = {name: "about-me-flag"}
 
 //---------------------------------position----------------------------------
 
 earth.position.set(-0.7,-0.5,0)
 moon.position.set(4,1,4)
 blackSphere.position.set(8.2,-9.2,25)
-// setTimeout(() => {
-//     mars.position.set(1,1,1)
-
-// }, 500);
 
 picerPole.position.set(8.515,-9.98,24.09)
 picerFlag.position.set(8.6,-9.6,24.3)
@@ -350,16 +353,23 @@ sapochatPole.position.set(11.865,-10.18,19.69)
 sapochatFlag.position.set(11.95,-9.8,19.9)
 sapochatFlag.rotation.y = -1.2
 
+aboutMePole.position.set(16.865,-9.18,16.69)
+aboutMeFlag.position.set(17.15,-7.85,17.43)
+aboutMeFlag.rotation.y = -1.2
+aboutMeFlag.scale.set(3.5,3.5,3.5)
+aboutMePole.scale.set(3.5,3.5,3.5)
+
 // JS breakpoints 
 if(window.innerWidth<800){
     camera.position.set(-0.7, 0.18, 2.7)
     camera.lookAt(0,0.5,0)
     scene.background = backgroundMobileTexture
     sunMainFlare.size = 500
+    mobileControls = new DeviceOrientationControls(camera)
 } else if (window.innerWidth<1500){}
 
 // Active only when test on mars
-// controls.target = new THREE.Vector3(18,-13,20);
+// controls.target = new THREE.Vector3(18,-13,20)
 // camera.position.set(5.3,-8,26)
 // camera.lookAt(new THREE.Vector3(18,-13,20))
 // scene.background = marsBackgroundTexture
@@ -399,25 +409,19 @@ for ( let i = 0; i < startsCount; i++ ) {
     starsPositions[i3+2] = (Math.random() - 0.5) * 12.4
 }
 
-
 // Push positions
 starGeo.setAttribute( 'position', new THREE.BufferAttribute( starsPositions, 3 ) );
 
 // Particles mesh
 stars = new THREE.Points(starGeo, starMaterial)
-// const aboutUsStars = stars.clone()
 stars.position.set(-0.5, 0.2, 5)
-// aboutUsStars.position.set(20, 15, 0)
 scene.add(stars)
-// scene.add(aboutUsStars)
-
 
 
 //--------------------------------Post processing---------------------------------
 
 // Render target
 let RenderTargerClass = null
-
 
 // if (renderer.getPixelRatio() === 1 && renderer.capabilities.isWebGL2){
 //     RenderTargerClass = THREE.WebGLMultisampleRenderTarget
@@ -473,29 +477,7 @@ const tick = () =>
 {
     stats.begin();
 
-    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,composer)
-    
-    // for ( let i = 0; i < startsCount ; i++ ) {
-    //     const i3 = i * 3
-
-    //     if (!way[i]){
-    //         way[i] = (Math.random() - 0.5) / 10000
-    //     }
-
-    //     starsPositions[i3] += way[i] 
-    //     starsPositions[i3+1] += way[i] 
-    //     starsPositions[i3+2] += way[i] 
-
-    //     stars.geometry.attributes.position.array[i3+2] = starsPositions[i3+2]
-
-    //     // if(starsPositions[i3+2] > 5){
-    //     //     starsPositions[i3+2] = -5
-    //     // }
-    // }
-
-    
-    // stars.geometry.attributes.position.needsUpdate = true;
-
+    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,composer)
 
     // composer.render(scene, camera)
 

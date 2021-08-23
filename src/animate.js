@@ -1,5 +1,5 @@
 // import {OrbitControls} from 'three';
-import {Vector3, Vector2, Raycaster} from 'three';
+import {Vector3, Vector2, Raycaster, Color} from 'three';
 
 let mouseX
 let mouseY
@@ -29,6 +29,9 @@ let acceleration = 0
 let clockReset
 let starClock
 let afterImageTween
+let bloomPassTween
+let pointlight3Tween
+let gammaRotation
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 
 
@@ -110,6 +113,17 @@ $("body").click((e) => {
     }
 
     if (e.target.innerText === "ABOUT US"){
+
+        $("document").ready(function(){
+            const divsHeight = $('#text-1-id').height() + $('#text-2-id').height() + $('#text-3-id').height()
+            const totalHeight = divsHeight + 1000 + window.innerHeight + (- $('#text-1-id').height()/2)// - ($('#text-3-id').height()/2)
+            
+            console.log(divsHeight)
+
+            $("#main-scroll").css("height", `${totalHeight}`)
+        })
+
+
         $(window).scroll(function(e){
             let divHieght = $("#about-us-container-id")[0].scrollHeight
             let winHieght = window.innerHeight
@@ -124,11 +138,11 @@ $("body").click((e) => {
 
 
             $(".text-1").css("opacity",`${-(scrollPassed/20 - 1)}`)
-            $(".text-2").css("opacity",`${scrollPassed/50}`)
+            $(".text-2").css("opacity",`${(scrollPassed)/50}`)
             if(scrollPassed>55){
-                $(".text-2").css("opacity",`${-(scrollPassed/90 - 1)}`)
+                $(".text-2").css("opacity",`${-((scrollPassed-55)/20 - 1)}`)
+                $(".text-3").css("opacity",`${(scrollPassed-55)/45}`)
             }
-            // $(".text-3").css("opacity",`${scrollPassed/33}`)
         })
         aboutUsScene = true
     }
@@ -182,6 +196,70 @@ $("body").click((e) => {
                 $('.sapochat-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
                 waiting = false
             }, 2300);
+
+        } else if (found[0].object.userData.name==="about-me-flag"){
+            createjs.Tween.get(bloomPassTween).to({threshold: 0}, 2000);
+            createjs.Tween.get(bloomPassTween).to({strength: 10}, 2000);
+
+            function lightMoves(){
+                createjs.Tween.get(pointlight3Tween).to({intensity: 4}, 2000);
+                createjs.Tween.get(pointlight3Tween.position).to({z: 200}, 13000, createjs.Ease.getPowInOut(3));
+                setTimeout(() => {
+                    createjs.Tween.get(pointlight3Tween).to({intensity: 0}, 5000);
+                    setTimeout(() => {
+                        createjs.Tween.get(pointlight3Tween.position).to({z: -200}, 500, createjs.Ease.getPowInOut(3));
+                    }, 5000);
+                }, 8000);
+
+            }
+
+            setTimeout(() => {
+                $('.white-transision').css("display","unset")
+                
+                setTimeout(() => {
+                    $("document").ready(function(){
+                        const divsHeight = $('#text-1-id').height() + $('#text-2-id').height() + $('#text-3-id').height()
+                        const totalHeight = divsHeight + 1000 + window.innerHeight + (- $('#text-1-id').height()/2)// - ($('#text-3-id').height()/2)
+                        
+                        console.log(divsHeight)
+            
+                        $("#main-scroll").css("height", `${totalHeight}`)
+                    })
+            
+                    $(window).scroll(function(e){
+                        let divHieght = $("#about-us-container-id")[0].scrollHeight
+                        let winHieght = window.innerHeight
+                        let scrollPosition = window.pageYOffset
+                    
+                        // How much distance client scrolled in %
+                        let scrollPassed = Math.round(scrollPosition / (divHieght - winHieght)  * 100)
+            
+                        // Make stars moves faster with scroll
+                        acceleration = scrollPassed/10000
+                        afterImageTween.uniforms[ "damp" ].value = scrollPassed/110
+            
+            
+                        $(".text-1").css("opacity",`${-(scrollPassed/20 - 1)}`)
+                        $(".text-2").css("opacity",`${(scrollPassed)/50}`)
+                        if(scrollPassed>55){
+                            $(".text-2").css("opacity",`${-((scrollPassed-55)/20 - 1)}`)
+                            $(".text-3").css("opacity",`${(scrollPassed-55)/45}`)
+                        }
+                    })
+                
+                    aboutUsScene = true
+                    $('.white-transision').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
+                }, 300);
+
+                setTimeout(() => {
+                    lightMoves()
+                    setInterval(() => {
+                        lightMoves()
+                    }, 20000);
+                    $( ".white-transision" ).remove();
+                }, 2000);
+            }, 2000);
+            
         }
     }
 })
@@ -198,6 +276,13 @@ $("body").click((e) => {
 
 // }         
 
+// window.addEventListener('deviceorientation', function(e) {
+//     gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
+//     console.log(gammaRotation)
+//     console.log(e.gamma)
+//     console.log("test")
+// }, true);
+
 // Delete uneeded object after moving to mars scene
 function disposeEarthScene(scene,earth,astronaut,moon){
     const disposedItems = [earth,moon]
@@ -209,7 +294,7 @@ function disposeEarthScene(scene,earth,astronaut,moon){
     }
     scene.remove(astronaut)
 }
-let test = true
+
 // Updates mouse cords
 function onDocumentMouseMove(e){
     mouseX = e.clientX
@@ -241,6 +326,7 @@ function clockResetSphere(elapsedTime,firstTriggerSphere){
     return elapsedTime - triggerTimeSphere
 }
 
+
 // Flag movement config
 const h = 0.4
 const v = 0.5
@@ -252,14 +338,17 @@ setTimeout(() => {
 }, 100);
 const vertex = new Vector3();
 
-export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,blackSphere,pointlight1,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,composer){
+export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,composer){
     targetX = mouseX * .001
     targetY = mouseY * .001
     cameraTween = camera
     sceneTween = scene
-    jsLogoTween = jsLogo
+    // jsLogoTween = jsLogo
     picerFlagTween = picerFlag
     afterImageTween = afterImage
+    bloomPassTween = bloomPass
+    pointlight3Tween = pointlight3
+
 
     const elapsedTime = clock.getElapsedTime()
 
@@ -285,7 +374,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     if (moon.position.x < -0.45 && changePositionTrigger){
 
         // Change camera position to mars
-        controls.target = new Vector3(18,-13,20);
+        // controls.target = new Vector3(18,-13,20);
         camera.position.set(5.3,-8,26)
         camera.lookAt(new Vector3(18,-13,20))
         if(window.innerWidth>800){
@@ -297,7 +386,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         pointlight1.intensity = 1
         pointlight3.position.set(-11, 20, 20)
         pointlight3.intensity = 1.8
-        bloomPass.enabled = false
+        bloomPass.strength = 0
 
         // Click on flag message
         setTimeout(() => {
@@ -312,9 +401,9 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     }
 
     
-    if(jsLogo){
-        jsLogo.rotation.z = 6.4 * elapsedTime
-    }
+    // if(jsLogo){
+    //     jsLogo.rotation.z = 6.4 * elapsedTime
+    // }
     
     if (astronaut){
         astronaut.position.x = -0.001 * elapsedTime
@@ -335,21 +424,36 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         }
         picerFlag.geometry.attributes.position.needsUpdate = true;
         picerFlag.geometry.computeVertexNormals();
-    }
-    
+    }    
 
     if (aboutUsScene){
         camera.position.set(25,25,0)
         camera.lookAt(new Vector3(25,25,-1))
-        controls.target = new Vector3(25,25,-1)
-        // stars.position.set(25, 25, -1.5)
+
+        // controls.target = new Vector3(25,25,-1)
+        stars.position.set(25, 25, -1.5)
         clockReset = elapsedTime
         // controls.enabled = false
-        bloomPass.strength = 2
-        bloomPass.threshhol = 0.2
+
+        pointlight1.intensity = 0
+        pointlight2.intensity = 1.2
+        pointlight2.position.set(25,24.9,0.6)
+        pointlight2.color = new Color(0xff9393)
+        pointlight3.intensity = 0
+        pointlight3.position.set(-100,-40,-200)
+
+        bloomPassTween.strength = 0.4
+        bloomPassTween.threshold = 0.15
+            
         afterImage.enabled = true
         $("#about-us-container-id").css("display","unset")
 
+        if(window.innerWidth>800){
+            scene.background = backgroundTexture
+        } else {
+            scene.background = backgroundMobileTexture
+        }
+        
         warpEffect = true
         aboutUsScene = false
     }
@@ -388,18 +492,30 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
     stars.geometry.attributes.position.needsUpdate = true;
 
-    // if(targetX && moonStart===false){
-    //     camera.position.x = -0.6 + (targetX/18)
-    //     camera.position.y = 0.15 + (targetY/18)
-    // }
+    if(targetX && moonStart===false && !mobileControls){
+
+        camera.position.x = (mouse.x/50) - 0.5
+        camera.position.y = (mouse.y/50) + 0.2
+    }
+
+
+    if(targetX && warpEffect===true){
+        camera.rotation.x = (mouse.y/5)
+        camera.rotation.y = -(mouse.x/5) 
+    }
+
+    // console.log(gammaRotation)
+    if(gammaRotation){
+        console.log(gammaRotation)
+        camera.position.y = gammaRotation
+    }
         
-        
-        // Update Orbital Controls
-        // controls.update()
-        
-        // Render
-        // renderer.render(scene, camera)
-        composer.render(scene, camera)
+    // Update Orbital Controls
+    // controls.update()
+    // mobileControls && mobileControls.update()
+    // Render
+    // renderer.render(scene, camera)
+    composer.render(scene, camera)
 
     }
     

@@ -278,11 +278,11 @@ $("body").click((e) => {
 // }         
 
 window.addEventListener('deviceorientation', function(e) {
-    // gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
-    // alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
+    gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
+    alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
 
-    gammaRotation = e.alpha
-    alphaRotation = e.alpha
+    // gammaRotation = e.alpha
+    // alphaRotation = e.alpha
 
 });
 
@@ -509,8 +509,8 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
     // console.log(gammaRotation)
     if(gammaRotation && moonStart===false){
-        camera.position.x = gammaRotation/10
-        camera.position.y = alphaRotation/10
+        camera.position.x = gammaRotation/10 - 0.5
+        camera.position.y = alphaRotation/10 + 0.2
     }
         
     // Update Orbital Controls

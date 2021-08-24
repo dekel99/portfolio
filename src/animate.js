@@ -509,7 +509,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     }
 
     // console.log(gammaRotation)
-    if(gammaRotation && moonStart===false && prevAlpha){
+    if(gammaRotation && moonStart===false && prevAlpha - alphaRotation >! 1 || prevAlpha - alphaRotation <! -1){
         camera.position.x = gammaRotation/10 - 0.5
         camera.position.y = alphaRotation/10 + 0.2
         

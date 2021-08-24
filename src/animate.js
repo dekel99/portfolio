@@ -31,9 +31,9 @@ let starClock
 let afterImageTween
 let bloomPassTween
 let pointlight3Tween
-let gammaRotation
-let alphaRotation
-let prevAlpha
+// let gammaRotation
+// let alphaRotation
+// let prevAlpha
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 
 
@@ -278,15 +278,15 @@ $("body").click((e) => {
 
 // }         
 
-window.addEventListener('deviceorientation', function(e) {
-    // gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
-    // alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
+// window.addEventListener('deviceorientation', function(e) {
+//     // gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
+//     // alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
 
-    // console.log(e.alpha,e.gamma)
-    gammaRotation = e.gamma
-    alphaRotation = e.alpha
+//     // console.log(e.alpha,e.gamma)
+//     gammaRotation = e.gamma
+//     alphaRotation = e.alpha
 
-});
+// });
 
 // Delete uneeded object after moving to mars scene
 function disposeEarthScene(scene,earth,astronaut,moon){
@@ -497,25 +497,24 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
     stars.geometry.attributes.position.needsUpdate = true;
 
-    if(targetX && moonStart===false && !gammaRotation){
+    // if(targetX && moonStart===false && !gammaRotation){
 
-        camera.position.x = (mouse.x/50) - 0.5
-        camera.position.y = (mouse.y/50) + 0.2
-    }
+    //     camera.position.x = (mouse.x/50) - 0.5
+    //     camera.position.y = (mouse.y/50) + 0.2
+    // }
 
 
-    if(targetX && warpEffect===true && !gammaRotation){
+    if(targetX && warpEffect===true){
         camera.rotation.x = (mouse.y/5)
         camera.rotation.y = -(mouse.x/5) 
     }
 
-    // console.log(gammaRotation)
-    if(gammaRotation && moonStart===false && prevAlpha - alphaRotation < 10 || alphaRotation - prevAlpha < 10){
-        // camera.position.x = gammaRotation/10 - 0.5
-        camera.position.y = alphaRotation/10 + 0.2
+    // if(gammaRotation && moonStart===false && prevAlpha - alphaRotation < 10 || alphaRotation - prevAlpha < 10){
+    //     // camera.position.x = gammaRotation/10 - 0.5
+    //     camera.position.y = alphaRotation/10 + 0.2
         
-        prevAlpha = alphaRotation
-    }
+    //     prevAlpha = alphaRotation
+    // }
         
     // Update Orbital Controls
     // controls.update()

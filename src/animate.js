@@ -33,6 +33,7 @@ let bloomPassTween
 let pointlight3Tween
 let gammaRotation
 let alphaRotation
+let prevAlpha
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 
 
@@ -513,7 +514,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         camera.position.x = gammaRotation/10 - 0.5
         camera.position.y = alphaRotation/10 + 0.2
         
-        let prevAlpha = alphaRotation
+        prevAlpha = alphaRotation
     }
         
     // Update Orbital Controls

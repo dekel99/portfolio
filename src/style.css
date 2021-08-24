@@ -430,7 +430,7 @@ a:hover {
     color: white;
 }
 
-.instructions-window{
+.instructions-window-mars{
     position: absolute;
     top: 50px;
     right: 0;
@@ -448,8 +448,32 @@ a:hover {
     -ms-transition: all 0.4s ease-in-out;
     -o-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
+    z-index: 101;
     opacity: 0;
 }
+
+.instructions-window-spaceship{
+    position: fixed;
+    top: 50px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 300px;
+    height: 100px;
+    color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 5px;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    z-index: 101;
+    opacity: 0;
+}
+
 
 .instructions-content{
     position: absolute;
@@ -462,6 +486,14 @@ a:hover {
 .lottie-click{
     position: absolute;
     top: -25px;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+.lottie-scroll{
+    position: absolute;
+    top: -20px;
     right: 0;
     left: 0;
     margin: auto;

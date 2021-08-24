@@ -171,7 +171,7 @@ $("body").click((e) => {
      
     // Handle flag clicks
     if (found[0] && !waiting){
-        $('.instructions-window').css('opacity', '0')
+        $('.instructions-window-mars').css('opacity', '0')
         
         if (found[0].object.userData.name==="picer-flag"){
             waiting = true
@@ -200,6 +200,9 @@ $("body").click((e) => {
             }, 2300);
 
         } else if (found[0].object.userData.name==="about-me-flag"){
+            $('.picer-project-window').css('display', 'none')
+            $('.sapochat-project-window').css('display', 'none')
+            $('.backBtn').css('display', 'none')
             createjs.Tween.get(bloomPassTween).to({threshold: 0}, 2000);
             createjs.Tween.get(bloomPassTween).to({strength: 10}, 2000);
 
@@ -212,7 +215,6 @@ $("body").click((e) => {
                         createjs.Tween.get(pointlight3Tween.position).to({z: -200}, 500, createjs.Ease.getPowInOut(3));
                     }, 5000);
                 }, 8000);
-
             }
 
             setTimeout(() => {
@@ -232,7 +234,10 @@ $("body").click((e) => {
                         let divHieght = $("#about-us-container-id")[0].scrollHeight
                         let winHieght = window.innerHeight
                         let scrollPosition = window.pageYOffset
-                    
+
+                        // Remove instructions window 
+                        $('.instructions-window-spaceship').css('opacity', '0')
+
                         // How much distance client scrolled in %
                         let scrollPassed = Math.round(scrollPosition / (divHieght - winHieght)  * 100)
             
@@ -395,7 +400,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
         // Click on flag message
         setTimeout(() => {
-            $('.instructions-window').css('opacity', '1')
+            $('.instructions-window-mars').css('opacity', '1')
         }, 1500);
 
         // Delele uneeded items
@@ -452,6 +457,9 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
             
         afterImage.enabled = true
         $("#about-us-container-id").css("display","unset")
+        setTimeout(() => {
+            $('.instructions-window-spaceship').css('opacity', '1')
+        }, 1500);
 
         if(window.innerWidth>800){
             scene.background = backgroundTexture

@@ -281,7 +281,7 @@ window.addEventListener('deviceorientation', function(e) {
     gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
     alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
 
-    console.log(alphaRotation,gammaRotation)
+    console.log(e.alpha,e.gamma)
     // gammaRotation = e.alpha
     // alphaRotation = e.alpha
 
@@ -509,9 +509,11 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
     }
 
     // console.log(gammaRotation)
-    if(gammaRotation && moonStart===false){
+    if(gammaRotation && moonStart===false && prevAlpha){
         camera.position.x = gammaRotation/10 - 0.5
         camera.position.y = alphaRotation/10 + 0.2
+        
+        let prevAlpha = alphaRotation
     }
         
     // Update Orbital Controls

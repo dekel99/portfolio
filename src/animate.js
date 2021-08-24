@@ -281,6 +281,7 @@ window.addEventListener('deviceorientation', function(e) {
     gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
     alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
 
+    console.log(alphaRotation,gammaRotation)
     // gammaRotation = e.alpha
     // alphaRotation = e.alpha
 

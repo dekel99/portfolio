@@ -91,10 +91,19 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
 })
 GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
     let spaceship = gltf.scene
+
+    spaceship.traverse( function(children) {
+        if (children.isMesh){
+            let spaceshipMaterial = children.material 
+            spaceshipMaterial.polygonOffset = true
+            spaceshipMaterial.polygonOffsetUnits = -100000
+            spaceshipMaterial.polygonOffsetFactor = -100000
+        }
+    });
+
     spaceship.scale.set(0.2,0.2,0.2)
     spaceship.rotation.y = 1.57
     spaceship.position.set(25,24.92,0.1)
-
     scene.add( spaceship )
 
     const spaceshipFolder = gui.addFolder("spaceship")
@@ -131,13 +140,14 @@ const flagGeometry = new THREE.PlaneGeometry(sizeW,sizeH,segW,segH);
 
 
 //----------------------------- Materials ----------------------------------
-const earthMaterial = new THREE.MeshStandardMaterial({map: earthTexture})
+const earthMaterial = new THREE.MeshStandardMaterial({map: earthTexture,})
 const moonMaterial = new THREE.MeshStandardMaterial({map: moonTexture})
 const blackSphereMaterial = new THREE.MeshBasicMaterial()
 const poleMaterial = new THREE.MeshPhongMaterial();
 const flagMaterial = new THREE.MeshLambertMaterial({map: picerImgTexture});
 const flag2Material =  new THREE.MeshLambertMaterial({map: sapochatImgTexture});
 const flag3Material =  new THREE.MeshLambertMaterial({map: aboutMeImgTexture});
+
 
 // picer flag material config
 flagMaterial.color = new THREE.Color(0xC1C1C1)
@@ -189,6 +199,9 @@ const picerPole = new THREE.Mesh(poleGeometry,poleMaterial)
 const sapochatPole = picerPole.clone()
 const aboutMePole = picerPole.clone()
 
+// earthMaterial.polygonOffset = true
+// earthMaterial.polygonOffsetUnits = -10000
+// earthMaterial.polygonOffsetFactor = -10000
 
 scene.add(picerFlag)
 scene.add(sapochatFlag)

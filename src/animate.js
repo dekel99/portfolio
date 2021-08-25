@@ -31,6 +31,7 @@ let starClock
 let afterImageTween
 let bloomPassTween
 let pointlight3Tween
+let returned
 // let gammaRotation
 // let alphaRotation
 // let prevAlpha
@@ -41,6 +42,7 @@ const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 let mainSound = $("#main-sound")[0]
 $(window).focus(function() {
     $('.sound-off-icon').css("display") === "none" && mainSound.play()
+    returned = true
 });
 $(window).blur(function() {
     mainSound.pause()
@@ -57,7 +59,7 @@ document.addEventListener("mousemove", onDocumentMouseMove)
 // View our project button event listener
 $(".view-btn").click(() => {
     moonStart = true
-    createjs.Tween.get(cameraTween.position).to({ z: 11.5, y: 1 }, 8000, createjs.Ease.getPowInOut(3)).wait(500);
+    createjs.Tween.get(cameraTween.position).to({ z: 11.5, y: 1 }, 8000, createjs.Ease.getPowInOut(3));
     $('.heading-container').css('animation', 'fade-out 0.5s ease').css("animation-fill-mode","both");
     $('.picer-project-window-container').css('display', 'unset')
     $('.backBtn').css('display', 'unset')
@@ -218,11 +220,14 @@ $("body").click((e) => {
             }
 
             setTimeout(() => {
+                $("#about-us-container-id").css("display","unset")
                 $('.white-transision').css("display","unset")
+                $('.instructions-window-mars').css('display', 'unset')
+                const divsHeight = $('#text-1-id').height() + $('#text-2-id').height() + $('#text-3-id').height()
                 
                 setTimeout(() => {
                     $("document").ready(function(){
-                        const divsHeight = $('#text-1-id').height() + $('#text-2-id').height() + $('#text-3-id').height()
+                        
                         const totalHeight = divsHeight + 1000 + window.innerHeight + (- $('#text-1-id').height()/2)// - ($('#text-3-id').height()/2)
                         
                         console.log(divsHeight)
@@ -244,7 +249,6 @@ $("body").click((e) => {
                         // Make stars moves faster with scroll
                         acceleration = scrollPassed/10000
                         afterImageTween.uniforms[ "damp" ].value = scrollPassed/110
-            
             
                         $(".text-1").css("opacity",`${-(scrollPassed/20 - 1)}`)
                         $(".text-2").css("opacity",`${(scrollPassed)/50}`)
@@ -270,18 +274,7 @@ $("body").click((e) => {
         }
     }
 })
-
-// Scroll event listener
-// document.onwheel = wheel
-
-// function wheel(e){
-//     if (e.deltaY > 0){
-//         acceleration += 0.001
-//     } else {
-//         acceleration -= 0.001
-//     }
-
-// }         
+      
 
 // window.addEventListener('deviceorientation', function(e) {
 //     // gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
@@ -440,8 +433,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         camera.position.set(25,25,0)
         camera.lookAt(new Vector3(25,25,-1))
 
-        // controls.target = new Vector3(25,25,-1)
-        stars.position.set(25, 25, -1.5)
+        // stars.position.set(25, 25, -1.5)
         clockReset = elapsedTime
         // controls.enabled = false
 
@@ -456,7 +448,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         bloomPassTween.threshold = 0.15
             
         afterImage.enabled = true
-        $("#about-us-container-id").css("display","unset")
         setTimeout(() => {
             $('.instructions-window-spaceship').css('opacity', '1')
         }, 1500);
@@ -466,15 +457,22 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
         } else {
             scene.background = backgroundMobileTexture
         }
-        
         warpEffect = true
         aboutUsScene = false
     }
 
+    if (returned && warpEffect){
+        clockReset = elapsedTime
+        initialPositionAboutUs = []
+        starSpeed = 0
+        returned = false
+    } 
 
     // Particle animation
     starSpeed += acceleration
     starClock = elapsedTime - clockReset
+
+    // console.log(starClock)
 
     for ( let i = 0; i < startsCount ; i++ ) {
         const i3 = i * 3
@@ -505,13 +503,13 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,co
 
     stars.geometry.attributes.position.needsUpdate = true;
 
-    // if(targetX && moonStart===false && !gammaRotation){
-
+    // Camera movment while on earth scene
+    // if(targetX && moonStart===false){
     //     camera.position.x = (mouse.x/50) - 0.5
     //     camera.position.y = (mouse.y/50) + 0.2
     // }
 
-
+    // Camera movment while on spaceship scene
     if(targetX && warpEffect===true){
         camera.rotation.x = (mouse.y/5)
         camera.rotation.y = -(mouse.x/5) 

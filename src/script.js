@@ -13,7 +13,6 @@ import { WebGLRenderer } from 'three';
 import { animate } from './animate';
 import Stats from 'stats.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-// import { DeviceOrientationControls } from '../node_modules/three/examples/jsm/controls/DeviceOrientationControls'
 import './style.css'
 
 // Show fps config
@@ -21,6 +20,7 @@ var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
 
+let spaceship
 let sun3
 let astronaut
 let mars
@@ -64,8 +64,7 @@ const marsBackgroundTexture = textureLoader.load("/textures/mars-sky.jpg")
 const marsBackgroundMobileTexture = textureLoader.load("/textures/mars-sky-mobile.jpg")
 const picerImgTexture = textureLoader.load("/textures/picer-flag.jpeg")
 const sapochatImgTexture = textureLoader.load("/textures/sapochat-flag.jpeg")
-const aboutMeImgTexture = textureLoader.load("/textures/about-me-flag.jpg")
-
+// const aboutMeImgTexture = textureLoader.load("/textures/about-me-flag.jpg")
 
 
 GLTFloader.load("/textures/astronaut/scene.gltf", function(gltf){
@@ -90,16 +89,15 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
     scene.add( mars )
 })
 GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
-    let spaceship = gltf.scene
+    spaceship = gltf.scene
 
-    spaceship.traverse( function(children) {
-        if (children.isMesh){
-            let spaceshipMaterial = children.material 
-            spaceshipMaterial.polygonOffset = true
-            spaceshipMaterial.polygonOffsetUnits = -100000
-            spaceshipMaterial.polygonOffsetFactor = -100000
-        }
-    });
+    // spaceship.traverse( function(children) {
+    //     if (children.isMesh){
+    //         let spaceshipMaterial = children.material 
+    //         children.material.depthTest = false
+    //         children.renderOrder = 1;
+    //     }
+    // });
 
     spaceship.scale.set(0.2,0.2,0.2)
     spaceship.rotation.y = 1.57
@@ -134,7 +132,7 @@ const canvas = document.querySelector('canvas.webgl')
 //----------------------------- Geometry -----------------------------------
 const geometry = new THREE.SphereBufferGeometry(1,60,60)
 const moonGeometry = new THREE.SphereBufferGeometry(0.5,40,40)
-const blackSphereGeometry = new THREE.SphereBufferGeometry(3,30,30)
+const blackSphereGeometry = new THREE.CircleGeometry( 0.2, 64 )
 const poleGeometry = new THREE.CylinderGeometry(0.008,0.008,1.1,16,1);
 const flagGeometry = new THREE.PlaneGeometry(sizeW,sizeH,segW,segH);
 
@@ -146,8 +144,7 @@ const blackSphereMaterial = new THREE.MeshBasicMaterial()
 const poleMaterial = new THREE.MeshPhongMaterial();
 const flagMaterial = new THREE.MeshLambertMaterial({map: picerImgTexture});
 const flag2Material =  new THREE.MeshLambertMaterial({map: sapochatImgTexture});
-const flag3Material =  new THREE.MeshLambertMaterial({map: aboutMeImgTexture});
-
+// const flag3Material =  new THREE.MeshLambertMaterial({map: aboutMeImgTexture});
 
 // picer flag material config
 flagMaterial.color = new THREE.Color(0xC1C1C1)
@@ -156,7 +153,7 @@ flagMaterial.color = new THREE.Color(0xC1C1C1)
 flag2Material.color = new THREE.Color(0xC1C1C1)
 
 // about me flag material config
-flag3Material.color = new THREE.Color(0xC1C1C1)
+// flag3Material.color = new THREE.Color(0xC1C1C1)
 
 // picerPole material config
 poleMaterial.color = new THREE.Color(0x282828)
@@ -165,6 +162,9 @@ poleMaterial.shininess = 30
 
 // black sphere material config
 blackSphereMaterial.color = new THREE.Color(0x0)
+// blackSphereMaterial.polygonOffset = true
+// blackSphereMaterial.polygonOffsetUnits = -555551
+// blackSphereMaterial.polygonOffsetFactor = -100000000
 
 // moon material config 
 moonMaterial.color = new THREE.Color(0x282828)
@@ -194,21 +194,17 @@ const moon = new THREE.Mesh(moonGeometry,moonMaterial)
 const blackSphere = new THREE.Mesh(blackSphereGeometry,blackSphereMaterial)
 const picerFlag = new THREE.Mesh(flagGeometry,flagMaterial);
 const sapochatFlag = new THREE.Mesh(flagGeometry,flag2Material);
-const aboutMeFlag = new THREE.Mesh(flagGeometry,flag3Material);
+// const aboutMeFlag = new THREE.Mesh(flagGeometry,flag3Material);
 const picerPole = new THREE.Mesh(poleGeometry,poleMaterial)
 const sapochatPole = picerPole.clone()
-const aboutMePole = picerPole.clone()
-
-// earthMaterial.polygonOffset = true
-// earthMaterial.polygonOffsetUnits = -10000
-// earthMaterial.polygonOffsetFactor = -10000
+// const aboutMePole = picerPole.clone()
 
 scene.add(picerFlag)
 scene.add(sapochatFlag)
-scene.add(aboutMeFlag)
+// scene.add(aboutMeFlag)
 scene.add(picerPole)
 scene.add(sapochatPole)
-scene.add(aboutMePole)
+// scene.add(aboutMePole)
 scene.add(earth)
 scene.add(moon)
 scene.add(blackSphere)
@@ -281,13 +277,21 @@ light3Folder.addColor(light3Color, "color")
     })
 
 //Lensflare
+let flares = []
 const lensflare = new Lensflare();
+
 let sunMainFlare = new LensflareElement( textureFlare0, 700, 0 )
 lensflare.addElement( sunMainFlare );
-lensflare.addElement( new LensflareElement( textureFlare1, 60, 0.6 ) );
-lensflare.addElement( new LensflareElement( textureFlare1, 70, 0.7 ) );
-lensflare.addElement( new LensflareElement( textureFlare1, 120, 0.9 ) );
-lensflare.addElement( new LensflareElement( textureFlare1, 70, 1 ) );
+
+flares.push(new LensflareElement( textureFlare1, 60, 0.6 )) 
+flares.push(new LensflareElement( textureFlare1, 70, 0.7 )) 
+flares.push(new LensflareElement( textureFlare1, 120, 0.9 ))
+flares.push(new LensflareElement( textureFlare1, 70, 1 )) 
+
+for(let i=0; i<flares.length; i++){
+    lensflare.addElement(flares[i])
+}
+
 pointlight1.add( lensflare )
 
 //------------------------------- Window size ---------------------------------
@@ -319,7 +323,7 @@ window.addEventListener('resize', () =>
 //-------------------------------- Camera --------------------------------
 
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.04, 100)
 camera.position.set(-0.5, 0.2, 2)
 scene.add(camera)
 
@@ -344,19 +348,17 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-// renderer.initTexture(mars)
 
 // -------------------------------user data-------------------------------------
 
 picerFlag.userData = {name: "picer-flag"}
 sapochatFlag.userData = {name: "sapochat-flag"}
-aboutMeFlag.userData = {name: "about-me-flag"}
 
 //---------------------------------position----------------------------------
 
 earth.position.set(-0.7,-0.5,0)
 moon.position.set(4,1,4)
-blackSphere.position.set(8.2,-9.2,25)
+blackSphere.position.set(25,25,-0.07)
 
 picerPole.position.set(8.515,-9.98,24.09)
 picerFlag.position.set(8.6,-9.6,24.3)
@@ -366,11 +368,11 @@ sapochatPole.position.set(11.865,-10.18,19.69)
 sapochatFlag.position.set(11.95,-9.8,19.9)
 sapochatFlag.rotation.y = -1.2
 
-aboutMePole.position.set(16.865,-9.18,16.69)
-aboutMeFlag.position.set(17.15,-7.85,17.43)
-aboutMeFlag.rotation.y = -1.2
-aboutMeFlag.scale.set(3.5,3.5,3.5)
-aboutMePole.scale.set(3.5,3.5,3.5)
+// aboutMePole.position.set(16.865,-9.18,16.69)
+// aboutMeFlag.position.set(17.15,-7.85,17.43)
+// aboutMeFlag.rotation.y = -1.2
+// aboutMeFlag.scale.set(3.5,3.5,3.5)
+// aboutMePole.scale.set(3.5,3.5,3.5)
 
 // JS breakpoints 
 if(window.innerWidth<800){
@@ -408,7 +410,7 @@ let starMaterial = new THREE.PointsMaterial({
     size: 0.01,
     alphaMap: starTexture,
     transparent: true,
-    depthWrite: false
+    depthWrite: false,
 })
 
 // Create array
@@ -431,6 +433,10 @@ stars.position.set(-0.5, 0.2, 5)
 scene.add(stars)
 
 
+// stars.material.map = starTexture
+// stars.material.transparent = false
+// stars.material.depthTest = false
+// stars.renderOrder = 0
 //--------------------------------Post processing---------------------------------
 
 // Render target
@@ -485,12 +491,12 @@ bloomPassFolder.add(bloomPass.resolution,"x").min(0).max(2000).step(0.01)
 
 // ---------------------------- Frame requests -----------------------------
 const clock = new THREE.Clock()
-
+gui.destroy()
 const tick = () =>
 {
     stats.begin();
 
-    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,composer)
+    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,sun3,sunMainFlare,flares,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,starTexture,composer,spaceship)
 
     // composer.render(scene, camera)
 

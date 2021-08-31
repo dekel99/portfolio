@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
+    <!-- <meta name="mobile-web-app-capable" content="yes"> -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/ddijwyj2m/image/upload/v1630437229/assetes-portfolio/axlynzfvwmuseaxucors.png"/>
+    <title>Dekel Luski - Portfolio</title>
 </head>
 <body>
     <div class="loading-bar-cover">
@@ -14,6 +16,26 @@
             <div class="loading-bar"></div>
             <h3 class="loading-heading">Get ready to take off...</h3>
             <h3 id="enter-btn-id" class="enter-btn">ENTER</h3>
+        </div>
+    </div>
+
+    <div id="journey-window-id" class="navbar-window">
+        <svg id="close-journey-win" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x close-contact" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <div class="contact-details">
+            <span class="journey-text-earth">Earth (Homepage)</span>
+            <br>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+            </svg><br>
+            <span class="journey-text-spaceship">Spaceship (About me)</span> <br>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+            </svg><br>
+            <span class="journey-text-mars">Mars (Projects)</span> 
         </div>
     </div>
 
@@ -51,41 +73,47 @@
             Astronaut model by EvgenyS - sketchfab.com <br>
             Sun model by VIS-All-3D - sketchfab.com <br>
             <br>
+            Favicon made by Pixel perfect from <a href="https://www.flaticon.com/" title="Flaticon">flaticon</a></div>
+            <br>
             Mars sky image by DarinK - deviantart.com <br>
             Earth & moon images - solarsystemscope.com
         </p>
     </div>
 
     <div class="nav-bar">
+        <div class="journey">
+            <p>JOURNEY</p>
+        </div>
         <div class="contact-us">
             <p>CONTACT US</p>
-        </div>
-        <div class="about-us">
-            <p>ABOUT US</p>
         </div>
         <div class="credits">
             <p>CREDITS</p>
         </div>
     </div>
 
-
     <div class="heading-container">
         <h4 class="heading-name">HI MY NAME IS DEKEL</h4>
-        <h1 class="heading-text">And this is a small journy that<br/> have no limits, not even the sky <br/></h1>
+        <h1 class="heading-text">And this is a small journey that<br/> have no limits, not even the sky <br/></h1>
         <br/>
         <button name="veiwWrok" class="view-btn">Lets go!</button>
-        <!-- <p class="heading-text">We don't believe in boundries</p> -->
     </div>
-    <div class="instructions-window-mars">
+    <div id="window-mars-animation" class="instructions-window">
         <div class="instructions-content">
             Pick a flag to view work!
             <lottie-player class="lottie-click" src="https://assets2.lottiefiles.com/packages/lf20_HW7ZtQ.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px;"  loop  autoplay></lottie-player>
         </div>
     </div>
-    <div class="instructions-window-spaceship">
+    <div id="window-spaceship-animation" class="instructions-window">
         <div class="instructions-content">
             Scroll to increase speed!
             <lottie-player class="lottie-scroll" src="https://assets1.lottiefiles.com/packages/lf20_pjiv9snj.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px;"  loop  autoplay></lottie-player>
+        </div>
+    </div>
+    <div id="window-arrival-animation" class="instructions-window">
+        <div class="instructions-content">
+            Mars arrival in: <br>
+            <h1 class="timer">00:59</h1>        
         </div>
     </div>
     <div class="backBtn">
@@ -138,7 +166,6 @@
                     <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
                   </svg>
             </a>
-            <!-- <p style="font-weight: 600;" class="app-description--text">Technologies used:</p> -->
         </div>
     </div>
 
@@ -149,12 +176,20 @@
                 <br>
                 <p id="text-2-id" class="about-us-text text-2">I'm a self-learner, naturally curious, and I like to bring my ideas to life through technologies.</p>
                 <br>
-                <p id="text-3-id" class="about-us-text text-3">Thanks for visiting. <br>Reload </p>
+                <p id="text-3-id" class="about-us-text text-3">Technologies I'm using:<br>HTML, CSS, Javascript, React, Next, Nodejs, Express<br><br><span class="skip-travel">Skip travel</span></p>
             </div>
         </div>
     </div>
 
     <div class="white-transision"></div>
+
+    <button id="toggle-screen-size-btn-id" class="toggle-screen-size-btn"></button>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-contract small-screen-icon" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707zM15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707z"/>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-expand full-screen-icon" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z"/>
+    </svg>
 
     <button id="mute-btn-id" class="mute-btn"></button>
     <svg id="sound-on-icon-id" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-up-fill sound-on-icon" viewBox="0 0 16 16">

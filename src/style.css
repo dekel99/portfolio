@@ -1,23 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Exo+2&family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quantico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 *
 {
     margin: 0;
     padding: 0;
 }
 
+
 html,
 body
 {
-    height: 100vh;
     font-family: 'Quantico','Open Sans', "sans-serif";
     text-align: center;
+    height: 100vh;
 }
 
-/* h3{
-    font-size: 1rem;
-} */
+
 
 .webgl
 {
@@ -101,7 +101,8 @@ a:hover {
 .backBtn{
     position: absolute;
     bottom: 70px;
-    right: 70px;
+    right: 50%;
+    transform: translateX(50%);
     width: 120px;
     height: 120px;
     border-radius: 100%;
@@ -207,6 +208,40 @@ a:hover {
     -ms-transition: all 0.4s ease-in-out;
     -o-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
+}
+
+.toggle-screen-size-btn{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    color:white;
+    background: transparent;
+    border-style: none;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.small-screen-icon{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    color: white;
+    z-index: 100;
+    display: none;
+}
+
+.full-screen-icon{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    color: white;
+    z-index: 100;
 }
 
 .mute-btn{
@@ -363,7 +398,9 @@ a:hover {
  z-index: 103;
 }
 
-.about-us{
+.journey{
+    margin: 7px;
+    margin-top: 0;
     position: relative;
     color: white;
     display: inline-block;
@@ -371,7 +408,8 @@ a:hover {
 }
 
 .contact-us{
-    right: 20px;
+    margin: 7px;
+    margin-top: 0;
     cursor: pointer;
     position: relative;
     color: white;
@@ -379,7 +417,8 @@ a:hover {
 }
 
 .credits{
-    left: 20px;
+    margin: 7px;
+    margin-top: 0;
     cursor: pointer;
     position: relative;
     color: white;
@@ -409,6 +448,18 @@ a:hover {
     z-index: 104;
 }
 
+.journey-text-earth{
+    font-weight: 1000;
+}
+
+.journey-text-spaceship{
+    
+}
+
+.journey-text-mars{
+    
+}
+
 .close-contact{
     position: absolute;
     top: 7px;
@@ -430,29 +481,7 @@ a:hover {
     color: white;
 }
 
-.instructions-window-mars{
-    position: absolute;
-    top: 50px;
-    right: 0;
-    left: 0;
-    margin: auto;
-    width: 300px;
-    height: 100px;
-    color: white;
-    border-style: solid;
-    border-width: 1px;
-    border-color: white;
-    border-radius: 5px;
-    -webkit-transition: all 0.4s ease-in-out;
-    -moz-transition: all 0.4s ease-in-out;
-    -ms-transition: all 0.4s ease-in-out;
-    -o-transition: all 0.4s ease-in-out;
-    transition: all 0.4s ease-in-out;
-    z-index: 101;
-    opacity: 0;
-}
-
-.instructions-window-spaceship{
+.instructions-window{
     position: fixed;
     top: 50px;
     right: 0;
@@ -465,12 +494,33 @@ a:hover {
     border-width: 1px;
     border-color: white;
     border-radius: 5px;
+    z-index: 101;
+}
+
+#window-mars-animation{
     -webkit-transition: all 0.4s ease-in-out;
     -moz-transition: all 0.4s ease-in-out;
     -ms-transition: all 0.4s ease-in-out;
     -o-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
-    z-index: 101;
+    opacity: 0;
+}
+
+#window-spaceship-animation{
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    opacity: 0;
+}
+
+#window-arrival-animation{
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
     opacity: 0;
 }
 
@@ -507,18 +557,18 @@ a:hover {
     right: 0;
     left: 0;
     z-index: 100;
-    /* top: 50%;
-    transform: translateY(-50%); */
+
 }
 
-#main-scroll{  
+/* #main-scroll{  
     position: absolute;
     height: 210%;
     width: 100%;
-    /* top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    overflow:scroll */
+} */
+
+.timer{
+    font-family: 'Orbitron', sans-serif;
+    margin-top: 8px;
 }
 
 .about-us-text-container{
@@ -526,11 +576,9 @@ a:hover {
     width: 500px;
     height: 200px;
     margin: auto;
-    /* right: 0; */
     left: 50%;
     top: 50vh;
     transform: translate(-50%,-50%);
-    /* bottom: 0; */
 }
 
 .about-us-text{
@@ -539,18 +587,44 @@ a:hover {
 }
 
 .text-1{
-    opacity: 1;
+    opacity: 0;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
     margin-bottom: 500px;
 }
 
 .text-2{
     opacity: 0;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
     margin-bottom: 500px;
 }
 
 .text-3{
     opacity: 0;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
     margin-bottom: 500px;
+}
+
+.skip-travel{
+    cursor: pointer;
+    color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
 }
 
 .white-transision{
@@ -561,7 +635,7 @@ a:hover {
     left: 0;
     background-color: white;
     display: none;
-    z-index: 105;
+    z-index: 106;
 }
 
 /* Mobile css */
@@ -586,7 +660,8 @@ a:hover {
     .backBtn{
         width: 70px;
         height: 70px;
-        right: 20px;
+        right: 50%;
+        transform: translateX(50%);
         bottom: 20px;
     }
     .iconBtn {
@@ -639,9 +714,10 @@ a:hover {
         margin: 0;
     }
     .backBtn{
-        width: 70px;
-        height: 70px;
-        right: 15px;
+        width: 100px;
+        height: 100px;
+        right: 50%;
+        transform: translateX(50%);
         bottom: 15px;
     }
     .iconBtn {

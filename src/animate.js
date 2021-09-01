@@ -43,7 +43,6 @@ let lightIntesnsityTimeout
 let lightBackTimeOut
 let particles = true
 let mobile
-let firstEnter = true
 // let gammaRotation
 // let alphaRotation
 // let prevAlpha
@@ -636,10 +635,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
     }
         
     // Camera movment while on earth scene
-    // if(targetX && moonStart===false && !mobile){
-    //     camera.position.x = (mouse.x/50) - 0.5
-    //     camera.position.y = (mouse.y/50) + 0.2
-    // }
 
     // Camera movment while on spaceship scene
     if(targetX && warpEffect && !mobile){

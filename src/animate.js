@@ -1,6 +1,7 @@
 // import {OrbitControls} from 'three';
 import {Vector3, Vector2, Raycaster, Color, WebGLRenderTarget} from 'three';
 import { startTimer } from "./countdown"
+import { spaceshipIntroText } from "./spaceshipIntroText"
 
 let mouseX
 let mouseY
@@ -17,7 +18,7 @@ let triggerTimeMoon
 let firstTriggerMoon = true
 let triggerTimeSphere
 let firstTriggerSphere = true
-let waiting = false
+let waiting = true
 let moveJs
 let jsLogoTween
 let positionAttribute
@@ -47,6 +48,8 @@ let mobile
 // let alphaRotation
 // let prevAlpha
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
+let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+
 
 if(window.innerWidth<800){
     mobile = true
@@ -124,20 +127,26 @@ $("body").click((e) => {
     }
 
     // Handle navbar windows & clicks
-    if (e.target.innerText === "CONTACT US"){
-        $('#credits-window-id').css('top') === "50px" && $('#credits-window-id').css('top', '-400px')
-        $('#journey-window-id').css('top') === "50px" && $('#journey-window-id').css('top', '-400px')
-        $('#contact-us-window-id').css('top', '50px')
-    } else if(e.target.id==="canvas-id" || e.target.id==="mars-cover-div" || e.target.id==="close-contact-win"){
-        $('#contact-us-window-id').css('top', '-400px')
-    }
-
     if (e.target.innerText === "JOURNEY"){
         $('#credits-window-id').css('top') === "50px" && $('#credits-window-id').css('top', '-400px')
         $('#contact-us-window-id').css('top') === "50px" && $('#contact-us-window-id').css('top', '-400px')
         $('#journey-window-id').css('top', '50px')
     } else if(e.target.id==="canvas-id" || e.target.id==="mars-cover-div" || e.target.id==="close-journey-win"){
         $('#journey-window-id').css('top', '-400px')
+    }
+
+    if (e.target.innerText === "MY WORK"){
+        $('.static-work-container').css('top', '0')
+    } else if(e.target.id==="close-work-win"){
+        $('.static-work-container').css('top', '100%')
+    }
+
+    if (e.target.innerText === "CONTACT ME"){
+        $('#credits-window-id').css('top') === "50px" && $('#credits-window-id').css('top', '-400px')
+        $('#journey-window-id').css('top') === "50px" && $('#journey-window-id').css('top', '-400px')
+        $('#contact-us-window-id').css('top', '50px')
+    } else if(e.target.id==="canvas-id" || e.target.id==="mars-cover-div" || e.target.id==="close-contact-win"){
+        $('#contact-us-window-id').css('top', '-400px')
     }
 
     if (e.target.innerText === "CREDITS"){
@@ -225,7 +234,6 @@ function spaceshipScene(){
         lightsInterval = setInterval(() => {
             lightMoves()
         }, 20000);
-        // $( ".white-transision" ).remove();
     }, 2000);    
     
     // Enable scene container & animates in text
@@ -235,8 +243,13 @@ function spaceshipScene(){
     
     setTimeout(() => {
         $(".text-1").css("opacity","1")
+        if(isSafari) {
+            $('.lottie-scroll-safary').css('display', 'unset')
+            $('.lottie-scroll').css('display', 'none')
+        }
         $('#window-spaceship-animation').css('opacity', '1')
-    }, 500);
+        spaceshipIntroText()
+    }, 800);
 
     // $('.white-transision').css("display","unset")
     $('#window-spaceship-animation').css('display', 'unset')
@@ -269,7 +282,7 @@ function spaceshipScene(){
         let scrollPassed = Math.round(scrollPosition / (divHieght - winHieght)  * 100)
         
         // Make stars moves faster with scroll
-        acceleration = scrollPassed/10000
+        acceleration = scrollPassed/5000
         afterImageTween.uniforms[ "damp" ].value = scrollPassed/110
         
         // Set timer and make faster by scrolling
@@ -280,19 +293,19 @@ function spaceshipScene(){
         } else if (scrollPassed === 100){
             startTimer(60, $(".timer"), 4)
         }
+        
+        let fasterMobileDisappear = mobile ? 2 : 1
 
         // Text change opacity while scroll animation
-        $(".text-1").css("opacity",`${-(scrollPassed/20 - 1)}`)
-        $(".text-2").css("opacity",`${(scrollPassed)/50}`)
+        $(".text-1").css("opacity",`${-(scrollPassed/15*fasterMobileDisappear - 1)}`)
+        $(".text-2").css("opacity",`${(scrollPassed^2/2)/50}`)
         if(scrollPassed>55){
-            $(".text-2").css("opacity",`${-((scrollPassed-55)/20 - 1)}`)
+            $(".text-2").css("opacity",`${-((scrollPassed-55)/8*fasterMobileDisappear - 1)}`)
             $(".text-3").css("opacity",`${(scrollPassed-55)/45}`)
         }
     })
         
     spaceshipSceneTrigger = true
-
-    // $('.white-transision').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
 }
 
 function spaceshipEndAnimation(light,light2,sun,mainFlare,flares){
@@ -348,6 +361,7 @@ function marsScene(){
     afterImageTween.enabled = false
     bloomPassTween.enabled = false
     warpEffect = false
+    waiting = false
 
     for(let i=0; i < spaceshipTweens.length; i++){
         spaceshipTweens[i].setPaused(true)
@@ -635,6 +649,10 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
     }
         
     // Camera movment while on earth scene
+    if(targetX && moonStart===false && !mobile){
+        camera.position.x = (mouse.x/50) - 0.5
+        camera.position.y = (mouse.y/50) + 0.2
+    }
 
     // Camera movment while on spaceship scene
     if(targetX && warpEffect && !mobile){

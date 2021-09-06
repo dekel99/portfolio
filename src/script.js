@@ -11,13 +11,13 @@ import { TextureLoader } from "three/src/loaders/TextureLoader.js"
 import { Lensflare, LensflareElement } from './lensflare.js'
 import { WebGLRenderer } from 'three';
 import { animate } from './animate';
-import Stats from 'stats.js';
+// import Stats from 'stats.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import './style.css'
 
 // Show fps config
-var stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+// var stats = new Stats();
+// stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
 
 let spaceship
@@ -494,13 +494,13 @@ const clock = new THREE.Clock()
 gui.destroy()
 const tick = () =>
 {
-    stats.begin();
+    // stats.begin();
 
     animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,sun3,sunMainFlare,flares,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,starTexture,composer,spaceship)
 
     // composer.render(scene, camera)
 
-    stats.end()
+    // stats.end()
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }

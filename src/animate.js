@@ -2,6 +2,7 @@
 import {Vector3, Vector2, Raycaster, Color, WebGLRenderTarget} from 'three';
 import { startTimer } from "./countdown"
 import { spaceshipIntroText } from "./spaceshipIntroText"
+import { disableScroll, enableScroll } from "./scrollToggle"
 
 let mouseX
 let mouseY
@@ -44,12 +45,22 @@ let lightIntesnsityTimeout
 let lightBackTimeOut
 let particles = true
 let mobile
-// let gammaRotation
-// let alphaRotation
-// let prevAlpha
+
+disableScroll()
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
-
+function isIphone() {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
 
 if(window.innerWidth<800){
     mobile = true
@@ -114,15 +125,22 @@ $(".backBtn").click(() => {
 $("body").click((e) => {
     mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
-    raycaster.setFromCamera( mouse, cameraTween );
-	const found = raycaster.intersectObjects( sceneTween.children, true );
+    raycaster.setFromCamera(mouse, cameraTween)
+	const found = raycaster.intersectObjects( sceneTween.children, true )
 
     if(e.target.id === "enter-btn-id"){
         mainSound.play()
+        enableScroll()
+        if(isIphone()){
+            $(".backBtn").addClass("iPhoneBackBtn")
+            $(".picer-project-window").addClass("iphone-picer-project-window")
+            $(".sapochat-project-window").addClass("iphone-sapochat-project-window")
+        } else {
+            mobile && toggleFullScreen()
+        }
         $('.loading-bar-cover').css('animation', 'fade-out 2s ease').css("animation-fill-mode","both");
-        mobile && toggleFullScreen()
         setTimeout(() => {
-            $( ".loading-bar-cover" ).remove();
+            $(".loading-bar-cover").remove()
         }, 2000);
     }
 
@@ -251,7 +269,6 @@ function spaceshipScene(){
         spaceshipIntroText()
     }, 800);
 
-    // $('.white-transision').css("display","unset")
     $('#window-spaceship-animation').css('display', 'unset')
     const divsHeight = $('#text-1-id').height() + $('#text-2-id').height() + $('#text-3-id').height()
         
@@ -261,7 +278,6 @@ function spaceshipScene(){
         $("#main-scroll").css("height", `${totalHeight}`)
     })
 
-            
     // Scroll event listener for animations
     $(window).scroll(function(e){
         let divHieght = $("#about-us-container-id")[0].scrollHeight
@@ -330,8 +346,8 @@ function spaceshipEndAnimation(light,light2,sun,mainFlare,flares){
     }, 4000);
 
     setTimeout(() => {
-        $('.white-transision').css("display","unset")
         marsScene()
+        $('.white-transision').css("display","unset")
     }, 8000)
 }
 

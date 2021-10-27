@@ -780,9 +780,13 @@ a:hover {
     .backBtn{
         width: 70px;
         height: 70px;
-        right: 50%;
-        transform: translateX(50%);
         bottom: 20px;
+    }
+
+    .iPhoneBackBtn{
+        width: 70px;
+        height: 70px;
+        bottom: 10px;
     }
 
     .iconBtn {
@@ -800,6 +804,11 @@ a:hover {
         bottom: 0;
     }
 
+    .iphone-picer-project-window{
+        height: 32em;
+        bottom: 50px;
+    }
+
     .sapochat-project-window{
         margin: auto;
         width: 80vw;
@@ -808,6 +817,10 @@ a:hover {
         left: 0;
         top: 0;
         bottom: 0;
+    }
+
+    .iphone-sapochat-project-window{
+        height: 30em;
     }
 
     .app-description--text{

@@ -368,12 +368,6 @@ sapochatPole.position.set(11.865,-10.18,19.69)
 sapochatFlag.position.set(11.95,-9.8,19.9)
 sapochatFlag.rotation.y = -1.2
 
-// aboutMePole.position.set(16.865,-9.18,16.69)
-// aboutMeFlag.position.set(17.15,-7.85,17.43)
-// aboutMeFlag.rotation.y = -1.2
-// aboutMeFlag.scale.set(3.5,3.5,3.5)
-// aboutMePole.scale.set(3.5,3.5,3.5)
-
 // JS breakpoints 
 if(window.innerWidth<800){
     camera.position.set(-0.7, 0.18, 2.7)

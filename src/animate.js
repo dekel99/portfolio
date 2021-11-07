@@ -24,6 +24,7 @@ let moveJs
 let jsLogoTween
 let positionAttribute
 let spaceshipSceneTrigger = false
+let isInSpaceship = false
 let way = []
 let warpEffect = false
 let starSpeed = 0
@@ -45,6 +46,8 @@ let lightIntesnsityTimeout
 let lightBackTimeOut
 let particles = true
 let mobile
+let alphaRotation
+let prevAlphaRotation
 
 disableScroll()
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
@@ -227,7 +230,7 @@ $("body").click((e) => {
 })
 
 function spaceshipScene(){
-
+    isInSpaceship = true
     // Spaceship light animation
     function lightMoves(){
         spaceshipTweens.push(createjs.Tween.get(pointlight3Tween).to({intensity: 4}, 2000))
@@ -352,6 +355,7 @@ function spaceshipEndAnimation(light,light2,sun,mainFlare,flares){
 }
 
 function marsScene(){
+    isInSpaceship = false
     clearTimeout(lightIntesnsityTimeout)
     clearTimeout(lightBackTimeOut)
 
@@ -385,12 +389,15 @@ function marsScene(){
 }
 
 // window.addEventListener('deviceorientation', function(e) {
-//     // gammaRotation = e.gamma ? e.gamma * (Math.PI / 180) : 0;
-//     // alphaRotation = e.alpha ? e.alpha * (Math.PI / 180) : 0;
 
-//     // console.log(e.alpha,e.gamma)
-//     gammaRotation = e.gamma
-//     alphaRotation = e.alpha
+//     if(isInSpaceship){
+//         // camera.position.y += alphaRotation/50 - prevCamY ? prevCamY : 0
+//         console.log("test")
+//         alphaRotation = e.alpha
+
+//         cameraTween.rotation.y += alphaRotation/10 - prevAlphaRotation ? prevAlphaRotation : 0
+//         prevAlphaRotation = alphaRotation
+//     }
 
 // });
 
@@ -675,13 +682,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
         camera.rotation.x = (mouse.y/5)
         camera.rotation.y = -(mouse.x/5) 
     }
-
-    // if(gammaRotation && moonStart===false && prevAlpha - alphaRotation < 10 || alphaRotation - prevAlpha < 10){
-    //     // camera.position.x = gammaRotation/10 - 0.5
-    //     camera.position.y = alphaRotation/10 + 0.2
-        
-    //     prevAlpha = alphaRotation
-    // }
         
     // Update Orbital Controls
     // controls.update()

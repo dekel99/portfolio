@@ -106,6 +106,21 @@ $(".view-btn").click(() => {
     }, 500);
 })
 
+function closeProjectWindows(){
+    $('.picer-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.picer-project-window').css('display', 'none')
+    }, 500);
+    $('.sapochat-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.sapochat-project-window').css('display', 'none')
+    }, 500);
+    $('.imagic-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.imagic-project-window').css('display', 'none')
+    }, 500);
+}
+
 // Go back button event listener
 $(".backBtn").click(() => {
     if (!waiting){
@@ -113,14 +128,7 @@ $(".backBtn").click(() => {
         $('.backBtn').css('opacity', '0')
     
         // Project window close
-        $('.picer-project-window').css('animation', 'scale-down 0.7s ease')
-        setTimeout(function(){
-            $('.picer-project-window').css('display', 'none')
-        }, 500);
-        $('.sapochat-project-window').css('animation', 'scale-down 0.7s ease')
-        setTimeout(function(){
-            $('.sapochat-project-window').css('display', 'none')
-        }, 500);
+        closeProjectWindows()
     }
 })
 
@@ -138,6 +146,7 @@ $("body").click((e) => {
             $(".backBtn").addClass("iPhoneBackBtn")
             $(".picer-project-window").addClass("iphone-picer-project-window")
             $(".sapochat-project-window").addClass("iphone-sapochat-project-window")
+            $(".imagic-project-window").addClass("iphone-imagic-project-window")
         } else {
             mobile && toggleFullScreen()
         }
@@ -218,11 +227,28 @@ $("body").click((e) => {
             
             // Open window project
             $('.picer-project-window').css('animation', 'scale-down 0.5s ease')
+            $('.imagic-project-window').css('animation', 'scale-down 0.5s ease')
+            setTimeout(function(){
+                $('.picer-project-window').css('display', 'none')
+                $('.imagic-project-window').css('display', 'none')
+            }, 500);
+            setTimeout(function(){
+                $('.sapochat-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
+                waiting = false
+            }, 2300);
+
+        } else if (found[0].object.userData.name==="imagic-flag"){
+            createjs.Tween.get(cameraTween.position).to({ x: 8.2, y: -9.5, z: 23 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
+            $('.backBtn').css('opacity', '1')
+            waiting = true
+
+            // Open window project
+            $('.picer-project-window').css('animation', 'scale-down 0.5s ease')
             setTimeout(function(){
                 $('.picer-project-window').css('display', 'none')
             }, 500);
             setTimeout(function(){
-                $('.sapochat-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
+                $('.imagic-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
                 waiting = false
             }, 2300);
         } 

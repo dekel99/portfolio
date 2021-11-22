@@ -64,6 +64,8 @@ const marsBackgroundTexture = textureLoader.load("/textures/mars-sky.jpg")
 const marsBackgroundMobileTexture = textureLoader.load("/textures/mars-sky-mobile.jpg")
 const picerImgTexture = textureLoader.load("/textures/picer-flag.jpeg")
 const sapochatImgTexture = textureLoader.load("/textures/sapochat-flag.jpeg")
+const imagicImgTexture = textureLoader.load("/textures/imagic-flag.jpg")
+
 // const aboutMeImgTexture = textureLoader.load("/textures/about-me-flag.jpg")
 
 
@@ -144,7 +146,7 @@ const blackSphereMaterial = new THREE.MeshBasicMaterial()
 const poleMaterial = new THREE.MeshPhongMaterial();
 const flagMaterial = new THREE.MeshLambertMaterial({map: picerImgTexture});
 const flag2Material =  new THREE.MeshLambertMaterial({map: sapochatImgTexture});
-// const flag3Material =  new THREE.MeshLambertMaterial({map: aboutMeImgTexture});
+const flag3Material =  new THREE.MeshLambertMaterial({map: imagicImgTexture});
 
 // picer flag material config
 flagMaterial.color = new THREE.Color(0xC1C1C1)
@@ -152,8 +154,8 @@ flagMaterial.color = new THREE.Color(0xC1C1C1)
 // sapochat flag material config
 flag2Material.color = new THREE.Color(0xC1C1C1)
 
-// about me flag material config
-// flag3Material.color = new THREE.Color(0xC1C1C1)
+// imagic flag material config
+flag3Material.color = new THREE.Color(0xC1C1C1)
 
 // picerPole material config
 poleMaterial.color = new THREE.Color(0x282828)
@@ -194,17 +196,17 @@ const moon = new THREE.Mesh(moonGeometry,moonMaterial)
 const blackSphere = new THREE.Mesh(blackSphereGeometry,blackSphereMaterial)
 const picerFlag = new THREE.Mesh(flagGeometry,flagMaterial);
 const sapochatFlag = new THREE.Mesh(flagGeometry,flag2Material);
-// const aboutMeFlag = new THREE.Mesh(flagGeometry,flag3Material);
+const imagicFlag = new THREE.Mesh(flagGeometry,flag3Material);
 const picerPole = new THREE.Mesh(poleGeometry,poleMaterial)
 const sapochatPole = picerPole.clone()
-// const aboutMePole = picerPole.clone()
+const imagicPole = picerPole.clone()
 
 scene.add(picerFlag)
 scene.add(sapochatFlag)
-// scene.add(aboutMeFlag)
+scene.add(imagicFlag)
 scene.add(picerPole)
 scene.add(sapochatPole)
-// scene.add(aboutMePole)
+scene.add(imagicPole)
 scene.add(earth)
 scene.add(moon)
 scene.add(blackSphere)
@@ -353,6 +355,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 picerFlag.userData = {name: "picer-flag"}
 sapochatFlag.userData = {name: "sapochat-flag"}
+imagicFlag.userData = {name: "imagic-flag"}
 
 //---------------------------------position----------------------------------
 
@@ -367,6 +370,10 @@ picerFlag.rotation.y = -1.2
 sapochatPole.position.set(11.865,-10.18,19.69)
 sapochatFlag.position.set(11.95,-9.8,19.9)
 sapochatFlag.rotation.y = -1.2
+
+imagicPole.position.set(9.265,-10.18,21.99)
+imagicFlag.position.set(9.35,-9.8,22.2)
+imagicFlag.rotation.y = -1.2
 
 // JS breakpoints 
 if(window.innerWidth<800){

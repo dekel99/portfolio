@@ -335,7 +335,26 @@ a:hover {
     animation: scale-up 0.7s ease;
     animation-fill-mode: both;
     z-index: 104;
-    }
+}
+
+.imagic-project-window{
+    position: absolute;
+    border-radius: 5px;
+    margin: auto;
+    width: 500px;
+    height: 560px;
+    left: calc(50vw + 50px);
+    background: rgba(26, 25, 25, 0.705);
+    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    display: none;
+    animation: scale-up 0.7s ease;
+    animation-fill-mode: both;
+    top: 0;
+    bottom: 0;
+    z-index: 104;
+}
 
 @keyframes scale-up {
     0% {
@@ -368,6 +387,13 @@ a:hover {
 .picer-photo{
     width: 100%;
     height: auto;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.imagic-video{
+    width: 100%;
+    height: 230px;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
 }
@@ -673,6 +699,7 @@ a:hover {
     -o-transition: all 0.6s ease-in-out;
     transition: all 0.6s ease-in-out;
     z-index: 107;
+    overflow-y: scroll;
 }
 
 .projects{
@@ -687,7 +714,6 @@ a:hover {
     margin: auto;
     margin-bottom: 20px;
     border-radius: 5px;
-    
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
     backdrop-filter: blur( 4px );
@@ -701,7 +727,19 @@ a:hover {
     margin: auto;
     margin-bottom: 20px;
     border-radius: 5px;
-    
+    background: rgba(26, 25, 25, 0.705);
+    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 3.5px );
+}
+
+.imagic-project-static{
+    position: relative;
+    max-width: 1350px;
+    height: 300px;
+    margin: auto;
+    margin-bottom: 20px;
+    border-radius: 5px;
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
     backdrop-filter: blur( 4px );
@@ -736,6 +774,13 @@ a:hover {
     padding: 40px;
     padding-top: 0;
     padding-bottom: 0;
+}
+
+.imagic-video-static{
+    display: inline-block;
+    height: 300px;
+    width: 550px;
+    margin: auto;
 }
 
 .more-soon-text{
@@ -823,6 +868,21 @@ a:hover {
         height: 30em;
     }
 
+    .imagic-project-window{
+        margin: auto;
+        width: 80vw;
+        height: 34em;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .imagic-picer-project-window{
+        height: 32em;
+        bottom: 50px;
+    }
+
     .app-description--text{
         font-size: 0.9em;
     }
@@ -848,6 +908,10 @@ a:hover {
     .sapochat-project-static{
         height: auto;
     }
+
+    .imagic-project-static{
+        height: auto;
+    }
     
     .picer-photo-static-container{
         width: 100%;
@@ -859,7 +923,16 @@ a:hover {
         height: auto;
         width: 100%;
     }
+
+    .imagic-video{
+        height: calc(80vw * 0.6);
+    }
     
+    .imagic-video-static{
+        height: auto;
+        width: 100%;
+    }
+
     .app-description-static-container{
         width: 100%;
         bottom: 0 !important;
@@ -882,7 +955,6 @@ a:hover {
         padding: 10px;
         padding-right: 20px;
         padding-left: 20px;
-
     }
     .view-btn{
         font-size: 12px;
@@ -918,7 +990,12 @@ a:hover {
         height: 360px;
         font-size: 10px;
     }
-
+    .imagic-project-window{
+        margin: auto;
+        width: 320px;
+        height: 450px;
+        font-size: 10px;
+    }
 }
 
 /* --------------Special case -------------- */
@@ -936,10 +1013,14 @@ a:hover {
     .picer-project-static{
         height: auto;
         width: 60vh;
-
     }
     
     .sapochat-project-static{
+        height: auto;
+        width: 60vh;
+    }
+
+    .imagic-project-static{
         height: auto;
         width: 60vh;
     }
@@ -952,6 +1033,11 @@ a:hover {
     
     .picer-photo-static{
         height: auto;
+        width: 100%;
+    }
+
+    .imagic-video-static{
+        height: calc(550px * 0.55);
         width: 100%;
     }
     

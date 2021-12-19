@@ -1,11 +1,14 @@
+# My portfolio website
 
-``` bash
-# Install dependencies (only the first time)
-npm install
+<img width="350" src="https://res.cloudinary.com/ddijwyj2m/image/upload/c_scale,h_627,w_1200/v1636310164/assetes-portfolio/gtr356del68m3xdu2wws.jpg" alt="app-review"/>
 
-# Run the local server at localhost:8080
-npm run dev
+Click on [Dekel Portfolio](https://dekelluski.com) to enter the website
 
-# Build for production in the dist/ directory
-npm run build
-```
+## Description
+
+My portfolio website designed in a 3D unique way with the help of WebGL technology.
+Designed for mobile and desktop but unlocks all features only on desktop.
+
+## Technologies used
+
+Threejs, Web graphic compressors.

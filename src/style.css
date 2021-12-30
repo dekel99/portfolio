@@ -194,26 +194,32 @@ a:hover {
     transition: all 0.4s ease-in-out;
 }
 
+.loading-finish-container{
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+}
+
+.or{
+    color: white;
+    margin: 10px 0 6px 0;
+}
+
+.quick-projects-view{
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .enter-btn{
     position: relative;
-    opacity: 0;
     display: inline-block;
-    z-index: 101;
-    margin: auto;
     color: white;
     border-style: solid;
     border-width: 1px;
     border-color: white;
-    padding: 15px;
-    padding-right: 22px;
-    padding-left: 22px;
+    padding: 15px 22px;
     border-radius: 1px;
     cursor: pointer;
-    -webkit-transition: all 0.4s ease-in-out;
-    -moz-transition: all 0.4s ease-in-out;
-    -ms-transition: all 0.4s ease-in-out;
-    -o-transition: all 0.4s ease-in-out;
-    transition: all 0.4s ease-in-out;
 }
 
 .toggle-screen-size-btn{
@@ -271,6 +277,7 @@ a:hover {
     height: 35px;
     color: white;
     z-index: 100;
+    display: none;
 
 }
 
@@ -278,7 +285,6 @@ a:hover {
     position: fixed;
     bottom: 10px;
     left: 10px;
-    display: none;
     width: 35px;
     height: 35px;
     color: white;
@@ -326,7 +332,6 @@ a:hover {
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 3.5px );
     display: none;
-    /* scale: 0; */
     top: 0;
     bottom: 0;
     animation: scale-up 0.7s ease;
@@ -350,6 +355,44 @@ a:hover {
     animation-fill-mode: both;
     top: 0;
     bottom: 0;
+    z-index: 104;
+}
+
+.news-project-window{
+    position: absolute;
+    border-radius: 5px;
+    margin: auto;
+    width: 500px;
+    height: 550px;
+    left: calc(50vw + 50px);
+    background: rgba(26, 25, 25, 0.705);
+    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    display: none;
+    top: 0;
+    bottom: 0;
+    animation: scale-up 0.7s ease;
+    animation-fill-mode: both;
+    z-index: 104;
+}
+
+.flappy-project-window{
+    position: absolute;
+    border-radius: 5px;
+    margin: auto;
+    width: 500px;
+    height: 520px;
+    left: calc(50vw + 50px);
+    background: rgba(26, 25, 25, 0.705);
+    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 3.5px );
+    display: none;
+    top: 0;
+    bottom: 0;
+    animation: scale-up 0.7s ease;
+    animation-fill-mode: both;
     z-index: 104;
 }
 
@@ -618,12 +661,6 @@ a:hover {
 
 }
 
-/* #main-scroll{  
-    position: absolute;
-    height: 210%;
-    width: 100%;
-} */
-
 .timer{
     font-family: 'Orbitron', sans-serif;
     margin-top: 8px;
@@ -690,6 +727,7 @@ a:hover {
     right: 0;
     left: 0;
     background-color: black;
+    background-image: linear-gradient(rgb(0, 0, 0), rgba(51, 51, 51, 0.596));
     -webkit-transition: all 0.6s ease-in-out;
     -moz-transition: all 0.6s ease-in-out;
     -ms-transition: all 0.6s ease-in-out;
@@ -697,110 +735,129 @@ a:hover {
     transition: all 0.6s ease-in-out;
     z-index: 107;
     overflow-y: scroll;
+    display: flex;
 }
 
 .projects{
+    text-align: center;
+    max-width: 1600px;
+    width: 100%;
+    margin: auto;
     position: relative;
-    margin: 100px;
+    --swiper-theme-color: rgb(226, 226, 226);
 }
 
-.picer-project-static{
+.static-projects-heading{
+    color: white;
+    background: -webkit-linear-gradient(white, #38495a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.project-card{
+    display: inline-block;
     position: relative;
-    max-width: 1350px;
-    height: 300px;
-    margin: auto;
-    margin-bottom: 20px;
+    background-color: rgb(43, 43, 43);
     border-radius: 5px;
-    background: rgba(26, 25, 25, 0.705);
-    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 3.5px );
+    max-width: 600px;
+    min-width: 300px;
+    width: 85%;
 }
 
-.sapochat-project-static{
-    position: relative;
-    max-width: 1350px;
-    height: 300px;
-    margin: auto;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    background: rgba(26, 25, 25, 0.705);
-    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 3.5px );
+.img-card{
+    background-color: rgb(0, 0, 0);
+    max-width: 600px;
+    min-width: 300px;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
 }
 
-.imagic-project-static{
-    position: relative;
-    max-width: 1350px;
-    height: 300px;
-    margin: auto;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    background: rgba(26, 25, 25, 0.705);
-    box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 3.5px );
-}
-
-.picer-photo-static-container{
-    width: 50%;
-    height: 300px;
-    min-width: 565px;
-    display: inline-block;
-}
-
-.picer-photo-static{
-    display: inline-block;
-    height: 300px;
-    width: auto;
-    margin: auto;
-}
-
-.app-description-static-container{
-    position: relative;
-    width: 50%;
-    height: auto;
-    display: inline-block;
-}
-
-.app-description-static{
-    display: inline-block;
-    width: calc(100% - 80px);
-    height: 300px;
-    padding: 40px;
-    padding-top: 0;
-    padding-bottom: 0;
+.img-card:hover {
+    opacity: 0.4;
+    transition: all 0.4s ease-in-out;
 }
 
 .imagic-video-static{
-    display: inline-block;
-    height: 300px;
-    width: 550px;
-    margin: auto;
+    max-width: 600px;
+    min-width: 300px;
+    width: 100%;
+    border-radius: 5px 5px 0 0;    
 }
 
-.more-soon-text{
+.card-heading{
     color: white;
-    margin: 30px;
+    font-size: 20px;
+    margin: 0;
 }
 
-.sapochat-photo-up{
-    display: none;
+.app-description-static{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px 60px;
 }
+
+.links{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    border-width: 1px 0 0 0;
+    border-color: white;
+    margin: 10px 0 20px 0;
+}
+
+.project-link{
+    color: rgb(111, 111, 255);
+    text-decoration: unset;
+}
+
+.project-link:hover{
+    font-size: 18px;
+    transition: all 0.4s ease-in-out;
+}
+
+.github-link{
+    text-decoration: unset;
+    color: black;
+}
+
+.github-link:hover{
+    font-size: 18px;
+    transition: all 0.4s ease-in-out;
+}
+
+.app-description--text{
+    color: white;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* ---------Swiper--------- */
+.swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.swiper-wrapper{
+  padding: 15px 0 40px 0;
+  align-items: center;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  max-width: 600px;
+  min-width: 300px;
+  display: block;
+  width: 100%;
+}
+
 
 
 /* Mobile css */
 @media (max-width: 800px) {
-
-    .only-mobile{
-        display: inline-block !important;
-    } 
-
-    .only-desktop{
-        display: none !important;
-    } 
-
     .heading-container{
         right: 0;
         left: 0;
@@ -880,67 +937,36 @@ a:hover {
         bottom: 50px;
     }
 
-    .app-description--text{
-        font-size: 0.9em;
+    .news-project-window{
+        margin: auto;
+        width: 80vw;
+        height: 34em;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .flappy-project-window{
+        margin: auto;
+        width: 80vw;
+        height: 32em;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
     }
 
     .about-us-text-container{
         width: 80vw;
     }
 
-    .static-work-container{
-        overflow: scroll;
-    }
-
-    .projects{
-        position: relative;
-        margin: 20px;
-        margin-top: 60px;
-    }
-    
-    .picer-project-static{
-        height: auto;
-    }
-    
-    .sapochat-project-static{
-        height: auto;
-    }
-
-    .imagic-project-static{
-        height: auto;
-    }
-    
-    .picer-photo-static-container{
-        width: 100%;
-        height: auto;
-        min-width: 100px;
-    }
-    
-    .picer-photo-static{
-        height: auto;
-        width: 100%;
-    }
-
-    .imagic-video{
-        height: calc(80vw * 0.6);
-    }
-    
-    .imagic-video-static{
-        height: auto;
-        width: 100%;
-    }
-
-    .app-description-static-container{
-        width: 100%;
-        bottom: 0 !important;
+    .swiper{
+        padding-bottom: 10px;
     }
     
     .app-description-static{
-        height: 0;
-    }
-
-    .sapochat-photo-up{
-        display: inline-block;
+        padding: 20px 30px;
     }
 
 }
@@ -992,66 +1018,5 @@ a:hover {
         width: 320px;
         height: 450px;
         font-size: 10px;
-    }
-}
-
-/* --------------Special case -------------- */
-@media (max-width: 1331px) and (min-width: 800px){
-    .static-work-container{
-        overflow: scroll;
-    }
-
-    .projects{
-        position: relative;
-        margin: 20px;
-        margin-top: 60px;
-    }
-    
-    .picer-project-static{
-        height: auto;
-        width: 60vh;
-    }
-    
-    .sapochat-project-static{
-        height: auto;
-        width: 60vh;
-    }
-
-    .imagic-project-static{
-        height: auto;
-        width: 60vh;
-    }
-    
-    .picer-photo-static-container{
-        width: 100%;
-        height: auto;
-        min-width: 100px;
-    }
-    
-    .picer-photo-static{
-        height: auto;
-        width: 100%;
-    }
-
-    .imagic-video-static{
-        height: calc(550px * 0.55);
-        width: 100%;
-    }
-    
-    .app-description-static-container{
-        width: 100%;
-        bottom: 0 !important;
-    }
-    
-    .app-description-static{
-        height: 0;
-    }
-
-    .sapochat-photo-down{
-        display: none !important;
-    }
-
-    .sapochat-photo-up{
-        display: inline-block;
     }
 }

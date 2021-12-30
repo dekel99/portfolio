@@ -23,6 +23,7 @@
     "raw-loader": "^4.0.2",
     "stats.js": "^0.17.0",
     "style-loader": "^2.0.0",
+    "swiper": "^7.4.1",
     "three": "^0.126.0",
     "webpack": "^5.45.1",
     "webpack-cli": "^4.5.0",

@@ -38,7 +38,7 @@ const scene = new THREE.Scene()
 // Loading
 const loadingManager = new THREE.LoadingManager(
     () => {
-        $('.enter-btn').css('opacity', '1')
+        $('.loading-finish-container').css('opacity', '1')
         $('.earth-lottie').css('opacity', '0')
         $('.loading-heading').css('opacity', '0')
     },
@@ -62,12 +62,11 @@ const backgroundTexture = textureLoader.load("/textures/8k_stars_milky_way.jpg")
 const backgroundMobileTexture = textureLoader.load("/textures/8k_stars_milky_way-mobile.jpg")
 const marsBackgroundTexture = textureLoader.load("/textures/mars-sky.jpg")
 const marsBackgroundMobileTexture = textureLoader.load("/textures/mars-sky-mobile.jpg")
-const picerImgTexture = textureLoader.load("/textures/picer-flag.jpeg")
-const sapochatImgTexture = textureLoader.load("/textures/sapochat-flag.jpeg")
-const imagicImgTexture = textureLoader.load("/textures/imagic-flag.jpg")
-
-// const aboutMeImgTexture = textureLoader.load("/textures/about-me-flag.jpg")
-
+const picerImgTexture = textureLoader.load("/textures/flags/picer-flag.jpeg")
+const sapochatImgTexture = textureLoader.load("/textures/flags/sapochat-flag.jpeg")
+const imagicImgTexture = textureLoader.load("/textures/flags/imagic-flag.jpg")
+const newsImgTexture = textureLoader.load("/textures/flags/news-filter-flag.jpg")
+const flappyImgTexture = textureLoader.load("/textures/flags/flappy-flag.jpg")
 
 GLTFloader.load("/textures/astronaut/scene.gltf", function(gltf){
     astronaut = gltf.scene
@@ -92,15 +91,6 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
 })
 GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
     spaceship = gltf.scene
-
-    // spaceship.traverse( function(children) {
-    //     if (children.isMesh){
-    //         let spaceshipMaterial = children.material 
-    //         children.material.depthTest = false
-    //         children.renderOrder = 1;
-    //     }
-    // });
-
     spaceship.scale.set(0.2,0.2,0.2)
     spaceship.rotation.y = 1.57
     spaceship.position.set(25,24.92,0.1)
@@ -116,14 +106,6 @@ GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
 
 
 })
-// GLTFloader.load("/textures/3d-logos/mongoDB-logo.glb", function(gltf){
-//     jsLogo = gltf.scene
-//     jsLogo.scale.set(0.1, 0.1, 0.1)
-//     jsLogo.position.set(8.7,-9.6,24.6)
-//     jsLogo.rotation.z = (1)
-//     jsLogo.rotation.x = (1.55)
-//     // scene.add( jsLogo )
-// })
 
 // Debug
 const gui = new dat.GUI()
@@ -147,6 +129,8 @@ const poleMaterial = new THREE.MeshPhongMaterial();
 const flagMaterial = new THREE.MeshLambertMaterial({map: picerImgTexture});
 const flag2Material =  new THREE.MeshLambertMaterial({map: sapochatImgTexture});
 const flag3Material =  new THREE.MeshLambertMaterial({map: imagicImgTexture});
+const flag4Material =  new THREE.MeshLambertMaterial({map: newsImgTexture});
+const flag5Material =  new THREE.MeshLambertMaterial({map: flappyImgTexture});
 
 // picer flag material config
 flagMaterial.color = new THREE.Color(0xC1C1C1)
@@ -157,6 +141,12 @@ flag2Material.color = new THREE.Color(0xC1C1C1)
 // imagic flag material config
 flag3Material.color = new THREE.Color(0xC1C1C1)
 
+// news-filter flag material config
+flag4Material.color = new THREE.Color(0xC1C1C1)
+
+// flappy flag material config
+flag5Material.color = new THREE.Color(0xC1C1C1)
+
 // picerPole material config
 poleMaterial.color = new THREE.Color(0x282828)
 poleMaterial.specular = new THREE.Color(0x282828)
@@ -164,9 +154,6 @@ poleMaterial.shininess = 30
 
 // black sphere material config
 blackSphereMaterial.color = new THREE.Color(0x0)
-// blackSphereMaterial.polygonOffset = true
-// blackSphereMaterial.polygonOffsetUnits = -555551
-// blackSphereMaterial.polygonOffsetFactor = -100000000
 
 // moon material config 
 moonMaterial.color = new THREE.Color(0x282828)
@@ -197,16 +184,24 @@ const blackSphere = new THREE.Mesh(blackSphereGeometry,blackSphereMaterial)
 const picerFlag = new THREE.Mesh(flagGeometry,flagMaterial);
 const sapochatFlag = new THREE.Mesh(flagGeometry,flag2Material);
 const imagicFlag = new THREE.Mesh(flagGeometry,flag3Material);
+const newsFlag = new THREE.Mesh(flagGeometry,flag4Material);
+const flappyFlag = new THREE.Mesh(flagGeometry,flag5Material);
 const picerPole = new THREE.Mesh(poleGeometry,poleMaterial)
 const sapochatPole = picerPole.clone()
 const imagicPole = picerPole.clone()
+const flappyPole = picerPole.clone()
+const newsPole = picerPole.clone()
 
 scene.add(picerFlag)
 scene.add(sapochatFlag)
 scene.add(imagicFlag)
+scene.add(newsFlag)
+scene.add(flappyFlag)
 scene.add(picerPole)
 scene.add(sapochatPole)
 scene.add(imagicPole)
+scene.add(flappyPole)
+scene.add(newsPole)
 scene.add(earth)
 scene.add(moon)
 scene.add(blackSphere)
@@ -356,6 +351,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 picerFlag.userData = {name: "picer-flag"}
 sapochatFlag.userData = {name: "sapochat-flag"}
 imagicFlag.userData = {name: "imagic-flag"}
+newsFlag.userData = {name: "news-flag"}
+flappyFlag.userData = {name: "flappy-flag"}
+
 
 //---------------------------------position----------------------------------
 
@@ -375,6 +373,20 @@ imagicPole.position.set(9.265,-10.18,21.99)
 imagicFlag.position.set(9.35,-9.8,22.2)
 imagicFlag.rotation.y = -1.2
 
+newsPole.position.set(11.265,-10.18,21.99)
+newsFlag.position.set(11.35,-9.8,22.2)
+newsFlag.rotation.y = -1.2
+
+flappyPole.position.set(8.015,-9.98,25.15)
+flappyFlag.position.set(8.1,-9.6,25.36)
+flappyFlag.rotation.y = -1.2
+
+const flappyFlagFolder = gui.addFolder("Flappy Flag")
+flappyFlagFolder.add(flappyFlag.position,"x").min(5).max(15).step(0.01)
+flappyFlagFolder.add(flappyFlag.position,"y").min(-8).max(-12).step(0.001)
+flappyFlagFolder.add(flappyFlag.position,"z").min(15).max(30).step(0.01)
+
+
 // JS breakpoints 
 if(window.innerWidth<800){
     camera.position.set(-0.7, 0.18, 2.7)
@@ -382,7 +394,7 @@ if(window.innerWidth<800){
     scene.background = backgroundMobileTexture
     sunMainFlare.size = 500
     // mobileControls = new DeviceOrientationControls(camera)
-} else if (window.innerWidth<1500){}
+}
 
 // Active only when test on mars
 // controls.target = new THREE.Vector3(18,-13,20)
@@ -502,6 +514,7 @@ const tick = () =>
     // composer.render(scene, camera)
 
     // stats.end()
+    
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }

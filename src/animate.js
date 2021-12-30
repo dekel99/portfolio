@@ -3,6 +3,7 @@ import {Vector3, Vector2, Raycaster, Color, WebGLRenderTarget} from 'three';
 import { startTimer } from "./countdown"
 import { spaceshipIntroText } from "./spaceshipIntroText"
 import { disableScroll, enableScroll } from "./scrollToggle"
+import initSwiper from "./swiper"
 
 let mouseX
 let mouseY
@@ -50,6 +51,9 @@ let alphaRotation
 let prevAlphaRotation
 
 disableScroll()
+
+initSwiper()
+
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
 function isIphone() {
@@ -106,20 +110,7 @@ $(".view-btn").click(() => {
     }, 500);
 })
 
-function closeProjectWindows(){
-    $('.picer-project-window').css('animation', 'scale-down 0.7s ease')
-    setTimeout(function(){
-        $('.picer-project-window').css('display', 'none')
-    }, 500);
-    $('.sapochat-project-window').css('animation', 'scale-down 0.7s ease')
-    setTimeout(function(){
-        $('.sapochat-project-window').css('display', 'none')
-    }, 500);
-    $('.imagic-project-window').css('animation', 'scale-down 0.7s ease')
-    setTimeout(function(){
-        $('.imagic-project-window').css('display', 'none')
-    }, 500);
-}
+
 
 // Go back button event listener
 $(".backBtn").click(() => {
@@ -140,7 +131,6 @@ $("body").click((e) => {
 	const found = raycaster.intersectObjects( sceneTween.children, true )
 
     if(e.target.id === "enter-btn-id"){
-        mainSound.play()
         enableScroll()
         if(isIphone()){
             $(".backBtn").addClass("iPhoneBackBtn")
@@ -165,7 +155,7 @@ $("body").click((e) => {
         $('#journey-window-id').css('top', '-400px')
     }
 
-    if (e.target.innerText === "MY WORK"){
+    if (e.target.innerText === "PROJECTS" || e.target.className === 'quick-projects-view'){
         $('.static-work-container').css('top', '0')
     } else if(e.target.id==="close-work-win"){
         $('.static-work-container').css('top', '100%')
@@ -210,10 +200,11 @@ $("body").click((e) => {
         $('#window-mars-animation').css('opacity', '0')
         
         if (found[0].object.userData.name==="picer-flag"){
-            waiting = true
             createjs.Tween.get(cameraTween.position).to({ x: 7.6, y: -9.3, z: 25 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
             $('.backBtn').css('opacity', '1')
-            
+            waiting = true
+            closeProjectWindows()
+
             // open window project
             setTimeout(function(){
                 $('.picer-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
@@ -224,14 +215,9 @@ $("body").click((e) => {
             createjs.Tween.get(cameraTween.position).to({ x: 10.8, y: -9.5, z: 20.7 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
             $('.backBtn').css('opacity', '1')
             waiting = true
+            closeProjectWindows()
             
             // Open window project
-            $('.picer-project-window').css('animation', 'scale-down 0.5s ease')
-            $('.imagic-project-window').css('animation', 'scale-down 0.5s ease')
-            setTimeout(function(){
-                $('.picer-project-window').css('display', 'none')
-                $('.imagic-project-window').css('display', 'none')
-            }, 500);
             setTimeout(function(){
                 $('.sapochat-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
                 waiting = false
@@ -241,19 +227,63 @@ $("body").click((e) => {
             createjs.Tween.get(cameraTween.position).to({ x: 8.2, y: -9.5, z: 23 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
             $('.backBtn').css('opacity', '1')
             waiting = true
+            closeProjectWindows()
 
             // Open window project
-            $('.picer-project-window').css('animation', 'scale-down 0.5s ease')
-            setTimeout(function(){
-                $('.picer-project-window').css('display', 'none')
-            }, 500);
             setTimeout(function(){
                 $('.imagic-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
+                waiting = false
+            }, 2300);
+
+        } else if (found[0].object.userData.name==="news-flag"){
+            createjs.Tween.get(cameraTween.position).to({ x: 10.2, y: -9.5, z: 23 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
+            $('.backBtn').css('opacity', '1')
+            waiting = true
+            closeProjectWindows()
+
+            // Open window project
+            setTimeout(function(){
+                $('.news-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
+                waiting = false
+            }, 2300);
+
+        } else if (found[0].object.userData.name==="flappy-flag"){
+            createjs.Tween.get(cameraTween.position).to({ x: 6.95, y: -9.3, z: 26.16 }, 3000, createjs.Ease.getPowInOut(3)).wait(500);
+            $('.backBtn').css('opacity', '1')
+            waiting = true
+            closeProjectWindows()
+
+            // Open window project
+            setTimeout(function(){
+                $('.flappy-project-window').css('display', 'unset').css('animation', 'scale-up 0.5s ease')
                 waiting = false
             }, 2300);
         } 
     }
 })
+
+function closeProjectWindows(){
+    $('.picer-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.picer-project-window').css('display', 'none')
+    }, 500);
+    $('.sapochat-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.sapochat-project-window').css('display', 'none')
+    }, 500);
+    $('.imagic-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.imagic-project-window').css('display', 'none')
+    }, 500);
+    $('.news-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.news-project-window').css('display', 'none')
+    }, 500);
+    $('.flappy-project-window').css('animation', 'scale-down 0.7s ease')
+    setTimeout(function(){
+        $('.flappy-project-window').css('display', 'none')
+    }, 500);
+}
 
 function spaceshipScene(){
     isInSpaceship = true
@@ -354,6 +384,13 @@ function spaceshipScene(){
 }
 
 function spaceshipEndAnimation(light,light2,sun,mainFlare,flares){
+
+    $('.about-us-text-container').css('transition', 'all 0.4s ease-in-out')
+    $('.about-us-text-container').css('opacity', '0')
+    setTimeout(() => {
+        $('.about-us-text-container').css('display', 'none')
+    }, 400);
+
     for(let i=0; i<flares.length; i++){
         const flareSize = flares[i].size
         flares[i].size = 1
@@ -469,7 +506,7 @@ function onDocumentMouseMove(e){
     raycaster.setFromCamera( mouse, cameraTween );
 	const found = raycaster.intersectObjects( sceneTween.children, true );
 
-    if(found[0] && found[0].object.name==="path23"){
+    if(found[0]?.object.name==="path23"){
         createjs.Tween.get(jsLogoTween.position).to({ x: Math.random()*3 + 8.5, y: -9.5, z: Math.random()*3 + 24.6 }, 100, createjs.Ease.getPowInOut(1.2));
     }
 }
@@ -590,7 +627,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
         spaceshipSceneTrigger = false
     }
 
-
     if(marsTimer=="00:00" && marsPositionTrigger){
         clearInterval(lightsInterval)
         spaceshipEndAnimation(pointlight1,pointlight2,sun3,sunMainFlare,flares)
@@ -618,14 +654,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
         }, 8100);
         marsPositionTrigger = false
     }
-        
-        // if(jsLogo){
-    //     jsLogo.rotation.z = 6.4 * elapsedTime
-    // }
-    
-
-
-
 
     // Flags movment
     if(positionAttribute){
@@ -641,20 +669,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
         picerFlag.geometry.attributes.position.needsUpdate = true;
         picerFlag.geometry.computeVertexNormals();
     }
-    
-    // if(spaceship && spaceshipZIndexTrigger){
-    //     setTimeout(() => {
-    //         // spaceship.traverse( function(children) {
-    //         //     if (children.isMesh){
-    //         //         let spaceshipMaterial = children.material 
-    //         //         spaceshipMaterial.polygonOffset = true
-    //         //         spaceshipMaterial.polygonOffsetUnits = -100000
-    //         //         spaceshipMaterial.polygonOffsetFactor = -100000
-    //         //     }
-    //         // });
-    //     }, 1500);
-    //     spaceshipZIndexTrigger = false
-    // }
 
     if (returned && warpEffect){
         clockReset = elapsedTime
@@ -714,6 +728,5 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
 
     // Render
     composer.render(scene, camera)
-
-    }
+}
     

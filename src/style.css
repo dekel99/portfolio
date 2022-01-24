@@ -208,6 +208,7 @@ a:hover {
     color: white;
     text-decoration: underline;
     cursor: pointer;
+    display: inline-block;
 }
 
 .enter-btn{
@@ -292,22 +293,11 @@ a:hover {
 
 }
 
-.picer-project-window-container{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    display: none;
-}
-
 .picer-project-window{
     position: absolute;
     border-radius: 5px;
-    margin: auto;
     width: 500px;
-    height: 600px;
-    left: calc(50vw + 100px);
+    margin-left: 550px;
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
     backdrop-filter: blur( 4px );
@@ -315,8 +305,6 @@ a:hover {
     display: none;
     animation: scale-up 0.7s ease;
     animation-fill-mode: both;
-    top: 0;
-    bottom: 0;
     z-index: 104;
 }
 
@@ -325,15 +313,12 @@ a:hover {
     border-radius: 5px;
     margin: auto;
     width: 500px;
-    height: 550px;
-    left: calc(50vw + 50px);
+    margin-left: 550px;
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 3.5px );
     display: none;
-    top: 0;
-    bottom: 0;
     animation: scale-up 0.7s ease;
     animation-fill-mode: both;
     z-index: 104;
@@ -342,10 +327,8 @@ a:hover {
 .imagic-project-window{
     position: absolute;
     border-radius: 5px;
-    margin: auto;
+    margin-left: 550px;
     width: 500px;
-    height: 560px;
-    left: calc(50vw + 50px);
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
     backdrop-filter: blur( 4px );
@@ -353,44 +336,46 @@ a:hover {
     display: none;
     animation: scale-up 0.7s ease;
     animation-fill-mode: both;
-    top: 0;
-    bottom: 0;
     z-index: 104;
 }
 
 .news-project-window{
     position: absolute;
     border-radius: 5px;
-    margin: auto;
     width: 500px;
-    height: 550px;
-    left: calc(50vw + 50px);
+    margin-left: 550px;
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 3.5px );
     display: none;
-    top: 0;
-    bottom: 0;
     animation: scale-up 0.7s ease;
     animation-fill-mode: both;
     z-index: 104;
 }
 
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
 .flappy-project-window{
     position: absolute;
     border-radius: 5px;
-    margin: auto;
+    margin-left: 550px;
     width: 500px;
-    height: 520px;
-    left: calc(50vw + 50px);
     background: rgba(26, 25, 25, 0.705);
     box-shadow: 0 8px 32px 0 rgba(24, 23, 23, 0.26);
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 3.5px );
     display: none;
-    top: 0;
-    bottom: 0;
     animation: scale-up 0.7s ease;
     animation-fill-mode: both;
     z-index: 104;
@@ -439,14 +424,16 @@ a:hover {
 }
 
 .app-description-container{
-    margin: 30px;
-    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 30px 30px 30px;
 }
 
 .picer-heading{
     color: white;
     font-family: 'Quantico', sans-serif;
-    margin: 20px;
+    margin-top: 15px;
 }
 
 .app-description--text{
@@ -457,7 +444,7 @@ a:hover {
 .picer-link{
     color: rgb(111, 111, 255);
     font-family: 'Quantico';
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 .picer-link a:visited {
@@ -892,44 +879,41 @@ a:hover {
         width: 30px;
         height: 30px;
     }
+    
+    .picer-heading{
+        margin-top: 10px;
+    }
+
+    .picer-link{
+        font-size: 14px;
+    }
+
+    .app-description--text{
+        font-size: 14px;
+    }
 
     .picer-project-window{
-        margin: auto;
-        width: 80vw;
-        height: 34em;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
+        margin-left: 0;
+        width: 85vw;
     }
 
-    .iphone-picer-project-window{
+    /* .iphone-picer-project-window{
         height: 32em;
         bottom: 50px;
-    }
+    } */
 
     .sapochat-project-window{
-        margin: auto;
-        width: 80vw;
-        height: 31em;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
+        margin-left: 0;
+        width: 85vw;
     }
 
-    .iphone-sapochat-project-window{
+    /* .iphone-sapochat-project-window{
         height: 30em;
-    }
+    } */
 
     .imagic-project-window{
-        margin: auto;
-        width: 80vw;
-        height: 34em;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
+        margin-left: 0;
+        width: 85vw;
     }
 
     .imagic-picer-project-window{
@@ -938,23 +922,13 @@ a:hover {
     }
 
     .news-project-window{
-        margin: auto;
-        width: 80vw;
-        height: 34em;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
+        margin-left: 0;
+        width: 85vw;
     }
 
     .flappy-project-window{
-        margin: auto;
-        width: 80vw;
-        height: 32em;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
+        margin-left: 0;
+        width: 85vw;
     }
 
     .about-us-text-container{
@@ -963,6 +937,11 @@ a:hover {
 
     .swiper{
         padding-bottom: 10px;
+    }
+
+    .app-description-container{
+        margin: 0 25px 25px 25px;
+        gap: 10px;
     }
     
     .app-description-static{
@@ -995,28 +974,40 @@ a:hover {
         width: 35px;
         height: 35px;
     }
+    .picer-link{
+        font-size: 13px;
+    }
+    .app-description-container{
+        margin: 0 25px 25px 25px;
+        gap: 10px;
+    }
+    .app-description--text{
+        font-size: 13px;
+    }
     .picer-project-window{
-        margin: auto;
-        width: 320px;
-        height: 400px;
-        font-size: 10px;
+        width: 370px;
+        margin-left: 430px;
     }
     .picer-heading{
-        margin: 10px;
+        margin-top: 10px;
+    }
+    .sapochat-project-window{
+        width: 370px;
+        margin-left: 430px;
+    }
+    .imagic-project-window{
+        width: 370px;
+        margin-left: 430px;
+    }
+    .news-project-window{
+        width: 370px;
+        margin-left: 430px;
+    }
+    .flappy-project-window{
+        width: 370px;
+        margin-left: 430px;
     }
     .bi-box-arrow-up-right{
         size: 8px;
-    }
-    .sapochat-project-window{
-        margin: auto;
-        width: 320px;
-        height: 360px;
-        font-size: 10px;
-    }
-    .imagic-project-window{
-        margin: auto;
-        width: 320px;
-        height: 450px;
-        font-size: 10px;
     }
 }

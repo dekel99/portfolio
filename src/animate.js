@@ -161,7 +161,7 @@ $("body").click((e) => {
         $('.static-work-container').css('top', '100%')
     }
 
-    if (e.target.innerText === "CONTACT ME"){
+    if (e.target.innerText === "CONTACT"){
         $('#credits-window-id').css('top') === "50px" && $('#credits-window-id').css('top', '-400px')
         $('#journey-window-id').css('top') === "50px" && $('#journey-window-id').css('top', '-400px')
         $('#contact-us-window-id').css('top', '50px')
@@ -439,10 +439,10 @@ function marsScene(){
         setTimeout(() => {
             $( ".white-transision" ).remove();
         }, 3000);
+        bloomPassTween.enabled = false
     }, 1000);    
     
     afterImageTween.enabled = false
-    bloomPassTween.enabled = false
     warpEffect = false
     waiting = false
 
@@ -549,6 +549,15 @@ const w = 0.2
 const s = 0.9
 const vertex = new Vector3();
 
+// Enable to work on mars
+// moonStart=""
+// $(".heading-container").css("display", "none")
+// setTimeout(() => {
+//     positionAttribute = picerFlagTween.geometry.getAttribute( 'position' );
+// }, 100);
+// $('#window-mars-animation').css('opacity', '1')
+// waiting=false
+// $('.backBtn').css('display', 'unset')
 
 export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,sun3,sunMainFlare,flares,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,starTexture,composer,spaceship){
     targetX = mouseX * .001
@@ -616,11 +625,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
 
         bloomPassTween.strength = 0.4
         bloomPassTween.threshold = 0.15
-
-        // stars.material.map = starTexture
-        // stars.material.transparent = false
-        // stars.material.depthTest = false
-        // stars.renderOrder = 0
             
         afterImage.enabled = true
         warpEffect = true
@@ -644,6 +648,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
             // Set mars lights
             pointlight1.intensity = 1
             pointlight2.intensity = 1.5
+            pointlight2.color = new Color(0xffa0a0)
             pointlight3.position.set(-11, 20, 20)
             pointlight3.intensity = 1.8
 

@@ -404,7 +404,6 @@ if(window.innerWidth<800){
 // pointlight1.intensity = 1
 // pointlight3.intensity = 1.8
 // pointlight3.position.set(-11, 20, 20)
-// blackSphere.position.set(1,1,1)
 
 //------------------------------- Paricles ---------------------------------
 let starGeo

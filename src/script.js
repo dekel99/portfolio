@@ -13,6 +13,7 @@ import { WebGLRenderer } from 'three';
 import { animate } from './animate';
 // import Stats from 'stats.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import isIphone from "./isIphone"
 import './style.css'
 
 // Show fps config
@@ -28,7 +29,7 @@ let barProgress = 0
 let jsLogo
 let mobileControls
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
-
+if(isIphone()) window.createImageBitmap = undefined
 // Tweenjs improved fps
 createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -87,7 +88,7 @@ GLTFloader.load("/textures/mars/scene.gltf", function(gltf){
     setTimeout(() => {
         mars.position.set(20.5,-15,20)
     }, 300);
-    scene.add( mars )
+    if(!isIphone) scene.add( mars )
 })
 GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
     spaceship = gltf.scene
@@ -103,8 +104,6 @@ GLTFloader.load("/textures/spaceship/scene.gltf", function(gltf){
     spaceshipFolder.add(spaceship.rotation,"y").min(1).max(2).step(0.01)
     spaceshipFolder.add(spaceship.rotation,"z").min(0).max(3).step(0.01)
     spaceshipFolder.add(spaceship.rotation,"x").min(0).max(3).step(0.01)
-
-
 })
 
 // Debug
@@ -507,8 +506,7 @@ gui.destroy()
 const tick = () =>
 {
     // stats.begin();
-
-    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,sun3,sunMainFlare,flares,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,starTexture,composer,spaceship)
+    animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,sun3,sunMainFlare,flares,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,earthTexture,moonTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,starTexture,composer,spaceship)
 
     // composer.render(scene, camera)
 

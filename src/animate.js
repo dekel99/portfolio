@@ -4,6 +4,7 @@ import { startTimer } from "./countdown"
 import { spaceshipIntroText } from "./spaceshipIntroText"
 import { disableScroll, enableScroll } from "./scrollToggle"
 import initSwiper from "./swiper"
+import isIphone from "./isIphone"
 
 let mouseX
 let mouseY
@@ -51,23 +52,10 @@ let alphaRotation
 let prevAlphaRotation
 
 disableScroll()
-
 initSwiper()
 
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
-function isIphone() {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
-    // iPad on iOS 13 detection
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-}
 
 if(window.innerWidth<800){
     mobile = true
@@ -109,8 +97,6 @@ $(".view-btn").click(() => {
         $( ".heading-container" ).remove();
     }, 500);
 })
-
-
 
 // Go back button event listener
 $(".backBtn").click(() => {
@@ -465,19 +451,22 @@ function marsScene(){
 // });
 
 // Delete uneeded object after moving to mars scene
-function disposeEarthScene(scene,earth,astronaut,moon){
+function disposeEarthScene(scene,earth,astronaut,moon,earthTexture,moonTexture){
     const disposedItems = [earth,moon]
     
     for (let i = 0; i<disposedItems.length; i++){
         scene.remove(disposedItems[i])
         disposedItems[i].geometry.dispose()
-        disposedItems[i].material.dispose()
         disposedItems[i].material.map.dispose()
+        disposedItems[i].material.dispose()
+        delete(disposedItems[i])
     }
     scene.remove(astronaut)
+    earthTexture.dispose()
+    moonTexture.dispose()
 }
 
-function disposeSpaceshipScene(spaceship,sun,astronaut,stars,scene){
+function disposeSpaceshipScene(spaceship,sun,astronaut,stars,scene,backgroundTexture){
     const disposedItems = [spaceship,sun,astronaut]
 
     for (let i = 0; i<disposedItems.length; i++){
@@ -489,11 +478,13 @@ function disposeSpaceshipScene(spaceship,sun,astronaut,stars,scene){
                 children.geometry.dispose()
             }
         });
+        delete(disposedItems[i])
     }
 
     scene.remove(stars)
     stars.geometry.dispose()
     stars.material.dispose()
+    backgroundTexture.dispose()
 }
 
 // Updates mouse cords
@@ -559,7 +550,7 @@ const vertex = new Vector3();
 // waiting=false
 // $('.backBtn').css('display', 'unset')
 
-export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,sun3,sunMainFlare,flares,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,starTexture,composer,spaceship){
+export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,sun3,sunMainFlare,flares,controls,mobileControls,blackSphere,pointlight1,pointlight2,pointlight3,marsBackgroundTexture,marsBackgroundMobileTexture,backgroundTexture,backgroundMobileTexture,earthTexture,moonTexture,jsLogo,bloomPass,afterImage,picerFlag,startsCount,starsPositions,stars,starTexture,composer,spaceship){
     targetX = mouseX * .001
     targetY = mouseY * .001
     cameraTween = camera
@@ -575,8 +566,8 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
     const elapsedTime = clock.getElapsedTime()
     
     // Update objects
-    earth.rotation.y = 0.1 * elapsedTime
-    moon.rotation.y = -0.15 * elapsedTime
+    if(earth) earth.rotation.y = 0.1 * elapsedTime
+    if(moon) moon.rotation.y = -0.15 * elapsedTime
     
     if (astronaut){
         astronaut.position.x = -0.001 * elapsedTime
@@ -584,7 +575,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
         astronaut.rotation.z = 0.1 * elapsedTime
     }
 
-    if(moonStart){
+    if(moonStart && moon){
         t=0.18 * clockResetMoon(elapsedTime,firstTriggerMoon)
         moon.position.x = 11.4*Math.cos(t) -0.7
         moon.position.z = 11.4*Math.sin(t) -0.5
@@ -597,18 +588,18 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
         firstTriggerSphere = false
     }
     
-    // Triggers mars scene when moon is in front of the camera
+    // Triggers spaceship scene when moon is in front of the camera
     if (moon.position.x < -0.45 && spaceshipPositionTrigger){
         spaceshipScene()
         
-        // Delele uneeded items
-        disposeEarthScene(scene,earth,astronaut,moon)
+        // Delele unneeded items
+        disposeEarthScene(scene,earth,astronaut,moon,earthTexture,moonTexture)
         
         // Makes this if run once
         spaceshipPositionTrigger = false
         spaceshipZIndexTrigger = true
     }
-    
+
     if (spaceshipSceneTrigger){
         camera.position.set(25,25,0)
         camera.lookAt(new Vector3(25,25,-1))
@@ -634,10 +625,10 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
     if(marsTimer=="00:00" && marsPositionTrigger){
         clearInterval(lightsInterval)
         spaceshipEndAnimation(pointlight1,pointlight2,sun3,sunMainFlare,flares)
-        
+
         // Change camera position to mars
         setTimeout(() => {
-            disposeSpaceshipScene(spaceship,sun3,astronaut,stars,scene)
+            disposeSpaceshipScene(spaceship,sun3,astronaut,stars,scene,backgroundTexture)
             camera.position.set(5.3,-8,26)
             camera.lookAt(new Vector3(18,-13,20))
             if(window.innerWidth>800){
@@ -651,6 +642,7 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
             pointlight2.color = new Color(0xffa0a0)
             pointlight3.position.set(-11, 20, 20)
             pointlight3.intensity = 1.8
+            if(isIphone) scene.add( mars )
 
             // Disable effects
             bloomPass.enabled = false

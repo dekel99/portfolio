@@ -12,9 +12,9 @@ import { Lensflare, LensflareElement } from './lensflare.js'
 import { WebGLRenderer } from 'three';
 import { animate } from './animate';
 // import Stats from 'stats.js';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import isIphone from "./isIphone"
 import './style.css'
+
 
 // Show fps config
 // var stats = new Stats();
@@ -29,7 +29,9 @@ let barProgress = 0
 let jsLogo
 let mobileControls
 const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
+
 if(isIphone()) window.createImageBitmap = undefined
+
 // Tweenjs improved fps
 createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -51,9 +53,7 @@ const loadingManager = new THREE.LoadingManager(
 )
 const GLTFloader = new GLTFLoader(loadingManager);
 const textureLoader = new TextureLoader(loadingManager)
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath( 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/' );
-GLTFloader.setDRACOLoader( dracoLoader );
+GLTFloader.setDRACOLoader('js/libs/draco/gltf');
 
 const textureFlare0 = textureLoader.load( "/textures/lens-flare0.png" );
 const textureFlare1 = textureLoader.load( "/textures/lens-flare1.png" );

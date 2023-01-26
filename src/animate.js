@@ -555,7 +555,6 @@ export function animate(clock,earth,moon,camera,astronaut,renderer,scene,mars,su
     targetY = mouseY * .001
     cameraTween = camera
     sceneTween = scene
-    // jsLogoTween = jsLogo
     picerFlagTween = picerFlag
     afterImageTween = afterImage
     bloomPassTween = bloomPass

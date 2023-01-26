@@ -14,7 +14,7 @@ import { animate } from './animate';
 // import Stats from 'stats.js';
 import isIphone from "./isIphone"
 import './style.css'
-// import createjs from 'tweenjs'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 
 // Show fps config
@@ -52,9 +52,12 @@ const loadingManager = new THREE.LoadingManager(
         $('.loading-bar').css('width', `${barProgress}%`);
     }
 )
+
 const GLTFloader = new GLTFLoader(loadingManager);
 const textureLoader = new TextureLoader(loadingManager)
-GLTFloader.setDRACOLoader('js/libs/draco/gltf');
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+GLTFloader.setDRACOLoader( dracoLoader );
 
 const textureFlare0 = textureLoader.load( "/textures/lens-flare0.png" );
 const textureFlare1 = textureLoader.load( "/textures/lens-flare1.png" );

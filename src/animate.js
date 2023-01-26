@@ -6,6 +6,8 @@ import { disableScroll, enableScroll } from "./scrollToggle"
 import initSwiper from "./swiper"
 import isIphone from "./isIphone"
 
+createjs.Ticker.timingMode = createjs.Ticker.RAF;
+
 let mouseX
 let mouseY
 let targetX

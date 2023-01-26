@@ -14,6 +14,7 @@ import { animate } from './animate';
 // import Stats from 'stats.js';
 import isIphone from "./isIphone"
 import './style.css'
+// import createjs from 'tweenjs'
 
 
 // Show fps config
@@ -33,7 +34,7 @@ const [sizeW,sizeH,segW,segH] = [0.45,0.3,20,10];
 if(isIphone()) window.createImageBitmap = undefined
 
 // Tweenjs improved fps
-createjs.Ticker.timingMode = createjs.Ticker.RAF;
+// createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
 // Scene
 const scene = new THREE.Scene()
